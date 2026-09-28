@@ -33,26 +33,32 @@
 <script>
 const C = window.CHART;
 const W = C.width, H = C.height;
-const FPS = 60, DURATION = 4.0, FRAMES = Math.round(FPS * DURATION);
+const FPS = 60, DURATION = 4.5, FRAMES = Math.round(FPS * DURATION);
 
 // Timeline (seconds)
-const WIPE = [0, 0.6];          // background + grid wipe in, right to left
-const GROW = [0.35, 3.1];       // growth head travels from first to last candle
-const CANDLE_GROW = 0.28;       // each candle's grow-in
-const SETTLE = [3.0, 3.6];      // camera and crosshair land on the Figma frame
+const WIPE_IN = [0, 0.6];       // panel + grid wipe in, right to left (covers the previous shot)
+const GROW = [0.3, 3.0];        // growth head travels from first to last candle
+const CANDLE_GROW = 0.3;        // each candle's grow-in
+const ZOOM = [0.3, 3.4];        // camera zooms out from ZOOM_START to 1
+const ZOOM_START = 2.6;
+const SETTLE = [2.7, 3.5];      // camera lands on the Figma framing
+const POINTER_LAND = 3.45;      // crosshair reaches its Figma position
+const WIPE_OUT = [3.9, 4.5];    // panel wipes out, right to left (reveals the next shot)
+const OUT_PUSH = 0.06;          // slight push-in while leaving
 
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const lerp = (a, b, t) => a + (b - a) * t;
 const prog = (t, [a, b]) => clamp((t - a) / (b - a), 0, 1);
 const easeInOutCubic = t => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 const easeInOutSine = t => -(Math.cos(Math.PI * t) - 1) / 2;
+const easeInCubic = t => t * t * t;
 const easeOutBack = t => { const c1 = 1.4, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); };
 
-// Per-candle bounds: centre x, wick top, full vertical extent.
+// Per-candle bounds: centre x, wick top/bottom, vertical centre.
 const candles = C.candles.map(rects => {
   const xs = rects.flatMap(r => [r[0], r[0] + r[2]]), ys = rects.flatMap(r => [r[1], r[1] + r[3]]);
   const left = Math.min(...xs), right = Math.max(...xs), top = Math.min(...ys), bottom = Math.max(...ys);
-  return { rects, cx: (left + right) / 2, right, top, midY: (top + bottom) / 2 };
+  return { rects, cx: (left + right) / 2, right, top, bottom, midY: (top + bottom) / 2 };
 });
 const HEAD_START = candles[0].cx, HEAD_END = candles[candles.length - 1].cx;
 const linePts = C.line.points.map(([x, y]) => [x + C.line.offset[0], y + C.line.offset[1]]);
@@ -64,6 +70,7 @@ const candleStart = candles.map(c => {
   const u = (c.cx - HEAD_START) / (HEAD_END - HEAD_START);        // invert easeInOutSine
   return GROW[0] + (Math.acos(1 - 2 * u) / Math.PI) * (GROW[1] - GROW[0]);
 });
+const newestCandle = t => { let i = 0; while (i + 1 < candles.length && candleStart[i + 1] <= t) i++; return i; };
 
 // Height of the medium line at world x (used for the camera's vertical follow).
 function lineYAt(x) {
@@ -75,34 +82,48 @@ function lineYAt(x) {
   return linePts[linePts.length - 1][1];
 }
 
-// Camera keeps the head at 62% across and the medium line around 60% down, then softly
-// lands on (0, 0), the Figma framing.
+// Camera: world point (camX, camY) sits at the screen's top-left, scaled by zoom.
+// It keeps the growth head at 62% across / 58% down while zooming out, then lands on (0, 0, 1).
 function cameraAt(t) {
+  const zoom = lerp(ZOOM_START, 1, easeInOutSine(prog(t, ZOOM)));
   const head = headAt(t), k = 260;
-  const ax = head - 0.62 * W;
-  const ay = lineYAt(head) - 0.6 * H;
+  const ax = head - (0.62 * W) / zoom;
+  const ay = lineYAt(head) - (0.58 * H) / zoom;
   const x = -k * Math.log1p(Math.exp(-ax / k));                   // smooth min(ax, 0)
   const y = k * Math.log1p(Math.exp(ay / k));                     // smooth max(ay, 0)
   const land = 1 - easeInOutCubic(prog(t, SETTLE));
-  return [x * land, y * land];
+  return { x: x * land, y: y * land, zoom };
 }
 
-// Crosshair: spring-follows the newest candle's wick top, then eases to its Figma position.
+// Crosshair: glides along a smooth curve through hover points on recent candles
+// (alternating wick highs and lows), easing at each stop, then lands on its Figma position.
 const pointer = (() => {
-  const out = [];
-  let x = candles[0].cx, y = candles[0].top, vx = 0, vy = 0;
-  const k = 90, d = 2 * Math.sqrt(k) * 0.75, dt = 1 / FPS;
-  for (let f = 0; f <= FRAMES; f++) {
-    const t = f / FPS;
-    let i = 0;
-    while (i + 1 < candles.length && candleStart[i + 1] <= t) i++;
-    const tx = candles[i].cx, ty = candles[i].top;
-    vx += (k * (tx - x) - d * vx) * dt; vy += (k * (ty - y) - d * vy) * dt;
-    x += vx * dt; y += vy * dt;
-    const s = easeInOutCubic(prog(t, SETTLE));
-    out.push([lerp(x, C.marker.x, s), lerp(y, C.marker.y, s)]);
+  const way = [];
+  const picks = [0, 1, 0, 2, 1, 0, 3, 1, 0, 2];
+  let n = 0;
+  for (let tw = candleStart[0] + 0.1; tw < POINTER_LAND - 0.5; tw += 0.36, n++) {
+    const i = Math.max(0, newestCandle(tw) - picks[n % picks.length]);
+    const c = candles[i];
+    const y = n % 2 === 0 ? c.top : lerp(c.midY, c.bottom, 0.6);
+    way.push({ t: tw, x: c.cx, y });
   }
-  return out;
+  way.push({ t: POINTER_LAND, x: C.marker.x, y: C.marker.y });
+  const pts = [way[0], ...way, way[way.length - 1], way[way.length - 1]];
+  // Uniform Catmull-Rom; time eased inside each segment for a soft hover at stops.
+  const cr = (p0, p1, p2, p3, u) => {
+    const u2 = u * u, u3 = u2 * u;
+    return 0.5 * (2 * p1 + (-p0 + p2) * u + (2 * p0 - 5 * p1 + 4 * p2 - p3) * u2 + (-p0 + 3 * p1 - 3 * p2 + p3) * u3);
+  };
+  return t => {
+    if (t <= way[0].t) return [way[0].x, way[0].y];
+    if (t >= POINTER_LAND) return [C.marker.x, C.marker.y];
+    let s = 1;
+    while (pts[s + 1].t < t) s++;
+    const [p0, p1, p2, p3] = [pts[s - 1], pts[s], pts[s + 1], pts[s + 2]];
+    const raw = (t - p1.t) / (p2.t - p1.t);
+    const u = lerp(raw, easeInOutSine(raw), 0.7);
+    return [cr(p0.x, p1.x, p2.x, p3.x, u), cr(p0.y, p1.y, p2.y, p3.y, u)];
+  };
 })();
 
 const canvas = document.getElementById('c');
@@ -116,27 +137,32 @@ function drawRect([x, y, w, h, style]) {
 
 function renderFrame(f) {
   const t = f / FPS;
-  const [camX, camY] = cameraAt(t);
+  const cam = cameraAt(t);
   const head = headAt(t);
-  const wipe = easeInOutCubic(prog(t, WIPE));
-  const wipeLeft = W * (1 - wipe);                                 // screen x where the background starts
+  const wipeIn = easeInOutCubic(prog(t, WIPE_IN));
+  const wipeOut = easeInOutCubic(prog(t, WIPE_OUT));
+  const left = W * (1 - wipeIn), right = W * (1 - wipeOut);          // visible panel, in screen x
 
   ctx.clearRect(0, 0, W, H);
-  if (wipe <= 0) return;
+  if (right - left <= 0) return;
 
-  // Background and everything on it live inside the wipe.
   ctx.save();
-  ctx.beginPath(); ctx.rect(wipeLeft, 0, W - wipeLeft, H); ctx.clip();
+  ctx.beginPath(); ctx.rect(left, 0, right - left, H); ctx.clip();
   ctx.fillStyle = C.colors.background; ctx.fillRect(0, 0, W, H);
 
-  ctx.save();
-  ctx.translate(-camX, -camY);                                     // world -> screen
+  // Slight push-in about the frame centre while the panel leaves.
+  const push = 1 + OUT_PUSH * easeInCubic(prog(t, WIPE_OUT));
+  ctx.translate(W / 2, H / 2); ctx.scale(push, push); ctx.translate(-W / 2, -H / 2);
+
+  // World -> screen.
+  ctx.scale(cam.zoom, cam.zoom);
+  ctx.translate(-cam.x, -cam.y);
+  const view = { x0: cam.x - 200, x1: cam.x + W / cam.zoom + 200, y0: cam.y - 200, y1: cam.y + H / cam.zoom + 200 };
 
   // Medium line, revealed up to the right edge of the growing candle.
-  const lineStart = candleStart[0];
-  if (t >= lineStart) {
+  if (t >= candleStart[0]) {
     ctx.save();
-    ctx.beginPath(); ctx.rect(-1e5, -1e5, head + 65 + 1e5, 2e5); ctx.clip();
+    ctx.beginPath(); ctx.rect(view.x0, view.y0, head + 65 - view.x0, view.y1 - view.y0); ctx.clip();
     ctx.strokeStyle = C.colors.blue; ctx.lineWidth = C.line.width; ctx.lineJoin = 'miter'; ctx.lineCap = 'butt';
     ctx.beginPath(); linePts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.stroke();
     ctx.restore();
@@ -155,21 +181,20 @@ function renderFrame(f) {
 
   // Grid lines sit above the candles, as in the Figma layer order.
   ctx.strokeStyle = C.colors.grid;
-  for (const g of C.grid.vertical) { ctx.lineWidth = g.w; ctx.beginPath(); ctx.moveTo(g.x, camY - 100); ctx.lineTo(g.x, camY + H + 100); ctx.stroke(); }
-  for (const g of C.grid.horizontal) { ctx.lineWidth = g.w; ctx.beginPath(); ctx.moveTo(camX - 100, g.y); ctx.lineTo(camX + W + 100, g.y); ctx.stroke(); }
+  for (const g of C.grid.vertical) { ctx.lineWidth = g.w; ctx.beginPath(); ctx.moveTo(g.x, view.y0); ctx.lineTo(g.x, view.y1); ctx.stroke(); }
+  for (const g of C.grid.horizontal) { ctx.lineWidth = g.w; ctx.beginPath(); ctx.moveTo(view.x0, g.y); ctx.lineTo(view.x1, g.y); ctx.stroke(); }
 
   // Crosshair: both marker lines move together; their intersection is the pointer.
   const markerIn = clamp((t - candleStart[0]) / 0.3, 0, 1);
   if (markerIn > 0) {
-    const [px, py] = pointer[Math.min(f, pointer.length - 1)];
+    const [px, py] = pointer(t);
     ctx.globalAlpha = markerIn;
     ctx.strokeStyle = C.colors.marker; ctx.lineWidth = C.marker.width;
-    ctx.beginPath(); ctx.moveTo(px, camY - 100); ctx.lineTo(px, camY + H + 100); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(camX - 100, py); ctx.lineTo(camX + W + 100, py); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(px, view.y0); ctx.lineTo(px, view.y1); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(view.x0, py); ctx.lineTo(view.x1, py); ctx.stroke();
     ctx.globalAlpha = 1;
   }
 
-  ctx.restore();
   ctx.restore();
 }
 
