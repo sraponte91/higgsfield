@@ -37,8 +37,8 @@ const FPS = 60, DURATION = 3.5, FRAMES = Math.round(FPS * DURATION);
 
 // Timeline (seconds)
 // IN
-const WIPE_IN = [0, 0.5];       // panel + grid wipe in, right to left (covers the previous shot)
-const GRID_IN = 0.05;           // grid lines draw in one after another with the panel
+const WIPE_IN = [0.85, 1.4];    // the white panel slides in last, right to left, behind the chart
+const GRID_IN = 0.05;           // grid lines draw in first, one after another, over the previous shot
 const GRID_IN_STAGGER = 0.06, GRID_DRAW = 0.45;
 const FIRST = 17;               // camera travel starts at candle 18
 const REVEAL_FROM = FIRST - 4;  // the chart starts drawing just off-screen left of the camera
@@ -56,7 +56,7 @@ const CANDLE_OUT_STAGGER = 0.02, CANDLE_SHRINK = 0.22;
 const LINE_OUT = [2.55, 3.05];  // medium line un-draws left to right
 const GRID_OUT = 2.7;           // grid lines retract one after another
 const GRID_OUT_STAGGER = 0.05, GRID_RETRACT = 0.3;
-const WIPE_OUT = [3.0, 3.5];    // the empty panel slides off to the left (reveals the next shot)
+const WIPE_OUT = [3.0, 3.5];    // the panel leaves last, sliding off to the left (reveals the next shot)
 const OUT_PUSH = 0.05;          // slight push-in through the out
 
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
@@ -182,11 +182,12 @@ function renderFrame(f) {
   const left = W * (1 - wipeIn), right = W * (1 - wipeOut);          // visible panel, in screen x
 
   ctx.clearRect(0, 0, W, H);
-  if (right - left <= 0) return;
+
+  // The white panel: enters last and leaves last. The chart is drawn over it, and over the
+  // previous / next shot wherever the panel isn't.
+  if (right - left > 0) { ctx.fillStyle = C.colors.background; ctx.fillRect(left, 0, right - left, H); }
 
   ctx.save();
-  ctx.beginPath(); ctx.rect(left, 0, right - left, H); ctx.clip();
-  ctx.fillStyle = C.colors.background; ctx.fillRect(0, 0, W, H);
 
   // Slight push-in about the frame centre while the panel leaves.
   const push = 1 + OUT_PUSH * easeInOutSine(prog(t, [CROSS_EXIT[0], WIPE_OUT[1]]));
