@@ -11,20 +11,26 @@ loadEnv({ path: '.env.local', quiet: true });
 const API = 'https://api.higgsfield.ai';
 const MODEL = 'bytedance/seedance-2.0/reference-to-video';
 
-const PROMPT = `Use the reference image as the exact location: same office, same black-and-white line-art mural with orange accents, same striped grey carpet, same white desks and orange partitions, same trader in a grey t-shirt and headphones working at the multi-monitor station on the right. Vertical 9:16, wide locked-off shot from the same angle as the reference.
+const PROMPT = `Location: use the reference image as the exact set. Same office, same black-and-white line-art mural with orange accents, same striped grey carpet, same white desks and orange partitions. The trader in a grey t-shirt and headphones works at the multi-monitor station on the right. All six monitors on the left desk are switched on, showing live forex candlestick charts and price tickers in green and red.
 
-A 24-year-old American woman sits in an office chair at the left desk, directly in front of the bank of six monitors, facing the camera. Shoulder-length brown hair, navy blazer over a white top, natural makeup, relaxed and confident. All six monitors behind her are switched on, showing live forex candlestick charts and price tickers in green and red, one chart spiking sharply upward. Behind her to the right, the trader keeps working, typing and glancing between their screens.
+Presenter: a 24-year-old American woman, shoulder-length brown hair in a loose ponytail, casual outfit: oversized light-grey crewneck sweatshirt, light-wash jeans, white sneakers. Natural makeup, bright and high-energy, expressive face, quick smile.
 
-She looks straight into the lens, leans in slightly and says with a curious half-smile: "Wondering what just rocked the market?"
+Vertical 9:16 social-media edit, fast pace, hard cuts on the beat, slight handheld energy. Five shots:
 
-Photoreal, natural light from the overhead fluorescent panels. No on-screen text, no logos.
+Shot 1, wide from the reference angle, 0 to 1.5 seconds: she spins her office chair around from the six monitors to face the camera, grinning.
+Hard cut. Shot 2, medium close-up on her face and shoulders, monitors glowing behind her, 1.5 to 4 seconds: she leans toward the lens, eyebrows up, and says with punchy energy: "Wondering what just rocked the market?"
+Hard cut. Shot 3, tight on the monitors, 4 to 5.5 seconds: a candlestick chart spikes sharply upward, quick push-in on the screen.
+Hard cut. Shot 4, medium on the trader at the right-hand station, 5.5 to 7 seconds: they lean in fast toward their screens and hammer the keyboard.
+Hard cut. Shot 5, back to the medium close-up on her, 7 to 8 seconds: she raises an eyebrow at the camera with a knowing smirk.
 
-Audio: her line, clear and close to camera; soft office ambience and keyboard clicks.`;
+Photoreal, natural light from the overhead fluorescent panels, same people and wardrobe in every shot. No on-screen text, no logos.
+
+Audio: her line, clear and close to camera; upbeat electronic beat with a hit on each cut; keyboard clatter on shot 4.`;
 
 const INPUT = {
   prompt: PROMPT,
   aspect_ratio: '9:16',
-  duration: 5,
+  duration: 8,
   resolution: '720p',
   generate_audio: true,
 };
