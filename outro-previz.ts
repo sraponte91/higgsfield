@@ -15,14 +15,14 @@ const PROMPT = `@set: Reference image 1, the exact location and lighting: the of
 
 Photoreal. 9:16. 8s. Warm brand-orange practical LED look matching the set image in every shot. Fast social-media edit, hard cuts on the beat, slight handheld energy. No on-screen text, no logos.
 
-Shot 1, 0 to 1.5 seconds, medium on the trader at the right-hand station: they lean back from their screens, stretch, then lean in again, orange spill on the desk edge. Her voice-over begins: "With economists watching the markets 24/7,"
-Hard cut. Shot 2, 1.5 to 3 seconds, tight on the six monitors: candles ticking up and down, slow push-in, orange glow around the screen edges.
-Hard cut. Shot 3, 3 to 6 seconds, medium close-up on her at the six-monitor desk, monitors and orange glow behind her, warm orange rim on her hair and shoulders: she looks straight into the lens with a confident smile and says, lips in sync: "stay on the pulse with Forex Factory."
-Hard cut. Shot 4, 6 to 8 seconds, wide from the set image's angle: she gives the camera a quick two-finger salute, spins her chair back toward the monitors; hold the wide for the last second, trader still working.
+Shot 1, 0 to 2 seconds, medium close-up on her at the six-monitor desk, monitors and orange glow behind her, warm orange rim on her hair and shoulders, mirroring the intro: she looks into the lens, energetic, and starts the line, lips in sync: "With economists watching the markets 24/7,"
+Hard cut on the word "watching". Shot 2, 2 to 4 seconds, over-the-shoulder from behind the trader at the right-hand station, the back of their head and headphones in the foreground, their screens in focus: one screen shows the economic calendar and a news feed, the main chart shows a candle spiking sharply upward. The trader is fully focused, leans in toward the screen, eyes tracking the spike, and starts typing fast. Orange spill on the desk edge.
+Hard cut. Shot 3, 4 to 6.5 seconds, back to the same medium close-up on her: confident smile straight into the lens, she finishes the line, lips in sync: "stay on the pulse with Forex Factory."
+Hard cut. Shot 4, 6.5 to 8 seconds, wide from the set image's angle: she sits at the six-monitor desk facing camera with a small nod, the trader still working behind her to the right; hold the wide still for the end card.
 
 Face and identity unchanged from the presenter reference in every shot, same wardrobe, same set and lighting as the set reference.
 
-Audio: her line, clear and close to camera, in one continuous read across the cuts: "With economists watching the markets 24/7, stay on the pulse with Forex Factory." The same upbeat electronic beat as the intro with a hit on each cut, resolving on the final wide; soft keyboard clicks.`;
+Audio: her line, clear and close to camera, in one continuous read across the cuts: "With economists watching the markets 24/7, stay on the pulse with Forex Factory." The same upbeat electronic beat as the intro with a hit on each cut, resolving on the final wide; fast keyboard typing under shot 2.`;
 
 async function main(): Promise<number> {
   const creds = process.env.HF_CREDENTIALS;
