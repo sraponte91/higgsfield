@@ -45,10 +45,10 @@ const CANDLE_GROW = 0.26;       // each candle's grow-in
 const ZOOM = [0.25, 2.1];       // camera zooms out from ZOOM_START to 1
 const ZOOM_START = 2.2;
 const SETTLE = [1.7, 2.2];      // camera lands on the Figma framing
-const POINTER_LAND = 2.15;      // crosshair reaches its Figma position
-// HOLD 2.2-2.5: the exact Figma comp
+const POINTER_PASS = 2.3;       // crosshair drifts over its Figma position (without stopping)
+// HOLD 2.2-2.5: the Figma comp, crosshair still drifting
 // OUT
-const CROSS_OUT = [2.5, 2.8];   // crosshair lines retract into the pointer
+const CROSS_EXIT = [2.5, 3.1];  // crosshair speeds up and leaves through the top-right corner
 const CANDLE_OUT = 2.55;        // candles collapse left to right from here
 const CANDLE_OUT_STAGGER = 0.02, CANDLE_SHRINK = 0.22;
 const LINE_OUT = [2.55, 3.05];  // medium line un-draws left to right
@@ -112,36 +112,42 @@ function cameraAt(t) {
   return { x: x * land, y: y * land, zoom };
 }
 
-// Crosshair: flows through hover points on recent candles (alternating wick highs and lows) on a
-// Catmull-Rom curve with no stops, smoothed by a critically damped spring for a hand-like drift,
-// then eases onto its Figma position.
+// Crosshair: never stops. It flows through hover points on recent candles (alternating wick highs
+// and lows) on a Catmull-Rom curve, drifts over its Figma position during the hold, then speeds up
+// and exits through the top-right corner. A critically damped spring gives it a hand-like drift.
 const POINTER_STEP = 0.55;      // seconds between hover points
 const POINTER_SMOOTH = 0.14;    // spring response time (seconds); higher = floatier
 const pointer = (() => {
   const way = [];
   const picks = [0, 2, 1, 3, 0, 2, 1];
   let n = 0;
-  for (let tw = candleStart[FIRST] + 0.05; tw < POINTER_LAND - 0.3; tw += POINTER_STEP, n++) {
+  for (let tw = candleStart[FIRST] + 0.05; tw < POINTER_PASS - 0.35; tw += POINTER_STEP, n++) {
     const i = Math.max(0, newestCandle(tw) - picks[n % picks.length]);
     const c = candles[i];
     way.push({ t: tw, x: c.cx, y: n % 2 === 0 ? c.top : lerp(c.midY, c.bottom, 0.6) });
   }
-  way.push({ t: POINTER_LAND, x: C.marker.x, y: C.marker.y });
-  const pts = [way[0], ...way, way[way.length - 1]];
+  way.push({ t: POINTER_PASS, x: C.marker.x, y: C.marker.y });
+  // Exit: accelerate up and to the right, well past the frame edge.
+  const [e0, e1] = CROSS_EXIT;
+  way.push({ t: lerp(e0, e1, 0.35), x: 1250, y: 380 });
+  way.push({ t: lerp(e0, e1, 0.7), x: 2500, y: -500 });
+  way.push({ t: e1, x: 4200, y: -1700 });
+  const pts = [way[0], ...way, { t: e1 + 1, x: 6000, y: -3000 }];
   const cr = (p0, p1, p2, p3, u) => {
     const u2 = u * u, u3 = u2 * u;
     return 0.5 * (2 * p1 + (-p0 + p2) * u + (2 * p0 - 5 * p1 + 4 * p2 - p3) * u2 + (-p0 + 3 * p1 - 3 * p2 + p3) * u3);
   };
   const curve = t => {
     if (t <= way[0].t) return [way[0].x, way[0].y];
-    if (t >= POINTER_LAND) return [C.marker.x, C.marker.y];
+    const last = way[way.length - 1];
+    if (t >= last.t) return [last.x, last.y];
     let s = 1;
     while (pts[s + 1].t < t) s++;
     const [p0, p1, p2, p3] = [pts[s - 1], pts[s], pts[s + 1], pts[s + 2]];
     const u = (t - p1.t) / (p2.t - p1.t);
     return [cr(p0.x, p1.x, p2.x, p3.x, u), cr(p0.y, p1.y, p2.y, p3.y, u)];
   };
-  // Spring-smooth the curve frame by frame, then blend onto the exact landing point.
+  // Spring-smooth the curve frame by frame.
   const out = [];
   const w = 2 / POINTER_SMOOTH, dt = 1 / FPS;
   let [x, y] = curve(0), vx = 0, vy = 0;
@@ -149,8 +155,7 @@ const pointer = (() => {
     const tt = f / FPS, [tx, ty] = curve(tt);
     vx += (w * w * (tx - x) - 2 * w * vx) * dt; vy += (w * w * (ty - y) - 2 * w * vy) * dt;
     x += vx * dt; y += vy * dt;
-    const land = easeInOutSine(prog(tt, [POINTER_LAND - 0.35, POINTER_LAND]));
-    out.push([lerp(x, C.marker.x, land), lerp(y, C.marker.y, land)]);
+    out.push([x, y]);
   }
   return t => out[clamp(Math.round(t * FPS), 0, FRAMES)];
 })();
@@ -180,7 +185,7 @@ function renderFrame(f) {
   ctx.fillStyle = C.colors.background; ctx.fillRect(0, 0, W, H);
 
   // Slight push-in about the frame centre while the panel leaves.
-  const push = 1 + OUT_PUSH * easeInOutSine(prog(t, [CROSS_OUT[0], WIPE_OUT[1]]));
+  const push = 1 + OUT_PUSH * easeInOutSine(prog(t, [CROSS_EXIT[0], WIPE_OUT[1]]));
   ctx.translate(W / 2, H / 2); ctx.scale(push, push); ctx.translate(-W / 2, -H / 2);
 
   // World -> screen.
@@ -228,16 +233,14 @@ function renderFrame(f) {
   });
 
   // Crosshair: both marker lines move together; their intersection is the pointer.
-  // On the way out both lines retract into the pointer.
+  // On the way out the pointer carries both lines off through the top-right corner.
   const markerIn = clamp((t - candleStart[FIRST]) / 0.3, 0, 1);
-  const reach = 1 - easeInCubic(prog(t, CROSS_OUT));
-  if (markerIn > 0 && reach > 0) {
+  if (markerIn > 0) {
     const [px, py] = pointer(t);
-    const rx = Math.max(px - view.x0, view.x1 - px) * reach, ry = Math.max(py - view.y0, view.y1 - py) * reach;
     ctx.globalAlpha = markerIn;
     ctx.strokeStyle = C.colors.marker; ctx.lineWidth = C.marker.width;
-    ctx.beginPath(); ctx.moveTo(px, py - ry); ctx.lineTo(px, py + ry); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(px - rx, py); ctx.lineTo(px + rx, py); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(px, view.y0); ctx.lineTo(px, view.y1); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(view.x0, py); ctx.lineTo(view.x1, py); ctx.stroke();
     ctx.globalAlpha = 1;
   }
 
