@@ -1,14 +1,13 @@
-import { readFile, writeFile } from 'node:fs/promises';
-import { extname } from 'node:path';
+import { writeFile } from 'node:fs/promises';
 import { config as loadEnv } from 'dotenv';
 import { createHiggsfieldClient } from '@higgsfield/client/v2';
+import { API, authHeaders, uploadImage } from './hf-upload.js';
 
 // Previz for "Volatility Now" scene 1: the location photo as the set reference,
 // a presenter seated at the six-monitor desk, monitors switched on.
 // Usage: npx tsx intro-previz.ts <location-photo> [output.mp4]
 loadEnv({ path: '.env.local', quiet: true });
 
-const API = 'https://api.higgsfield.ai';
 const MODEL = 'bytedance/seedance-2.0/reference-to-video';
 
 const PROMPT = `Location: use the reference image as the exact set. Same office, same black-and-white line-art mural with orange accents, same striped grey carpet, same white desks and orange partitions. The trader in a grey t-shirt and headphones works at the multi-monitor station on the right. All six monitors on the left desk are switched on, showing live forex candlestick charts and price tickers in green and red.
@@ -36,26 +35,9 @@ const INPUT = {
 };
 
 const creds = process.env.HF_CREDENTIALS;
-const authHeaders = () => ({ Authorization: `Key ${creds}`, 'Content-Type': 'application/json' });
-
-async function uploadImage(path: string): Promise<string> {
-  const contentType = extname(path).toLowerCase() === '.png' ? 'image/png' : 'image/jpeg';
-  const res = await fetch(`${API}/files/generate-upload-url`, {
-    method: 'POST',
-    headers: authHeaders(),
-    body: JSON.stringify({ content_type: contentType }),
-  });
-  if (!res.ok) throw new Error(`Upload URL request failed (HTTP ${res.status})`);
-  const slot = (await res.json()) as { public_url: string; upload_url: string; upload_headers: Record<string, string> };
-
-  // The signed PUT gets only the headers Higgsfield returned, never the API credentials.
-  const put = await fetch(slot.upload_url, { method: 'PUT', headers: slot.upload_headers, body: await readFile(path) });
-  if (!put.ok) throw new Error(`Image upload failed (HTTP ${put.status})`);
-  return slot.public_url;
-}
 
 async function estimate(body: object): Promise<string> {
-  const res = await fetch(`${API}/estimate/${MODEL}`, { method: 'POST', headers: authHeaders(), body: JSON.stringify(body) });
+  const res = await fetch(`${API}/estimate/${MODEL}`, { method: 'POST', headers: authHeaders(creds!), body: JSON.stringify(body) });
   if (!res.ok) return `unavailable (HTTP ${res.status})`;
   const e = (await res.json()) as { credits?: string; usd?: string };
   return e.credits !== undefined ? `${e.credits} credits (~$${e.usd})` : JSON.stringify(e);
@@ -67,7 +49,7 @@ async function main(): Promise<number> {
   if (!photo) { console.error('Usage: npx tsx intro-previz.ts <location-photo> [output.mp4]'); return 1; }
 
   console.log('Uploading location photo...');
-  const imageUrl = await uploadImage(photo);
+  const imageUrl = await uploadImage(photo, creds);
   const input = { ...INPUT, image_urls: [imageUrl] };
 
   console.log(`Estimated cost: ${await estimate(input)}`);

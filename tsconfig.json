@@ -8,5 +8,5 @@
     "skipLibCheck": true,
     "noEmit": true
   },
-  "include": ["index.ts", "intro-previz.ts"]
+  "include": ["*.ts"]
 }
