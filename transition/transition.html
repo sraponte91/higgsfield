@@ -38,9 +38,11 @@ const FPS = 60, DURATION = 3.5, FRAMES = Math.round(FPS * DURATION);
 // Timeline (seconds)
 // IN
 const WIPE_IN = [0, 0.5];       // panel + grid wipe in, right to left (covers the previous shot)
-const FIRST = 17;               // camera travel starts at candle 18; earlier candles cascade in
-const CASCADE = [0.1, 0.4];     // candles before FIRST pop in, left to right
-const GROW = [0.3, 1.9];        // growth head travels from candle FIRST to the last candle
+const GRID_IN = 0.05;           // grid lines draw in one after another with the panel
+const GRID_IN_STAGGER = 0.06, GRID_DRAW = 0.45;
+const FIRST = 17;               // camera travel starts at candle 18
+const REVEAL_FROM = FIRST - 4;  // the chart starts drawing just off-screen left of the camera
+const GROW = [0.1, 1.9];        // reveal head travels from candle REVEAL_FROM to the last candle
 const CANDLE_GROW = 0.26;       // each candle's grow-in
 const ZOOM = [0.25, 2.1];       // camera zooms out from ZOOM_START to 1
 const ZOOM_START = 2.2;
@@ -72,15 +74,17 @@ const candles = C.candles.map(rects => {
   const left = Math.min(...xs), right = Math.max(...xs), top = Math.min(...ys), bottom = Math.max(...ys);
   return { rects, cx: (left + right) / 2, right, top, bottom, midY: (top + bottom) / 2 };
 });
-const HEAD_START = candles[FIRST].cx, HEAD_END = candles[candles.length - 1].cx;
+const HEAD_START = candles[REVEAL_FROM].cx, HEAD_END = candles[candles.length - 1].cx;
 const linePts = C.line.points.map(([x, y]) => [x + C.line.offset[0], y + C.line.offset[1]]);
 
-// Growth head: the world x the chart has drawn up to.
+// Reveal head: the world x the chart (candles and medium line) has drawn up to.
 const headAt = t => lerp(HEAD_START, HEAD_END, easeInOutSine(prog(t, GROW)));
-// Candle i starts growing when the head reaches its centre.
-// Candles before FIRST cascade in instead.
+// The camera waits at candle FIRST until the reveal head reaches it, then follows (smooth max).
+const focusAt = t => { const a = headAt(t), b = candles[FIRST].cx, k = 150; return b + k * Math.log1p(Math.exp((a - b) / k)); };
+// Candle i starts growing when the reveal head reaches its centre; candles far off-screen left are
+// simply present from the start.
 const candleStart = candles.map((c, i) => {
-  if (i < FIRST) return lerp(CASCADE[0], CASCADE[1], i / FIRST);
+  if (i < REVEAL_FROM) return 0;
   const u = (c.cx - HEAD_START) / (HEAD_END - HEAD_START);        // invert easeInOutSine
   return GROW[0] + (Math.acos(1 - 2 * u) / Math.PI) * (GROW[1] - GROW[0]);
 });
@@ -103,7 +107,7 @@ function lineYAt(x) {
 // It keeps the growth head at 62% across / 58% down while zooming out, then lands on (0, 0, 1).
 function cameraAt(t) {
   const zoom = lerp(ZOOM_START, 1, easeInOutSine(prog(t, ZOOM)));
-  const head = headAt(t), k = 260;
+  const head = focusAt(t), k = 260;
   const ax = head - (0.62 * W) / zoom;
   const ay = lineYAt(head) - (0.58 * H) / zoom;
   const x = -k * Math.log1p(Math.exp(-ax / k));                   // smooth min(ax, 0)
@@ -195,7 +199,7 @@ function renderFrame(f) {
 
   // Medium line, revealed up to the right edge of the growing candle.
   const lineFrom = lerp(view.x0, view.x1, easeInOutCubic(prog(t, LINE_OUT)));   // un-draw edge
-  if (t >= candleStart[0] && lineFrom < head + 65) {
+  if (t >= GROW[0] && lineFrom < head + 65) {
     ctx.save();
     ctx.beginPath(); ctx.rect(lineFrom, view.y0, head + 65 - lineFrom, view.y1 - view.y0); ctx.clip();
     ctx.strokeStyle = C.colors.blue; ctx.lineWidth = C.line.width; ctx.lineJoin = 'miter'; ctx.lineCap = 'butt';
@@ -218,18 +222,21 @@ function renderFrame(f) {
   });
 
   // Grid lines sit above the candles, as in the Figma layer order.
-  // On the way out they retract one after another: horizontals toward the right, verticals downward.
+  // They draw in one after another with the panel (horizontals growing leftward from the right edge,
+  // verticals growing upward) and retract the same way on the way out.
   ctx.strokeStyle = C.colors.grid;
+  const gridIn = k => easeInOutCubic(prog(t, [GRID_IN + k * GRID_IN_STAGGER, GRID_IN + k * GRID_IN_STAGGER + GRID_DRAW]));
   const gridGone = k => easeInOutCubic(prog(t, [GRID_OUT + k * GRID_OUT_STAGGER, GRID_OUT + k * GRID_OUT_STAGGER + GRID_RETRACT]));
   C.grid.horizontal.forEach((g, k) => {
-    const x0 = lerp(view.x0, view.x1, gridGone(k));
-    if (x0 >= view.x1) return;
-    ctx.lineWidth = g.w; ctx.beginPath(); ctx.moveTo(x0, g.y); ctx.lineTo(view.x1, g.y); ctx.stroke();
+    const from = Math.max(lerp(view.x1, view.x0, gridIn(k)), lerp(view.x0, view.x1, gridGone(k)));
+    if (from >= view.x1) return;
+    ctx.lineWidth = g.w; ctx.beginPath(); ctx.moveTo(from, g.y); ctx.lineTo(view.x1, g.y); ctx.stroke();
   });
   C.grid.vertical.forEach((g, k) => {
-    const y0 = lerp(view.y0, view.y1, gridGone(k + C.grid.horizontal.length));
-    if (y0 >= view.y1) return;
-    ctx.lineWidth = g.w; ctx.beginPath(); ctx.moveTo(g.x, y0); ctx.lineTo(g.x, view.y1); ctx.stroke();
+    const n = k + C.grid.horizontal.length;
+    const from = Math.max(lerp(view.y1, view.y0, gridIn(n)), lerp(view.y0, view.y1, gridGone(n)));
+    if (from >= view.y1) return;
+    ctx.lineWidth = g.w; ctx.beginPath(); ctx.moveTo(g.x, from); ctx.lineTo(g.x, view.y1); ctx.stroke();
   });
 
   // Crosshair: both marker lines move together; their intersection is the pointer.
