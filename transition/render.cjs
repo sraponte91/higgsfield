@@ -3,7 +3,8 @@
 //   transition-4k-greenscreen.mp4  H.264 over pure green, for chroma key (e.g. CapCut "Chroma key")
 //   transition-preview.mp4         1080 × 1920 preview over dark grey, so the wipe is visible
 // Usage: node transition/render.cjs [output-dir]
-// Needs Playwright (Chromium) and ffmpeg; set FFMPEG=/path/to/ffmpeg if it isn't on PATH.
+// Uses the project's Playwright Chromium (run `npx playwright install chromium` once) and the bundled
+// ffmpeg-static binary. Override with CHROMIUM=/path/to/chromium or FFMPEG=/path/to/ffmpeg.
 const { chromium } = require('playwright');
 const { execFileSync } = require('node:child_process');
 const fs = require('node:fs');
@@ -14,7 +15,7 @@ const path = require('node:path');
   const framesDir = path.join(outDir, 'frames');
   fs.rmSync(framesDir, { recursive: true, force: true });
   fs.mkdirSync(framesDir, { recursive: true });
-  const ffmpeg = process.env.FFMPEG || 'ffmpeg';
+  const ffmpeg = process.env.FFMPEG || require('ffmpeg-static');
 
   const browser = await chromium.launch(process.env.CHROMIUM ? { executablePath: process.env.CHROMIUM } : {});
   const page = await browser.newPage({ viewport: { width: 2160, height: 3840 } });
