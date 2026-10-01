@@ -5,17 +5,17 @@ import { uploadImage } from './hf-upload.js';
 
 // Regenerates a shot between two real frames of existing footage (Seedance 2.5 image-to-video),
 // e.g. to replace a section where the motion stalls. The prompt is read from a text file.
-// Usage: npx tsx bridge-shot.ts <first-frame> <last-frame> <prompt.txt> [output.mp4] [seconds]
+// Usage: npx tsx bridge-shot.ts <first-frame> <last-frame> <prompt.txt> [output.mp4] [seconds] [480p|720p|1080p]
 loadEnv({ path: '.env.local', quiet: true });
 
 const MODEL = 'bytedance/seedance-2.5/image-to-video';
 
 async function main(): Promise<number> {
   const creds = process.env.HF_CREDENTIALS;
-  const [first, last, promptFile, out = 'bridge-shot.mp4', seconds = '4'] = process.argv.slice(2);
+  const [first, last, promptFile, out = 'bridge-shot.mp4', seconds = '4', resolution = '1080p'] = process.argv.slice(2);
   if (!creds) { console.error('HF_CREDENTIALS is not set. Add it to .env.local.'); return 1; }
   if (!first || !last || !promptFile) {
-    console.error('Usage: npx tsx bridge-shot.ts <first-frame> <last-frame> <prompt.txt> [output.mp4] [seconds]');
+    console.error('Usage: npx tsx bridge-shot.ts <first-frame> <last-frame> <prompt.txt> [output.mp4] [seconds] [480p|720p|1080p]');
     return 1;
   }
 
@@ -25,7 +25,7 @@ async function main(): Promise<number> {
     image_url: await uploadImage(first, creds),
     end_image_url: await uploadImage(last, creds),
     duration: Number(seconds),
-    resolution: '1080p',
+    resolution,
     bitrate_mode: 'high',
     generate_audio: false,
   };
