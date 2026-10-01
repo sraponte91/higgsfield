@@ -23,7 +23,7 @@ async function main(): Promise<number> {
   const input = {
     prompt: (await readFile(promptFile, 'utf8')).trim(),
     video_urls: [await uploadImage(source, creds)],
-    image_urls: await Promise.all(refs.map((r) => uploadImage(r, creds))),
+    ...(refs.length ? { image_urls: await Promise.all(refs.map((r) => uploadImage(r, creds))) } : {}),
     aspect_ratio: '9:16',
     duration: Number(seconds),
     resolution,
