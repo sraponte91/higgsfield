@@ -3,20 +3,20 @@ import { config as loadEnv } from 'dotenv';
 import { createHiggsfieldClient } from '@higgsfield/client/v2';
 import { uploadImage } from './hf-upload.js';
 
-// Spin transition: Emiliann at the desk with her back to camera spins her chair around and lands
-// facing the camera. Seedance 2.5 image-to-video pinned to a first and a last frame.
+// Turn transition: Emiliann at the desk with her back to camera turns her chair around once, naturally,
+// and lands facing the camera while the camera slowly pushes in. Seedance 2.5 image-to-video pinned to a first and a last frame.
 // Usage: npx tsx spin-transition.ts <first-frame.jpg> <last-frame.jpg> [output.mp4]
 loadEnv({ path: '.env.local', quiet: true });
 
 const MODEL = 'bytedance/seedance-2.5/image-to-video';
 
-const PROMPT = `One continuous shot, vertical 9:16, photoreal, real footage feel. Same office and the same woman throughout: long light-brown hair, glasses, green blazer over a dark green patterned blouse, dark trousers.
+const PROMPT = `One continuous shot, vertical 9:16, photoreal, natural real-footage movement. Same office and the same woman throughout: long light-brown hair, glasses, green blazer over a dark green patterned blouse, dark trousers.
 
-Start exactly on the first frame: she sits at the multi-monitor trading desk with her back to the camera, working. She pushes off and spins her office chair around toward the camera in one fast, energetic rotation. At the same time the handheld camera arcs around her from behind to the front and pushes in. Mid-spin there is strong natural motion blur, like a whip pan; the colleague in headphones at the right-hand station flashes past in the background.
+Start exactly on the first frame: she sits at the multi-monitor trading desk with her back to the camera, working. She turns her office chair around toward the camera in ONE smooth, relaxed half-turn at a natural human speed, a single rotation only, no extra spinning. As she comes around she looks into the lens and smiles, then starts talking with a small natural hand gesture.
 
-She lands facing the camera in a medium close-up, monitors behind her, hands up mid-gesture, starting to talk with a confident smile. End exactly on the last frame.
+Camera: stays in the same position the whole time, steady, no orbit and no whip pan. It only does one slow, smooth push-in from the wide framing of the first frame to the medium close-up of the last frame. Light, natural motion blur only.
 
-Keep her face, glasses, hair and wardrobe identical to the frames. Same cool office lighting with blue LED accents and the black-and-white mural behind. No text, no logos.`;
+End exactly on the last frame. Keep her face, glasses, hair and wardrobe identical to the frames. Same cool office lighting with blue LED accents and the black-and-white mural. No text, no logos.`;
 
 async function main(): Promise<number> {
   const creds = process.env.HF_CREDENTIALS;
