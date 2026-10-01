@@ -5,9 +5,13 @@ export const API = 'https://api.higgsfield.ai';
 
 export const authHeaders = (creds: string) => ({ Authorization: `Key ${creds}`, 'Content-Type': 'application/json' });
 
-// Uploads a local image to Higgsfield storage and returns a public URL usable as a model input.
+const CONTENT_TYPES: Record<string, string> = {
+  '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.mp4': 'video/mp4', '.mov': 'video/quicktime',
+};
+
+// Uploads a local image or video to Higgsfield storage and returns a public URL usable as a model input.
 export async function uploadImage(path: string, creds: string): Promise<string> {
-  const contentType = extname(path).toLowerCase() === '.png' ? 'image/png' : 'image/jpeg';
+  const contentType = CONTENT_TYPES[extname(path).toLowerCase()] ?? 'image/jpeg';
   const res = await fetch(`${API}/files/generate-upload-url`, {
     method: 'POST',
     headers: authHeaders(creds),
@@ -18,6 +22,6 @@ export async function uploadImage(path: string, creds: string): Promise<string> 
 
   // The signed PUT gets only the headers Higgsfield returned, never the API credentials.
   const put = await fetch(slot.upload_url, { method: 'PUT', headers: slot.upload_headers, body: await readFile(path) });
-  if (!put.ok) throw new Error(`Image upload failed (HTTP ${put.status})`);
+  if (!put.ok) throw new Error(`Upload failed (HTTP ${put.status})`);
   return slot.public_url;
 }
