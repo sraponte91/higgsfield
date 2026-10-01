@@ -6,3 +6,4 @@ dist/
 transition/out/
 *.mp4
 lighting-looks/
+*.mov
