@@ -10,7 +10,8 @@
     "outro": "tsx outro-previz.ts",
     "relight": "tsx relight-intro.ts",
     "lighting": "tsx lighting-previz.ts",
-    "transition": "node transition/render.cjs"
+    "transition": "node transition/render.cjs",
+    "spin": "tsx spin-transition.ts"
   },
   "repository": {
     "type": "git",
