@@ -4,76 +4,84 @@
 <meta charset="utf-8">
 <title>Volatility Now highlight</title>
 <style>
-  body { margin: 0; background: #1b1f24; }
+  body { margin: 0; background: repeating-conic-gradient(#3a3f45 0 25%, #2c3136 0 50%) 0 0 / 24px 24px; }
   canvas { display: block; width: 100vw; height: auto; max-width: 540px; margin: 0 auto; }
+  body.render { background: none; }
   body.render canvas { width: auto; max-width: none; }
 </style>
 </head>
 <body>
 <canvas id="c" width="2160" height="3840"></canvas>
 <script>
-// "Volatility Now" highlight over the Forex Factory homepage frame (4.0 s line).
-// The background and the phone frame are never touched: everything happens inside the phone screen.
-// Geometry is measured on the 1125 x 2000 source frame and scaled to the 2160 x 3840 output.
-const W = 2160, H = 3840, SRC_W = 1125, K = W / SRC_W;
-const FPS = 60, DURATION = 4.0, FRAMES = Math.round(FPS * DURATION);
+// "Volatility Now" highlight on the Forex Factory phone frame (5.0 s line), rendered with transparency so it
+// can be composited over any background. The phone frame and its shadow are never touched: everything
+// happens inside the phone screen, and the last frames are identical to the untouched frame.
+// Geometry is measured on the 1121 x 2000 source frame; the frame is centred on a 2160 x 3840 canvas.
+const W = 2160, H = 3840, SRC_W = 1121, SRC_H = 2000;
+const K = H / SRC_H, OX = (W - SRC_W * K) / 2;
+const FPS = 30, DURATION = 5.0, FRAMES = Math.round(FPS * DURATION);
+// ?overlay: graphics only (no phone, no push-in), to stack on the phone image in the editor
+const OVERLAY = location.search.includes('overlay');
 
 const G = {
-  screen: { x: 133, y: 181, w: 735, h: 1587, r: 98 },     // phone screen (rounded)
-  island: { x: 335, y: 204, w: 318, h: 67 },              // camera cutout, stays fixed on top
-  card:   { x0: 135.5, y0: 469.5, x1: 866, y1: 1382 },    // the Volatility Now block
-  tab:    [[136, 470], [389, 470], [386, 486], [370, 512.5], [136, 512.5]], // navy label tab
-  icon:   { x: 166, y: 492 },                             // pulse icon in the tab
+  screen: { x: 117, y: 133, w: 754, h: 1631, r: 100 },    // phone screen (rounded)
+  island: { x: 324, y: 156, w: 327, h: 69 },              // camera cutout, stays fixed on top
+  card:   { x0: 118.5, y0: 428.5, x1: 869, y1: 1366 },    // the Volatility Now block
+  tab:    [[119, 429], [378, 429], [375, 445], [358, 473.5], [119, 473.5]], // navy label tab
+  icon:   { x: 150, y: 451 },                             // pulse icon in the tab
 };
 const GREEN = '63, 191, 70';      // Forex Factory green (header accent), brightened for video
 const DIM = '8, 14, 30';          // navy-black for the dim
 
-// Timeline (seconds)
+// Timeline in seconds. Nothing moves before 0.5 s; everything is back to the untouched frame by 4.75 s.
 const T = {
-  push:    [0.00, 4.00, 1.018],   // gentle push-in of the screen content (start, end, scale)
-  dim:     [0.20, 0.95, 0.62],    // everything outside the card dims (start, end, opacity)
-  outline: [0.45, 1.45],          // outline draws from the tab, both ways round the card
-  pop:     [0.90, 1.30],          // the tab lifts out as a badge (start, final scale), spring-damped
-  rings:   [1.35, 1.85],          // pulses from the icon
-  ringDur: 1.0,
-  shine:   [1.70, 2.35],          // light sweep across the tab
+  push:    { in: [0.50, 3.60], out: [3.60, 4.75], scale: 1.018 }, // gentle push-in of the screen content
+  dim:     { in: [0.65, 1.40], out: [3.90, 4.65], opacity: 0.62 }, // everything outside the card dims
+  outline: { draw: [0.95, 1.95], out: [3.75, 4.50] },              // draws from the tab both ways, then fades
+  pop:     { start: 1.40, back: [3.65, 4.35], scale: 1.30 },       // the tab lifts out as a badge (spring)
+  rings:   [1.85, 2.35], ringDur: 1.0,                             // pulses from the icon
+  shine:   [2.20, 2.85],                                           // light sweep across the tab
 };
 
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
-const prog = (t, a, b) => clamp((t - a) / (b - a));
+const prog = (t, [a, b]) => clamp((t - a) / (b - a));
 const easeInOutCubic = x => x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
 const easeInOutSine = x => -(Math.cos(Math.PI * x) - 1) / 2;
 const easeOutCubic = x => 1 - Math.pow(1 - x, 3);
 // damped spring 0 -> 1 (about 15% overshoot, settles in ~0.8 s)
 const spring = u => u <= 0 ? 0 : 1 - Math.exp(-5.5 * u) * (Math.cos(9 * u) + 5.5 / 9 * Math.sin(9 * u));
+// in-then-out envelope 0 -> 1 -> 0
+const envelope = (t, e, ease = easeInOutCubic) => ease(prog(t, e.in)) * (1 - ease(prog(t, e.out)));
+
+const P = (x, y) => [OX + x * K, y * K];                       // source px -> canvas px
 
 const canvas = document.getElementById('c');
 const ctx = canvas.getContext('2d');
 let img = null;
 
+function drawFrameImage() { ctx.drawImage(img, OX, 0, SRC_W * K, SRC_H * K); }
+
 function screenPath() {
-  const s = G.screen, p = new Path2D();
-  const e = 0.6; // stay a hair inside the screen edge so the bezel stays bit-identical
-  p.roundRect((s.x + e) * K, (s.y + e) * K, (s.w - 2 * e) * K, (s.h - 2 * e) * K, (s.r - e) * K);
+  const s = G.screen, e = 0.6; // a hair inside the screen edge so the bezel stays bit-identical
+  const [x, y] = P(s.x + e, s.y + e), p = new Path2D();
+  p.roundRect(x, y, (s.w - 2 * e) * K, (s.h - 2 * e) * K, (s.r - e) * K);
   return p;
 }
 
 // Screen content transform: scale about the card centre.
 function contentTransform(t) {
-  const s = 1 + (T.push[2] - 1) * easeInOutSine(prog(t, T.push[0], T.push[1]));
-  const cx = (G.card.x0 + G.card.x1) / 2 * K, cy = (G.card.y0 + G.card.y1) / 2 * K;
-  return { s, cx, cy, map: (x, y) => [cx + (x * K - cx) * s, cy + (y * K - cy) * s] };
+  const s = OVERLAY ? 1 : 1 + (T.push.scale - 1) * envelope(t, T.push, easeInOutSine);
+  const [cx, cy] = P((G.card.x0 + G.card.x1) / 2, (G.card.y0 + G.card.y1) / 2);
+  return { s, cx, cy, map: (x, y) => { const [px, py] = P(x, y); return [cx + (px - cx) * s, cy + (py - cy) * s]; } };
 }
 
-// Outline path: rounded rect inset in the card, as a list of points so it can be drawn progressively
-// from the tab corner in both directions.
+// Outline: rounded rect inset in the card, as points so it can be drawn progressively from the tab corner.
 function outlinePoints(tr) {
   const inset = 10, r = 12, c = G.card;
   const x0 = c.x0 + inset, y0 = c.y0 + inset, x1 = c.x1 - inset, y1 = c.y1 - inset;
   const pts = [];
   const arc = (cx, cy, a0, a1) => { for (let i = 0; i <= 12; i++) { const a = a0 + (a1 - a0) * i / 12; pts.push([cx + r * Math.cos(a), cy + r * Math.sin(a)]); } };
-  // clockwise from the top-left corner (the tab)
-  arc(x0 + r, y0 + r, Math.PI, 1.5 * Math.PI);
+  arc(x0 + r, y0 + r, Math.PI, 1.5 * Math.PI);          // clockwise from the top-left corner (the tab)
   arc(x1 - r, y0 + r, 1.5 * Math.PI, 2 * Math.PI);
   arc(x1 - r, y1 - r, 0, 0.5 * Math.PI);
   arc(x0 + r, y1 - r, 0.5 * Math.PI, Math.PI);
@@ -82,7 +90,6 @@ function outlinePoints(tr) {
 }
 
 function partial(pts, frac) {
-  // first `frac` of the polyline by length; returns points and the head position
   const seg = []; let total = 0;
   for (let i = 1; i < pts.length; i++) { const d = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]); seg.push(d); total += d; }
   let left = total * frac; const out = [pts[0]];
@@ -100,11 +107,12 @@ function strokePoly(p) { ctx.beginPath(); ctx.moveTo(p[0][0], p[0][1]); for (con
 function renderFrame(i) {
   const t = i / FPS;
   ctx.setTransform(1, 0, 0, 1, 0, 0);
-  ctx.globalAlpha = 1; ctx.shadowBlur = 0; ctx.globalCompositeOperation = 'source-over';
+  ctx.globalAlpha = 1; ctx.shadowBlur = 0; ctx.shadowOffsetY = 0; ctx.globalCompositeOperation = 'source-over';
   ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
+  ctx.clearRect(0, 0, W, H);
 
-  // 1. Untouched frame: background and phone.
-  ctx.drawImage(img, 0, 0, W, H);
+  // 1. Untouched frame: phone and its shadow, transparent around it (left out in overlay mode).
+  if (!OVERLAY) drawFrameImage();
 
   const scr = screenPath();
   const tr = contentTransform(t);
@@ -112,45 +120,48 @@ function renderFrame(i) {
   ctx.clip(scr);
 
   // 2. Screen content with the gentle push-in (only inside the screen).
-  ctx.save();
-  ctx.translate(tr.cx, tr.cy); ctx.scale(tr.s, tr.s); ctx.translate(-tr.cx, -tr.cy);
-  ctx.drawImage(img, 0, 0, W, H);
-  ctx.restore();
+  if (tr.s > 1.00001) {
+    ctx.save();
+    ctx.translate(tr.cx, tr.cy); ctx.scale(tr.s, tr.s); ctx.translate(-tr.cx, -tr.cy);
+    drawFrameImage();
+    ctx.restore();
+  }
 
   const [cx0, cy0] = tr.map(G.card.x0, G.card.y0), [cx1, cy1] = tr.map(G.card.x1, G.card.y1);
   const cardRect = new Path2D(); cardRect.rect(cx0, cy0, cx1 - cx0, cy1 - cy0);
 
   // 3. Dim everything outside the card, plus a soft shadow so the card lifts.
-  const d = easeInOutCubic(prog(t, T.dim[0], T.dim[1]));
+  const d = envelope(t, T.dim);
   if (d > 0) {
     const outside = new Path2D(); outside.addPath(scr); outside.rect(cx0, cy0, cx1 - cx0, cy1 - cy0);
     ctx.save();
     ctx.clip(outside, 'evenodd');
-    ctx.fillStyle = `rgba(${DIM}, ${T.dim[2] * d})`;
+    ctx.fillStyle = `rgba(${DIM}, ${T.dim.opacity * d})`;
     ctx.fill(scr);
-    ctx.shadowColor = `rgba(0, 0, 0, ${0.55 * d})`; ctx.shadowBlur = 70 * K * 0.5;
+    ctx.shadowColor = `rgba(0, 0, 0, ${0.55 * d})`; ctx.shadowBlur = 35 * K;
     ctx.fillStyle = '#000';
     ctx.fill(cardRect);
     ctx.restore();
   }
 
-  // 4. Outline drawing from the tab corner both ways round the card, meeting at the far corner.
-  const o = easeInOutCubic(prog(t, T.outline[0], T.outline[1]));
-  if (o > 0) {
+  // 4. Outline drawing from the tab corner both ways round the card, then fading out.
+  const o = easeInOutCubic(prog(t, T.outline.draw));
+  const oa = 1 - easeInOutCubic(prog(t, T.outline.out));
+  if (o > 0 && oa > 0) {
     const pts = outlinePoints(tr);
     const cw = partial(pts, o * 0.5);
     const ccw = partial(pts.slice().reverse(), o * 0.5);
-    const breathe = t > T.outline[1] ? 0.5 + 0.5 * Math.sin((t - T.outline[1]) * 2 * Math.PI / 1.6 - Math.PI / 2) : 0;
+    const breathe = t > T.outline.draw[1] ? 0.5 + 0.5 * Math.sin((t - T.outline.draw[1]) * 2 * Math.PI / 1.6 - Math.PI / 2) : 0;
     ctx.save();
+    ctx.globalAlpha = oa;
     ctx.lineJoin = 'round'; ctx.lineCap = 'round';
-    ctx.strokeStyle = `rgba(${GREEN}, 1)`;
+    ctx.strokeStyle = `rgb(${GREEN})`;
     ctx.lineWidth = 4.6 * K;
     ctx.shadowColor = `rgba(${GREEN}, ${0.75 + 0.15 * breathe})`;
     ctx.shadowBlur = (20 + 10 * breathe) * K;
     strokePoly(cw); strokePoly(ccw);
     ctx.shadowBlur = 0;
-    // bright heads while drawing
-    if (o < 1) {
+    if (o < 1) {                                   // bright heads while drawing
       for (const p of [cw[cw.length - 1], ccw[ccw.length - 1]]) {
         const g = ctx.createRadialGradient(p[0], p[1], 0, p[0], p[1], 16 * K);
         g.addColorStop(0, `rgba(255, 255, 255, ${0.95 * (1 - o * 0.6)})`);
@@ -162,23 +173,24 @@ function renderFrame(i) {
     ctx.restore();
   }
 
-  // 5. The tab lifts out as a badge: scaled about its left edge, with a shadow and a green rim.
-  const ps = 1 + (T.pop[1] - 1) * spring(t - T.pop[0]);
+  // 5. The tab lifts out as a badge (spring), then eases back into place.
+  const back = easeInOutCubic(prog(t, T.pop.back));
+  const ps = 1 + (T.pop.scale - 1) * spring(t - T.pop.start) * (1 - back);
   const [ax, ay] = tr.map(G.tab[0][0], (G.tab[0][1] + G.tab[4][1]) / 2);
-  const popT = (x, y) => [ax + (x - ax) * ps, ay + (y - ay) * ps];        // screen coords -> popped
+  const popT = (x, y) => [ax + (x - ax) * ps, ay + (y - ay) * ps];
   const tabPath = new Path2D();
   G.tab.forEach(([x, y], k) => { const [px, py] = tr.map(x, y); k ? tabPath.lineTo(px, py) : tabPath.moveTo(px, py); });
   tabPath.closePath();
-  const lift = clamp((ps - 1) / (T.pop[1] - 1));
+  const lift = clamp((ps - 1) / (T.pop.scale - 1));
   if (ps > 1.0005) {
     ctx.save();
     ctx.translate(ax, ay); ctx.scale(ps, ps); ctx.translate(-ax, -ay);
     ctx.shadowColor = `rgba(0, 0, 0, ${0.5 * lift})`; ctx.shadowBlur = 18 * K; ctx.shadowOffsetY = 5 * K;
     ctx.fillStyle = '#2c4274'; ctx.fill(tabPath);
-    ctx.shadowColor = 'transparent';
+    ctx.shadowColor = 'transparent'; ctx.shadowOffsetY = 0;
     ctx.save(); ctx.clip(tabPath);
     ctx.translate(tr.cx, tr.cy); ctx.scale(tr.s, tr.s); ctx.translate(-tr.cx, -tr.cy);
-    ctx.drawImage(img, 0, 0, W, H);
+    drawFrameImage();
     ctx.restore();
     ctx.strokeStyle = `rgba(${GREEN}, ${lift})`; ctx.lineWidth = 2.2 * K / ps; ctx.lineJoin = 'round';
     ctx.shadowColor = `rgba(${GREEN}, ${0.7 * lift})`; ctx.shadowBlur = 12 * K;
@@ -189,7 +201,7 @@ function renderFrame(i) {
   // 6. Pulses from the icon.
   const [ix, iy] = popT(...tr.map(G.icon.x, G.icon.y));
   for (const start of T.rings) {
-    const u = prog(t, start, start + T.ringDur);
+    const u = prog(t, [start, start + T.ringDur]);
     if (u <= 0 || u >= 1) continue;
     const e = easeOutCubic(u);
     ctx.save();
@@ -201,7 +213,7 @@ function renderFrame(i) {
   }
 
   // 7. Light sweep across the popped tab.
-  const sh = prog(t, T.shine[0], T.shine[1]);
+  const sh = prog(t, T.shine);
   if (sh > 0 && sh < 1) {
     const [bx] = popT(...tr.map(G.tab[1][0], 0));
     const pos = ax - 60 * K + (bx - ax + 120 * K) * easeInOutSine(sh);
@@ -219,9 +231,11 @@ function renderFrame(i) {
   ctx.restore(); // screen clip
 
   // 8. Camera cutout stays exactly where it is, on top of everything.
+  if (OVERLAY) return;
   ctx.save();
-  const isl = new Path2D(); const s = G.island; isl.roundRect(s.x * K, s.y * K, s.w * K, s.h * K, s.h / 2 * K);
-  ctx.clip(isl); ctx.drawImage(img, 0, 0, W, H);
+  const s = G.island, [sx, sy] = P(s.x, s.y), isl = new Path2D();
+  isl.roundRect(sx, sy, s.w * K, s.h * K, s.h / 2 * K);
+  ctx.clip(isl); drawFrameImage();
   ctx.restore();
 }
 
