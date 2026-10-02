@@ -64,7 +64,7 @@ def interpolate(a, b, t):
     upw = lambda m: cv2.resize(m, (W, H), interpolation=cv2.INTER_LINEAR)[..., None]
     wa, wb = remap(a, up(ft0)), remap(b, up(ft1))
     wA, wB = upw(ca), upw(cb)
-    return np.clip((wa * wA + wb * wB) / (wA + wB), 0, 1)
+    return np.clip((wa * wA + wb * wB) / (wA + wB + 1e-6), 0, 1)
 
 
 def thumb(i):
@@ -78,12 +78,15 @@ shots = []
 for s0, s1 in zip(bounds, bounds[1:]):
     idx = list(range(s0, s1))
     if os.environ.get('DEDUPE'):
-        keep, prev = [s0], thumb(s0)
-        for i in range(s0 + 1, s1):
-            cur = thumb(i)
-            if np.abs(cur - prev).mean() * 255 >= 0.4:
-                keep.append(i)
-            prev = cur
+        # A frame is a repeat when it barely changes while its neighbours move: generated repeats are not
+        # bit-identical, so compare each frame's change with the motion around it.
+        th = [thumb(i) for i in range(s0, s1)]
+        d = [np.inf] + [np.abs(th[k] - th[k - 1]).mean() * 255 for k in range(1, len(th))]
+        keep = [s0]
+        for k in range(1, len(th)):
+            around = max(d[k - 1] if k > 1 else 0, d[k + 1] if k + 1 < len(d) else 0)
+            if not (d[k] < 1.2 and d[k] < 0.35 * around):
+                keep.append(s0 + k)
         idx = keep
     t0, t1 = s0 / SRC_FPS, s1 / SRC_FPS
     step = (t1 - t0) / len(idx)
