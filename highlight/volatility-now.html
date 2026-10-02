@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Volatility Now highlight</title>
+<style>
+  body { margin: 0; background: #1b1f24; }
+  canvas { display: block; width: 100vw; height: auto; max-width: 540px; margin: 0 auto; }
+  body.render canvas { width: auto; max-width: none; }
+</style>
+</head>
+<body>
+<canvas id="c" width="2160" height="3840"></canvas>
+<script>
+// "Volatility Now" highlight over the Forex Factory homepage frame (4.0 s line).
+// The background and the phone frame are never touched: everything happens inside the phone screen.
+// Geometry is measured on the 1125 x 2000 source frame and scaled to the 2160 x 3840 output.
+const W = 2160, H = 3840, SRC_W = 1125, K = W / SRC_W;
+const FPS = 60, DURATION = 4.0, FRAMES = Math.round(FPS * DURATION);
+
+const G = {
+  screen: { x: 133, y: 181, w: 735, h: 1587, r: 98 },     // phone screen (rounded)
+  island: { x: 335, y: 204, w: 318, h: 67 },              // camera cutout, stays fixed on top
+  card:   { x0: 135.5, y0: 469.5, x1: 866, y1: 1382 },    // the Volatility Now block
+  tab:    [[136, 470], [389, 470], [386, 486], [370, 512.5], [136, 512.5]], // navy label tab
+  icon:   { x: 166, y: 492 },                             // pulse icon in the tab
+};
+const GREEN = '63, 191, 70';      // Forex Factory green (header accent), brightened for video
+const DIM = '8, 14, 30';          // navy-black for the dim
+
+// Timeline (seconds)
+const T = {
+  push:    [0.00, 4.00, 1.018],   // gentle push-in of the screen content (start, end, scale)
+  dim:     [0.20, 0.95, 0.62],    // everything outside the card dims (start, end, opacity)
+  outline: [0.45, 1.45],          // outline draws from the tab, both ways round the card
+  pop:     [0.90, 1.30],          // the tab lifts out as a badge (start, final scale), spring-damped
+  rings:   [1.35, 1.85],          // pulses from the icon
+  ringDur: 1.0,
+  shine:   [1.70, 2.35],          // light sweep across the tab
+};
+
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const easeInOutCubic = x => x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const easeInOutSine = x => -(Math.cos(Math.PI * x) - 1) / 2;
+const easeOutCubic = x => 1 - Math.pow(1 - x, 3);
+// damped spring 0 -> 1 (about 15% overshoot, settles in ~0.8 s)
+const spring = u => u <= 0 ? 0 : 1 - Math.exp(-5.5 * u) * (Math.cos(9 * u) + 5.5 / 9 * Math.sin(9 * u));
+
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+let img = null;
+
+function screenPath() {
+  const s = G.screen, p = new Path2D();
+  const e = 0.6; // stay a hair inside the screen edge so the bezel stays bit-identical
+  p.roundRect((s.x + e) * K, (s.y + e) * K, (s.w - 2 * e) * K, (s.h - 2 * e) * K, (s.r - e) * K);
+  return p;
+}
+
+// Screen content transform: scale about the card centre.
+function contentTransform(t) {
+  const s = 1 + (T.push[2] - 1) * easeInOutSine(prog(t, T.push[0], T.push[1]));
+  const cx = (G.card.x0 + G.card.x1) / 2 * K, cy = (G.card.y0 + G.card.y1) / 2 * K;
+  return { s, cx, cy, map: (x, y) => [cx + (x * K - cx) * s, cy + (y * K - cy) * s] };
+}
+
+// Outline path: rounded rect inset in the card, as a list of points so it can be drawn progressively
+// from the tab corner in both directions.
+function outlinePoints(tr) {
+  const inset = 10, r = 12, c = G.card;
+  const x0 = c.x0 + inset, y0 = c.y0 + inset, x1 = c.x1 - inset, y1 = c.y1 - inset;
+  const pts = [];
+  const arc = (cx, cy, a0, a1) => { for (let i = 0; i <= 12; i++) { const a = a0 + (a1 - a0) * i / 12; pts.push([cx + r * Math.cos(a), cy + r * Math.sin(a)]); } };
+  // clockwise from the top-left corner (the tab)
+  arc(x0 + r, y0 + r, Math.PI, 1.5 * Math.PI);
+  arc(x1 - r, y0 + r, 1.5 * Math.PI, 2 * Math.PI);
+  arc(x1 - r, y1 - r, 0, 0.5 * Math.PI);
+  arc(x0 + r, y1 - r, 0.5 * Math.PI, Math.PI);
+  pts.push(pts[0]);
+  return pts.map(([x, y]) => tr.map(x, y));
+}
+
+function partial(pts, frac) {
+  // first `frac` of the polyline by length; returns points and the head position
+  const seg = []; let total = 0;
+  for (let i = 1; i < pts.length; i++) { const d = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]); seg.push(d); total += d; }
+  let left = total * frac; const out = [pts[0]];
+  for (let i = 1; i < pts.length; i++) {
+    if (left >= seg[i - 1]) { out.push(pts[i]); left -= seg[i - 1]; continue; }
+    const u = left / seg[i - 1];
+    out.push([pts[i - 1][0] + (pts[i][0] - pts[i - 1][0]) * u, pts[i - 1][1] + (pts[i][1] - pts[i - 1][1]) * u]);
+    break;
+  }
+  return out;
+}
+
+function strokePoly(p) { ctx.beginPath(); ctx.moveTo(p[0][0], p[0][1]); for (const q of p.slice(1)) ctx.lineTo(q[0], q[1]); ctx.stroke(); }
+
+function renderFrame(i) {
+  const t = i / FPS;
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.globalAlpha = 1; ctx.shadowBlur = 0; ctx.globalCompositeOperation = 'source-over';
+  ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
+
+  // 1. Untouched frame: background and phone.
+  ctx.drawImage(img, 0, 0, W, H);
+
+  const scr = screenPath();
+  const tr = contentTransform(t);
+  ctx.save();
+  ctx.clip(scr);
+
+  // 2. Screen content with the gentle push-in (only inside the screen).
+  ctx.save();
+  ctx.translate(tr.cx, tr.cy); ctx.scale(tr.s, tr.s); ctx.translate(-tr.cx, -tr.cy);
+  ctx.drawImage(img, 0, 0, W, H);
+  ctx.restore();
+
+  const [cx0, cy0] = tr.map(G.card.x0, G.card.y0), [cx1, cy1] = tr.map(G.card.x1, G.card.y1);
+  const cardRect = new Path2D(); cardRect.rect(cx0, cy0, cx1 - cx0, cy1 - cy0);
+
+  // 3. Dim everything outside the card, plus a soft shadow so the card lifts.
+  const d = easeInOutCubic(prog(t, T.dim[0], T.dim[1]));
+  if (d > 0) {
+    const outside = new Path2D(); outside.addPath(scr); outside.rect(cx0, cy0, cx1 - cx0, cy1 - cy0);
+    ctx.save();
+    ctx.clip(outside, 'evenodd');
+    ctx.fillStyle = `rgba(${DIM}, ${T.dim[2] * d})`;
+    ctx.fill(scr);
+    ctx.shadowColor = `rgba(0, 0, 0, ${0.55 * d})`; ctx.shadowBlur = 70 * K * 0.5;
+    ctx.fillStyle = '#000';
+    ctx.fill(cardRect);
+    ctx.restore();
+  }
+
+  // 4. Outline drawing from the tab corner both ways round the card, meeting at the far corner.
+  const o = easeInOutCubic(prog(t, T.outline[0], T.outline[1]));
+  if (o > 0) {
+    const pts = outlinePoints(tr);
+    const cw = partial(pts, o * 0.5);
+    const ccw = partial(pts.slice().reverse(), o * 0.5);
+    const breathe = t > T.outline[1] ? 0.5 + 0.5 * Math.sin((t - T.outline[1]) * 2 * Math.PI / 1.6 - Math.PI / 2) : 0;
+    ctx.save();
+    ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+    ctx.strokeStyle = `rgba(${GREEN}, 1)`;
+    ctx.lineWidth = 4.6 * K;
+    ctx.shadowColor = `rgba(${GREEN}, ${0.75 + 0.15 * breathe})`;
+    ctx.shadowBlur = (20 + 10 * breathe) * K;
+    strokePoly(cw); strokePoly(ccw);
+    ctx.shadowBlur = 0;
+    // bright heads while drawing
+    if (o < 1) {
+      for (const p of [cw[cw.length - 1], ccw[ccw.length - 1]]) {
+        const g = ctx.createRadialGradient(p[0], p[1], 0, p[0], p[1], 16 * K);
+        g.addColorStop(0, `rgba(255, 255, 255, ${0.95 * (1 - o * 0.6)})`);
+        g.addColorStop(0.35, `rgba(${GREEN}, ${0.6 * (1 - o * 0.6)})`);
+        g.addColorStop(1, `rgba(${GREEN}, 0)`);
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p[0], p[1], 16 * K, 0, 2 * Math.PI); ctx.fill();
+      }
+    }
+    ctx.restore();
+  }
+
+  // 5. The tab lifts out as a badge: scaled about its left edge, with a shadow and a green rim.
+  const ps = 1 + (T.pop[1] - 1) * spring(t - T.pop[0]);
+  const [ax, ay] = tr.map(G.tab[0][0], (G.tab[0][1] + G.tab[4][1]) / 2);
+  const popT = (x, y) => [ax + (x - ax) * ps, ay + (y - ay) * ps];        // screen coords -> popped
+  const tabPath = new Path2D();
+  G.tab.forEach(([x, y], k) => { const [px, py] = tr.map(x, y); k ? tabPath.lineTo(px, py) : tabPath.moveTo(px, py); });
+  tabPath.closePath();
+  const lift = clamp((ps - 1) / (T.pop[1] - 1));
+  if (ps > 1.0005) {
+    ctx.save();
+    ctx.translate(ax, ay); ctx.scale(ps, ps); ctx.translate(-ax, -ay);
+    ctx.shadowColor = `rgba(0, 0, 0, ${0.5 * lift})`; ctx.shadowBlur = 18 * K; ctx.shadowOffsetY = 5 * K;
+    ctx.fillStyle = '#2c4274'; ctx.fill(tabPath);
+    ctx.shadowColor = 'transparent';
+    ctx.save(); ctx.clip(tabPath);
+    ctx.translate(tr.cx, tr.cy); ctx.scale(tr.s, tr.s); ctx.translate(-tr.cx, -tr.cy);
+    ctx.drawImage(img, 0, 0, W, H);
+    ctx.restore();
+    ctx.strokeStyle = `rgba(${GREEN}, ${lift})`; ctx.lineWidth = 2.2 * K / ps; ctx.lineJoin = 'round';
+    ctx.shadowColor = `rgba(${GREEN}, ${0.7 * lift})`; ctx.shadowBlur = 12 * K;
+    ctx.stroke(tabPath);
+    ctx.restore();
+  }
+
+  // 6. Pulses from the icon.
+  const [ix, iy] = popT(...tr.map(G.icon.x, G.icon.y));
+  for (const start of T.rings) {
+    const u = prog(t, start, start + T.ringDur);
+    if (u <= 0 || u >= 1) continue;
+    const e = easeOutCubic(u);
+    ctx.save();
+    ctx.strokeStyle = `rgba(${GREEN}, ${0.9 * (1 - u) * (1 - u)})`;
+    ctx.lineWidth = (3.6 - 1.8 * u) * K;
+    ctx.shadowColor = `rgba(${GREEN}, ${0.6 * (1 - u)})`; ctx.shadowBlur = 10 * K;
+    ctx.beginPath(); ctx.arc(ix, iy, (14 + 80 * e) * K, 0, 2 * Math.PI); ctx.stroke();
+    ctx.restore();
+  }
+
+  // 7. Light sweep across the popped tab.
+  const sh = prog(t, T.shine[0], T.shine[1]);
+  if (sh > 0 && sh < 1) {
+    const [bx] = popT(...tr.map(G.tab[1][0], 0));
+    const pos = ax - 60 * K + (bx - ax + 120 * K) * easeInOutSine(sh);
+    ctx.save();
+    ctx.translate(ax, ay); ctx.scale(ps, ps); ctx.translate(-ax, -ay);
+    ctx.clip(tabPath);
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.translate(pos, iy); ctx.rotate(0.35);
+    const g = ctx.createLinearGradient(-45 * K, 0, 45 * K, 0);
+    g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(0.5, 'rgba(255,255,255,0.42)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = g; ctx.fillRect(-45 * K, -140 * K, 90 * K, 280 * K);
+    ctx.restore();
+  }
+
+  ctx.restore(); // screen clip
+
+  // 8. Camera cutout stays exactly where it is, on top of everything.
+  ctx.save();
+  const isl = new Path2D(); const s = G.island; isl.roundRect(s.x * K, s.y * K, s.w * K, s.h * K, s.h / 2 * K);
+  ctx.clip(isl); ctx.drawImage(img, 0, 0, W, H);
+  ctx.restore();
+}
+
+window.VN = {
+  FPS, FRAMES, canvas, renderFrame,
+  load: src => new Promise((res, rej) => { const im = new Image(); im.onload = () => { img = im; res(); }; im.onerror = rej; im.src = src; }),
+};
+
+// Interactive preview when opened directly in a browser (needs the frame next to this file).
+if (!location.search.includes('render')) {
+  VN.load('volatility-now-frame.webp').then(() => {
+    const t0 = performance.now();
+    const loop = now => { renderFrame(Math.floor(((now - t0) / 1000 % DURATION) * FPS)); requestAnimationFrame(loop); };
+    requestAnimationFrame(loop);
+  });
+} else document.body.classList.add('render');
+</script>
+</body>
+</html>
