@@ -89,7 +89,8 @@ for s0, s1 in zip(bounds, bounds[1:]):
                 keep.append(s0 + k)
         idx = keep
     t0, t1 = s0 / SRC_FPS, s1 / SRC_FPS
-    step = (t1 - t0) / len(idx)
+    # first real frame at the shot start, last one on the final output frame before the cut (no hold)
+    step = (t1 - 1 / OUT_FPS - t0) / max(len(idx) - 1, 1)
     shots.append([(i, t0 + k * step) for k, i in enumerate(idx)] + [(None, t1)])
     print(f'shot {s0 + 1}-{s1}: {len(idx)} of {s1 - s0} frames used')
 
