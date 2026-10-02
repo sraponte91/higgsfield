@@ -50,7 +50,11 @@ def interpolate(a, b, t):
     upw = lambda m: cv2.resize(m, (W, H), interpolation=cv2.INTER_LINEAR)[..., None]
     wa, wb = remap(a, up(ft0)), remap(b, up(ft1))
     wA, wB = upw(ca), upw(cb)
-    return np.clip((wa * wA + wb * wB) / (wA + wB + 1e-6), 0, 1)
+    flowed = (wa * wA + wb * wB) / (wA + wB + 1e-6)
+    # Where nothing really moves (wall, desk), a plain mix of the two real frames is cleaner than warping.
+    mag = np.maximum(np.linalg.norm(f01, axis=2), np.linalg.norm(f10, axis=2))
+    moving = upw(cv2.GaussianBlur(np.clip((mag - 0.6) / 1.4, 0, 1), (0, 0), 6))
+    return np.clip(moving * flowed + (1 - moving) * (a * (1 - t) + b * t), 0, 1)
 
 
 th = [cv2.resize(load(i), (270, 480), interpolation=cv2.INTER_AREA) for i in range(len(files))]
