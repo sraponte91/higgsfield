@@ -6,7 +6,8 @@
 People are protected by a soft matte. Frames where nothing is detected are copied unchanged.
 
 Usage: python tools/clock_fix.py <gen_frames_dir> <gen_fps> <src_frames_dir> <src_fps> <out_dir> <models_dir> <first_seconds>
-(only frames at or after <first_seconds> are fixed, e.g. the shot after the cut)
+(<first_seconds> = start of the shot after the cut: the clock and the medium-shot light are fixed from there,
+ the blue glow in the wide shot before it)
 """
 import shutil
 import sys
@@ -57,9 +58,7 @@ def align(src, gen, bg):
 
 src_files = sorted(SRC.glob('f*.png'))
 for k, gf in enumerate(sorted(GEN.glob('f*.png'))):
-    if k / GEN_FPS < FROM:
-        shutil.copy(gf, OUT / gf.name)
-        continue
+    after_cut = k / GEN_FPS >= FROM
     full = cv2.imread(str(gf))
     FH, FW = full.shape[:2]
     sc = FW / 1080.0                       # detection runs at 1080 wide; the fix is applied at full resolution
@@ -76,7 +75,7 @@ for k, gf in enumerate(sorted(GEN.glob('f*.png'))):
     glow[:, int(0.5 * W):] = 0
     glow = cv2.morphologyEx(glow, cv2.MORPH_OPEN, np.ones((5, 5), np.uint8))
     p = None
-    if glow.sum() > 1500:
+    if after_cut and glow.sum() > 1500:
         zone = cv2.dilate(glow, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (121, 121)))
         zone = cv2.morphologyEx(zone, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (151, 151)))
         p = person(g)
@@ -103,18 +102,42 @@ for k, gf in enumerate(sorted(GEN.glob('f*.png'))):
                 out = out * (1 - z) + rebuilt * z
                 notes.append(f'clock rebuilt from src f{best[2]:03d}')
 
-    # 2. Blue practical at the right of the monitors: recolor to LED orange at the same brightness.
+    # 2. Blue practical lights: recolor to LED orange.
     blue = ((hsv[..., 0] > 95) & (hsv[..., 0] < 135) & (hsv[..., 1] > 120) & (hsv[..., 2] > 90)).astype(np.uint8)
-    blue[:, : int(0.75 * W)] = 0
-    blue = cv2.morphologyEx(blue, cv2.MORPH_OPEN, np.ones((5, 5), np.uint8))
-    if blue.sum() > 150:
-        m = cv2.GaussianBlur(cv2.dilate(blue, np.ones((25, 25), np.uint8)).astype(np.float32), (0, 0), 8)
-        if p is not None:
-            m = m * (1 - p)
-        m = up(m)[..., None]
-        lum = out.max(2, keepdims=True)
-        out = out * (1 - m) + (lum / 255.0) * LED * m
-        notes.append('blue light recolored')
+    if after_cut:
+        # Medium shot: the light right of the monitor bank, recolored at the same brightness.
+        blue[:, : int(0.75 * W)] = 0
+        blue = cv2.morphologyEx(blue, cv2.MORPH_OPEN, np.ones((5, 5), np.uint8))
+        if blue.sum() > 150:
+            m = cv2.GaussianBlur(cv2.dilate(blue, np.ones((25, 25), np.uint8)).astype(np.float32), (0, 0), 8)
+            if p is not None:
+                m = m * (1 - p)
+            m = up(m)[..., None]
+            lum = out.max(2, keepdims=True)
+            out = out * (1 - m) + (lum / 255.0) * LED * m
+            notes.append('blue light recolored')
+    else:
+        # Wide shot: the glow sits at monitor-top height and slides across the frame with the pan. Pick
+        # compact blobs in that band (screen UI shows up as thin bars or lower; the colleague's shirt is far right),
+        # then swap the hue to orange over the whole soft glow, keeping its saturation and brightness.
+        loose = ((hsv[..., 0] > 95) & (hsv[..., 0] < 135) & (hsv[..., 1] > 60) & (hsv[..., 2] > 100)).astype(np.uint8)
+        n, lab, st, cen = cv2.connectedComponentsWithStats(loose)
+        sel = np.zeros_like(loose)
+        for i in range(1, n):
+            cx, cy = cen[i][0] / W, cen[i][1] / H
+            bw, bh = st[i][2], st[i][3]
+            if st[i][4] > 300 and bh >= 12 and bw < 4 * bh and 0.38 < cx < 0.86 and 0.33 < cy < 0.41:
+                sel[lab == i] = 1
+        if sel.any():
+            m = up(cv2.GaussianBlur(cv2.dilate(sel, np.ones((41, 41), np.uint8)).astype(np.float32), (0, 0), 10))
+            fh = cv2.cvtColor(np.clip(out, 0, 255).astype(np.uint8), cv2.COLOR_BGR2HSV).astype(np.float32)
+            bluish = ((fh[..., 0] > 90) & (fh[..., 0] < 140) & (fh[..., 1] > 30)).astype(np.float32)
+            w = (m * cv2.GaussianBlur(bluish, (0, 0), 2 * sc))[..., None]
+            fh[..., 0] = 14                                   # LED orange hue
+            fh[..., 1] = np.clip(fh[..., 1] * 1.15, 0, 255)  # keep the glow's own softness
+            orange = cv2.cvtColor(fh.astype(np.uint8), cv2.COLOR_HSV2BGR).astype(np.float32)
+            out = out * (1 - w) + orange * w
+            notes.append('blue glow recolored (wide)')
 
     cv2.imwrite(str(OUT / gf.name), np.clip(out + 0.5, 0, 255).astype(np.uint8))
     if notes:
