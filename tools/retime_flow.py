@@ -5,9 +5,14 @@ the two neighbouring source frames with dense optical flow (OpenCV DIS) in both 
 forward/backward consistency weights so occluded pixels come from the side that sees them. Flow is computed
 at 1080 wide and applied at full resolution. Never interpolates across a cut.
 
+With DEDUPE=1, frames that repeat the previous one (footage that only updates every other frame) are dropped
+and the remaining real frames are spaced evenly through each shot before resampling, so the motion becomes
+continuous instead of move-freeze-move.
+
 Usage: python tools/retime_flow.py <frames_dir> <src_fps> <out_dir> <out_fps> <duration_s> [cut_frame ...]
 Frames are f001.png ... (8- or 16-bit). cut_frame = 1-based index of the first frame of a new shot.
 """
+import os
 import sys
 from pathlib import Path
 
@@ -62,23 +67,46 @@ def interpolate(a, b, t):
     return np.clip((wa * wA + wb * wB) / (wA + wB), 0, 1)
 
 
-def shot_end(i):                               # last 0-based index of the shot containing i
-    for c in CUTS:
-        if i < c - 1:
-            return c - 2
-    return len(files) - 1
+def thumb(i):
+    a = load(i)
+    return cv2.resize(a, (270, round(a.shape[0] * 270 / a.shape[1])), interpolation=cv2.INTER_AREA)
 
+
+# Shots as lists of (source index, time in seconds) of the frames to use.
+bounds = [0] + [c - 1 for c in CUTS] + [len(files)]
+shots = []
+for s0, s1 in zip(bounds, bounds[1:]):
+    idx = list(range(s0, s1))
+    if os.environ.get('DEDUPE'):
+        keep, prev = [s0], thumb(s0)
+        for i in range(s0 + 1, s1):
+            cur = thumb(i)
+            if np.abs(cur - prev).mean() * 255 >= 0.4:
+                keep.append(i)
+            prev = cur
+        idx = keep
+    t0, t1 = s0 / SRC_FPS, s1 / SRC_FPS
+    step = (t1 - t0) / len(idx)
+    shots.append([(i, t0 + k * step) for k, i in enumerate(idx)] + [(None, t1)])
+    print(f'shot {s0 + 1}-{s1}: {len(idx)} of {s1 - s0} frames used')
 
 n_out = int(round(DUR * OUT_FPS))
 for n in range(n_out):
-    p = n * SRC_FPS / OUT_FPS
-    i, t = int(np.floor(p)), p - np.floor(p)
-    i = min(i, len(files) - 1)
-    if t < 0.05 or i + 1 > shot_end(i):
+    T = n / OUT_FPS
+    shot = next((sh for sh in shots if T < sh[-1][1] - 1e-9), shots[-1])
+    seq = shot[:-1]
+    j = max(k for k, (_, tk) in enumerate(seq) if tk <= T + 1e-9) if T >= seq[0][1] else 0
+    i, ti = seq[j]
+    if j + 1 < len(seq):
+        i2, ti2 = seq[j + 1]
+        t = (T - ti) / (ti2 - ti)
+    else:
+        i2, t = i, 0.0
+    if t < 0.05:
         out = load(i)
     elif t > 0.95:
-        out = load(i + 1)
+        out = load(i2)
     else:
-        out = interpolate(load(i), load(i + 1), float(t))
+        out = interpolate(load(i), load(i2), float(t))
     cv2.imwrite(str(OUT / f'f{n + 1:04d}.png'), (out * 65535 + 0.5).astype(np.uint16))
 print(f'{n_out} frames at {OUT_FPS} fps')
