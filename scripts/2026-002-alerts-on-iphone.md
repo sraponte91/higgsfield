@@ -3,9 +3,10 @@
 Revised against the spec (v0.1) with the viral-video-short-form skill. Target length ~35-40 s, 9:16.
 Intro is a POV pickup with a match cut to camera; outro uses the natural/handheld storyboard v2 (option D or E).
 
-1A. INTRO: POV (~1-1.5 s, no dialogue)
-   Her point of view, looking down at the desk. The phone lies face up, screen dark, then lights up with a Forex Factory alert
-   and buzzes. Her hand comes in from the bottom of the frame, grabs it and starts lifting it. CUT mid-lift.
+1A. INTRO: PHONE POV (~1-1.5 s, no dialogue)
+   The phone's point of view: it lies face up on the desk, looking up at her. A Forex Factory alert banner drops in at the top
+   and the image shakes with the buzz. Her hand reaches into the lens, picks it up, and the view swings up to her face as she
+   looks into it. CUT on the lift.
 
 1B. INTRO: ON CAMERA (~4 s, match cut on the same lift)
    She brings the phone up, glances at the alert, then looks up to the lens.
@@ -29,10 +30,10 @@ Intro is a POV pickup with a match cut to camera; outro uses the natural/handhel
    Ends on the buzz, which loops back into the opening buzz.
 
 ## Recording notes
-- Intro POV (1A): camera at her eye line looking down at the desk, wide lens; phone in the middle third of the frame. Shoot the
-  full pickup in both 1A and 1B (same hand, same speed, same sleeve and rings) so the edit can cut mid-lift.
-- Intro alert: a test push from the FF dev team, or shoot the screen dark and composite the alert in post. Add a buzz SFX if the
-  real rattle is weak.
+- Intro phone POV (1A): record on the prop iPhone itself, face up on the desk, with its front camera. Shoot the full pickup in
+  both 1A and 1B (same hand, same speed, same sleeve and rings) so the edit can cut on the lift.
+- Intro shake and alert: add the shake in post (2-3 pulses) synced to a buzz SFX, and composite the FF alert banner at the top
+  of the frame on the first pulse.
 - Record the Calendar step first on the fresh phone so the iOS notification prompt appears in that recording.
 - Account: confirm whether a (free) Forex Factory account is required and say "free" if so.
 

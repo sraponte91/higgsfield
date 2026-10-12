@@ -149,8 +149,8 @@ Video 2026-002 shows the **revised working version** (reviewed with the viral-vi
 
 ### Screenplay (revised, working version)
 
-**1A. INTRO: POV** (~1–1.5 s, no dialogue)
-*Her point of view, looking down at the desk. The phone lies face up, screen dark. It lights up with a Forex Factory alert and buzzes against the desk. Her hand comes in from the bottom of the frame, grabs it and starts lifting it. CUT mid-lift.*
+**1A. INTRO: PHONE POV** (~1–1.5 s, no dialogue)
+*The phone's point of view: it lies face up on the desk, looking up at Emiliann. A Forex Factory alert banner drops in at the top of the frame and the image shakes with the buzz. Her hand reaches down into the lens, picks the phone up, and the view swings up to her face as she looks into it. CUT on the lift.*
 
 **1B. INTRO: ON CAMERA** (~4 s)
 *Match cut on the same lift: Emiliann at the desk, bringing the phone up. She glances at the alert, then looks up to the lens.*
@@ -181,12 +181,12 @@ Video 2026-002 shows the **revised working version** (reviewed with the viral-vi
 
 ### Shot list (revised)
 
-**1A. Intro POV** (video format, Emiliann's desk in News room)
-- Camera at her eye line, looking down at the desk at about 45°, wide lens (~24 mm equivalent) so it reads as her eyes
-- Prop iPhone face up in the middle third of the frame (not the bottom ~20%, where captions and app UI sit)
-- Alert lights the screen and the phone buzzes; her own hand enters from the bottom of the frame, grabs the phone, starts lifting it
-- Alert: a test push from the FF dev team (same as the outro), or shoot the screen dark and composite the lock-screen alert in post
-- Buzz: a phone barely moves on a desk. Record the rattle on a hard surface or add a buzz SFX, plus a 2–3 frame shake on the phone in post if needed
+**1A. Intro phone POV** (video format, Emiliann's desk in News room)
+- Record with the prop iPhone itself: lying face up on the desk, recording with its front (selfie) camera, so the shot is exactly what the phone sees. Same phone she holds in 1B, so continuity is free
+- Framing: she sits or leans over the desk so her face is in the upper part of the frame; watch the overhead lights behind her (move the phone so they don't blow out)
+- Shake: the real vibration barely moves the image. Add the shake in post (2–3 short pulses, like the iPhone vibration pattern) synced to a buzz SFX
+- Alert: composite a Forex Factory lock-screen banner at the top of the frame in post, landing on the first pulse, so viewers see the alert from frame 1
+- Pickup: her hand reaches into the lens, lifts the phone and brings it up to her face; she looks into it as if reading the alert
 
 **1B. Intro on camera** (video format, same desk)
 - Cam A handheld medium on Emiliann at the desk: the same pickup, glance at the alert, look up to the lens, deliver the line holding the phone at chest/collarbone height
@@ -194,9 +194,9 @@ Video 2026-002 shows the **revised working version** (reviewed with the viral-vi
 - 1A and 1B are separate setups, not simultaneous
 
 **Match cut (1A → 1B)**
-- Do the full pickup in both setups (overlapping action), same hand and same speed, so the edit can cut mid-lift
-- Continuity: same sleeve (green blazer), rings and nails in both shots; phone in the same spot on the desk with the same orientation
-- Loop: the outro ends on an alert, which loops into the buzzing phone at the start of 1A
+- Do the full pickup in both setups (overlapping action), same hand and same speed, so the edit can cut on the lift; the motion blur of the swing hides the cut
+- Continuity: same sleeve (green blazer), rings and nails in both shots; phone in the same spot on the desk
+- Loop: the outro ends on an alert, which loops into the shaking phone at the start of 1A
 
 **2. PWA setup** (iPhone screen recording)
 - Before shooting: remove all other FF web apps and delete all Safari history (Settings > Apps > Safari > Clear History and Website Data)
