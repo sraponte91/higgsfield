@@ -4,9 +4,8 @@ Revised against the spec (v0.1) with the viral-video-short-form skill. Target le
 Camera shots use the natural/handheld storyboard v2 (intro option B, outro option D or E).
 
 1. INTRO (camera: phone buzzes with an FF alert, she flips it to the lens)
-   EMILIANN: "Want your phone to buzz the moment the markets move? Here's how to get official Forex Factory alerts on your iPhone."
-   (alt: "Prices, news, calendar events: get official Forex Factory alerts right on your iPhone. Here's how.")
-   On-screen: iOS 27 label (first frames).
+   EMILIANN: "Want your phone to alert you when the markets move? Here's how."
+   On-screen title: "Official Forex Factory alerts on iPhone". iOS 27 label (first frames).
 
 2. WEB APP SETUP (screen recording, taps sped up, on-screen "STEP 1")
    EMILIANN: "First, add Forex Factory to your home screen: that's what turns on alerts on iPhone. Go to forexfactory.com and log in. Tap the three dots, then Share... View More... and Add to Home Screen. Now open it from your home screen."
