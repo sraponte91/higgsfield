@@ -4,11 +4,11 @@ Revised against the spec (v0.1) with the viral-video-short-form skill. Target le
 Camera shots use the natural/handheld storyboard v2 (intro option B, outro option D or E).
 
 1. INTRO (camera: phone buzzes with an FF alert, she flips it to the lens)
-   EMILIANN: "There's no official Forex Factory app... but you can still get official Forex Factory alerts on your iPhone. Here's how."
+   EMILIANN: "Want your phone to buzz the second the Fed drops its rate decision? Here's how to get official Forex Factory alerts on your iPhone."
    On-screen: iOS 27 label (first frames).
 
 2. WEB APP SETUP (screen recording, taps sped up, on-screen "STEP 1")
-   EMILIANN: "It works through the Forex Factory web app, and alerts only work from your home screen. Go to forexfactory.com and log in. Tap the three dots, then Share... View More... and Add to Home Screen. Now open it from your home screen."
+   EMILIANN: "First, add Forex Factory to your home screen: that's what turns on alerts on iPhone. Go to forexfactory.com and log in. Tap the three dots, then Share... View More... and Add to Home Screen. Now open it from your home screen."
 
 3. CALENDAR ALERTS (screen recording, moved first: the iOS Allow prompt appears on the first bell tap, "STEP 2")
    EMILIANN: "For big events like the Fed rate decision, open the Calendar, tap the event, then the bell. Tap Allow, and you're subscribed."
