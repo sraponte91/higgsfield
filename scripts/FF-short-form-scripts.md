@@ -144,16 +144,16 @@ Video 2026-002 shows the **revised working version** (reviewed with the viral-vi
 
 ## Video 2026-002: How to get FF alerts on iPhone
 
-**Status:** Revised, ready to shoot. Camera shots: intro is a POV pickup with a match cut to camera (below); outro is storyboard v2 option D "over the shoulder" or E "kick back".
+**Status:** Revised, ready to shoot. Camera shots: intro is a 360 fisheye phone POV, hand-wipe cut to camera (below); outro is storyboard v2 option D "over the shoulder" or E "kick back".
 **Target length:** ~35–40 s.
 
 ### Screenplay (revised, working version)
 
-**1A. INTRO: PHONE POV** (~1–1.5 s, no dialogue)
-*The phone's point of view: it lies face up on the desk, looking up at Emiliann. A Forex Factory alert banner drops in at the top of the frame and the image shakes with the buzz. Her hand reaches down into the lens, picks the phone up, and the view swings up to her face as she looks into it. CUT on the lift.*
+**1A. INTRO: PHONE POV, 360 FISHEYE** (~1–1.5 s, no dialogue)
+*Shot on a 360 camera standing in for the phone, propped on the desk and watching Emiliann at work, with a round fisheye "peephole" look and a black ring around the image (as in the Insta360 reference). A Forex Factory alert banner drops in and the image shakes with the buzz. She looks down at it, reaches in, and her hand fills the lens. CUT on the hand covering the lens.*
 
 **1B. INTRO: ON CAMERA** (~4 s)
-*Match cut on the same lift: Emiliann at the desk, bringing the phone up. She glances at the alert, then looks up to the lens.*
+*Hand-wipe: her hand, holding the iPhone, pulls away from the lens to reveal Emiliann. She glances at the alert, then looks up to the lens.*
 > EMILIANN: Want your phone to alert you when the markets move? Here's how to get official Forex Factory alerts on your iPhone.
 
 *On-screen title (for sound-off viewers): "Official Forex Factory alerts on iPhone", from the first frame of 1A. iOS 27 label on the first frames.*
@@ -181,22 +181,24 @@ Video 2026-002 shows the **revised working version** (reviewed with the viral-vi
 
 ### Shot list (revised)
 
-**1A. Intro phone POV** (video format, Emiliann's desk in News room)
-- Record with the prop iPhone itself: lying face up on the desk, recording with its front (selfie) camera, so the shot is exactly what the phone sees. Same phone she holds in 1B, so continuity is free
-- Framing: she sits or leans over the desk so her face is in the upper part of the frame; watch the overhead lights behind her (move the phone so they don't blow out)
-- Shake: the real vibration barely moves the image. Add the shake in post (2–3 short pulses, like the iPhone vibration pattern) synced to a buzz SFX
+**1A. Intro phone POV, 360 fisheye** (video format, Emiliann's desk in News room)
+- 360 camera (e.g. Insta360 X series) stands in for the phone: propped on the desk where the phone sits, at about her chest height, one lens facing her; she works at the desk until the buzz
+- Use the 60 fps 360 mode (spec is 60 fps). Reframe in the Insta360 app/Studio to 9:16 with the fisheye view, widening the field of view until the black ring shows around the image
+- Keep her face near the centre of the circle: the fisheye stretches the edges. Her hand reaching in will look huge, which is the point
+- The fisheye sees almost the whole room: hide the crew, lights and anything that shouldn't be in shot
+- Shake: stabilization (FlowState) removes real shakes, so add the shake in post (2–3 short pulses, like an iPhone vibration) synced to a buzz SFX
 - Alert: composite a Forex Factory lock-screen banner at the top of the frame in post, landing on the first pulse, so viewers see the alert from frame 1
-- Pickup: her hand reaches into the lens, lifts the phone and brings it up to her face; she looks into it as if reading the alert
+- Turn off the "Shot on Insta360" watermark before export
 
 **1B. Intro on camera** (video format, same desk)
-- Cam A handheld medium on Emiliann at the desk: the same pickup, glance at the alert, look up to the lens, deliver the line holding the phone at chest/collarbone height
+- Cam A handheld medium on Emiliann: she starts with her hand and the iPhone covering the lens, pulls it away to chest/collarbone height, glances at the alert, looks to the lens, delivers the line
+- She holds the real iPhone (the subject of the video), not the 360 camera; the hand-over-lens cut hides the swap
 - Optional Cam B tight on the phone
-- 1A and 1B are separate setups, not simultaneous
 
-**Match cut (1A → 1B)**
-- Do the full pickup in both setups (overlapping action), same hand and same speed, so the edit can cut on the lift; the motion blur of the swing hides the cut
-- Continuity: same sleeve (green blazer), rings and nails in both shots; phone in the same spot on the desk
-- Loop: the outro ends on an alert, which loops into the shaking phone at the start of 1A
+**Cut (1A → 1B)**
+- 1A ends when her hand covers the lens (frame goes dark); 1B starts with her hand and the iPhone covering Cam A's lens and pulling away (hand wipe). Same hand and speed in both
+- Continuity: same sleeve (green blazer), rings and nails in both shots
+- Loop: the outro ends on an alert, which loops into the shaking fisheye shot at the start of 1A
 
 **2. PWA setup** (iPhone screen recording)
 - Before shooting: remove all other FF web apps and delete all Safari history (Settings > Apps > Safari > Clear History and Website Data)
