@@ -144,15 +144,19 @@ Video 2026-002 shows the **revised working version** (reviewed with the viral-vi
 
 ## Video 2026-002: How to get FF alerts on iPhone
 
-**Status:** Revised, ready to shoot. Camera shots: storyboard v2 (intro option B "flip it to camera", outro option D "over the shoulder" or E "kick back").
+**Status:** Revised, ready to shoot. Camera shots: intro is a POV pickup with a match cut to camera (below); outro is storyboard v2 option D "over the shoulder" or E "kick back".
 **Target length:** ~35–40 s.
 
 ### Screenplay (revised, working version)
 
-**1. INTRO** (camera: the phone lights up with an FF alert, she flips it to the lens)
+**1A. INTRO: POV** (~1–1.5 s, no dialogue)
+*Her point of view, looking down at the desk. The phone lies face up, screen dark. It lights up with a Forex Factory alert and buzzes against the desk. Her hand comes in from the bottom of the frame, grabs it and starts lifting it. CUT mid-lift.*
+
+**1B. INTRO: ON CAMERA** (~4 s)
+*Match cut on the same lift: Emiliann at the desk, bringing the phone up. She glances at the alert, then looks up to the lens.*
 > EMILIANN: Want your phone to alert you when the markets move? Here's how to get official Forex Factory alerts on your iPhone.
 
-*On-screen title (for sound-off viewers): "Official Forex Factory alerts on iPhone". iOS 27 label on the first frames.*
+*On-screen title (for sound-off viewers): "Official Forex Factory alerts on iPhone", from the first frame of 1A. iOS 27 label on the first frames.*
 
 **2. WEB APP SETUP** (screen recording, taps sped up, on-screen "STEP 1")
 > EMILIANN: First, add Forex Factory to your home screen: that's what turns on alerts on iPhone. Go to forexfactory.com and log in. Tap the three dots, then Share… View More… and Add to Home Screen. Now open it from your home screen.
@@ -177,10 +181,22 @@ Video 2026-002 shows the **revised working version** (reviewed with the viral-vi
 
 ### Shot list (revised)
 
-**1. Intro** (video format, Emiliann in News room)
-- Handheld, natural. Phone lights up with an FF alert; she turns it to the lens mid-motion; ends by pushing the phone into the lens to cut into shot 2
-- Two cameras: Cam A handheld medium, Cam B tight on the phone
-- Phone held at chest/collarbone height (keep the bottom ~20% of frame clear for captions and app UI)
+**1A. Intro POV** (video format, Emiliann's desk in News room)
+- Camera at her eye line, looking down at the desk at about 45°, wide lens (~24 mm equivalent) so it reads as her eyes
+- Prop iPhone face up in the middle third of the frame (not the bottom ~20%, where captions and app UI sit)
+- Alert lights the screen and the phone buzzes; her own hand enters from the bottom of the frame, grabs the phone, starts lifting it
+- Alert: a test push from the FF dev team (same as the outro), or shoot the screen dark and composite the lock-screen alert in post
+- Buzz: a phone barely moves on a desk. Record the rattle on a hard surface or add a buzz SFX, plus a 2–3 frame shake on the phone in post if needed
+
+**1B. Intro on camera** (video format, same desk)
+- Cam A handheld medium on Emiliann at the desk: the same pickup, glance at the alert, look up to the lens, deliver the line holding the phone at chest/collarbone height
+- Optional Cam B tight on the phone
+- 1A and 1B are separate setups, not simultaneous
+
+**Match cut (1A → 1B)**
+- Do the full pickup in both setups (overlapping action), same hand and same speed, so the edit can cut mid-lift
+- Continuity: same sleeve (green blazer), rings and nails in both shots; phone in the same spot on the desk with the same orientation
+- Loop: the outro ends on an alert, which loops into the buzzing phone at the start of 1A
 
 **2. PWA setup** (iPhone screen recording)
 - Before shooting: remove all other FF web apps and delete all Safari history (Settings > Apps > Safari > Clear History and Website Data)
