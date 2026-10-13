@@ -24,7 +24,7 @@ Order follows the homepage, top to bottom: Scanner, then the Calendar right belo
 > EMILIANN (VO): And for news, tap the bell on any category you like. We recommend Latest Stories to stay up to date.
 
 **6. OUTRO** `[CAMERA]` (clock 1:59 → 2:00, 'Federal Funds Rate' 'Data released' alert arrives)
-> EMILIANN: Now you're all set with official Forex Factory alerts, right on your iPhone. Save this so you don't miss the next one.
+> EMILIANN: Now you're all set with official Forex Factory alerts, right on your iPhone. Follow for more Forex Factory tips.
 
 *Ends on the alert, which loops back into the alert at the start.*
 
@@ -46,5 +46,5 @@ Order follows the homepage, top to bottom: Scanner, then the Calendar right belo
 
 ## Post copy
 - YouTube title: How to Get Forex Factory Alerts on iPhone (Calendar, News & Scanner) #Shorts
-- Caption: Get Forex Factory alerts on your iPhone: economic calendar, breaking news and Scanner, straight to your lock screen. Save this for later.
+- Caption: Get Forex Factory alerts on your iPhone: economic calendar, breaking news and Scanner, straight to your lock screen. Follow for more Forex Factory tips.
 - Hashtags: #forexfactory #forex #trading #economiccalendar #iphonetips
