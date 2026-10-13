@@ -12,7 +12,7 @@ Order follows the homepage, top to bottom: Scanner, then the Calendar right belo
 *On-screen title (for sound-off viewers): "Official Forex Factory alerts on iPhone". iOS 27 label on the first frames.*
 
 **2. WEB APP SETUP** `[SCREEN]` (taps sped up, on-screen "STEP 1" plus an "iOS 27 · Safari" label for the whole step: Safari's menu button replaced the three dots, so the steps depend on the iOS version)
-> EMILIANN (VO): First, add Forex Factory to your home screen. Log in on forexfactory.com, tap the menu button in Safari's address bar, then Share… View More… and Add to Home Screen. Now open the Forex Factory web app from your home screen.
+> EMILIANN (VO): First, add Forex Factory to your home screen. Log in on forexfactory.com, tap the menu button in Safari's address bar, then Share… View More… and Add to Home Screen. Keep Open as Web App on, and tap Add.
 
 **3. SCANNER ALERTS** `[SCREEN]` (on-screen "STEP 2"; two taps: the Scanner bell turns on "Set Alerts" and shows a bell above each instrument, then tap one; both bells highlighted in post, numbered 1 and 2; the iOS Allow prompt appears here)
 > EMILIANN (VO): For instruments, tap the bell on the Scanner, then the bell above any instrument. Tap Allow, and you're subscribed. Calendar events are right below, and just as quick.
