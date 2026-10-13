@@ -273,11 +273,11 @@ Shot list (spec): intro and outro "holding an iPhone by her side"; multiple came
 *iPhone screen recording of News comments montage: user on a story scrolling to a post by EventsTrader, opening his profile and subscribing, then viewing his subscribers and activity. On screen: "3 · Follow traders".*
 > EMILIANN: Number three: join the conversation. Follow traders you value, and build a following of your own.
 >
-> Number four is for the competitive ones.
+> And the last one is for the competitive ones.
 
 **5. TRADE EXPLORER** (screen recording)
 *iPhone screen recording of Trade Explorer montage: user creating a Trade Explorer, scrolling through performance, the trade graph and visibility settings, then the Leaderboard / Live Accounts. On screen: "4 · Trade Explorer".*
-> EMILIANN: Trade Explorer. Track your performance and choose who sees it: keep it private, share it with people you choose, or go public and compete on the leaderboards.
+> EMILIANN: Number four: Trade Explorer. Track your performance and choose who sees it: keep it private, share it with people you choose, or go public and compete on the leaderboards.
 
 **6. OUTRO** (camera, same setup as 1)
 *Emiliann in News room at pac station. On screen: "Create your free account".*
