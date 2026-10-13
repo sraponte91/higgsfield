@@ -1,0 +1,871 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<style>body{margin:0} img{max-width:100%} [hidden]{display:none!important}</style>
+<title>FF Short-Form Scripts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800&family=Courier+Prime:wght@400;700&display=swap">
+<style>
+/* Layout: a contact sheet of video cards; each opens a two-column AV script (picture | sound). */
+:root {
+  --bg: #f4f5f3; --paper: #ffffff; --fg: #17201c; --muted: #5d6a63; --rule: #dfe3df;
+  --accent: #2b8a3e;
+  --cam: #c4610f; --cam-soft: #fbeadb;
+  --scr: #3d5a80; --scr-soft: #e3eaf3;
+  --anim: #7b4fa0; --anim-soft: #efe6f6;
+  --spec: #8a6d00; --spec-soft: #f8f0cf;
+  --skip: #6b6f6d; --skip-soft: #e8eae9;
+  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-line: "Courier Prime", "Courier New", Courier, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121614; --paper: #1a1f1c; --fg: #e8ece9; --muted: #9aa69f; --rule: #2c3430; --accent: #5cc46f;
+    --cam: #f0954a; --cam-soft: #3a2616; --scr: #8fb0d8; --scr-soft: #1f2a38; --anim: #c49ae6; --anim-soft: #2e2238;
+    --spec: #e3c45a; --spec-soft: #33300f; --skip: #a3a8a5; --skip-soft: #272b29; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121614; --paper: #1a1f1c; --fg: #e8ece9; --muted: #9aa69f; --rule: #2c3430; --accent: #5cc46f;
+  --cam: #f0954a; --cam-soft: #3a2616; --scr: #8fb0d8; --scr-soft: #1f2a38; --anim: #c49ae6; --anim-soft: #2e2238;
+  --spec: #e3c45a; --spec-soft: #33300f; --skip: #a3a8a5; --skip-soft: #272b29; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 15px; line-height: 1.55; }
+a { color: var(--accent); }
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.wrap { max-width: 1000px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 64px; }
+.view { display: grid; gap: 26px; }
+.view[hidden] { display: none; }
+.eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+h1, h2 { font-family: var(--font-display); font-weight: 800; line-height: 1.1; margin: 0; text-wrap: balance; }
+h1 { font-size: clamp(28px, 5vw, 40px); }
+h2 { font-size: clamp(24px, 4.4vw, 34px); }
+.home-head, .vhead { display: grid; gap: 10px; }
+.meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
+.meta b { color: var(--fg); font-weight: 600; }
+.note { margin: 0; color: var(--muted); font-size: 14px; max-width: 70ch; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 14px; }
+.card { display: grid; gap: 10px; align-content: start; background: var(--paper); border: 1px solid var(--rule); border-radius: 10px; padding: 16px; color: inherit; text-decoration: none; transition: border-color .15s, transform .15s; }
+.card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.card.s-skip { opacity: .65; }
+.card-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.code { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--muted); font-size: 13px; }
+.card h3 { margin: 0; font-size: 18px; font-weight: 800; line-height: 1.25; text-wrap: balance; }
+.hook { margin: 0; font-family: var(--font-line); font-size: 14px; line-height: 1.45; color: var(--fg); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.mini { display: flex; height: 6px; border-radius: 3px; overflow: hidden; gap: 2px; }
+.mini i { display: block; min-width: 3px; }
+.card-meta { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.k-cam { background: var(--cam-soft); color: var(--cam); }
+.k-scr { background: var(--scr-soft); color: var(--scr); }
+.k-anim { background: var(--anim-soft); color: var(--anim); }
+.mini .k-cam { background: var(--cam); } .mini .k-scr { background: var(--scr); } .mini .k-anim { background: var(--anim); }
+
+.chip { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+.c-ready { background: var(--accent); color: var(--paper); }
+.c-post { background: var(--scr-soft); color: var(--scr); }
+.c-spec { background: var(--spec-soft); color: var(--spec); }
+.c-skip { background: var(--skip-soft); color: var(--skip); }
+.legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
+.tag { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; }
+.t-cam { background: var(--cam-soft); color: var(--cam); }
+.t-scr { background: var(--scr-soft); color: var(--scr); }
+.t-anim { background: var(--anim-soft); color: var(--anim); }
+
+.topbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.back { font-weight: 600; text-decoration: none; }
+.pn { display: flex; gap: 16px; }
+.pn a { text-decoration: none; font-weight: 600; font-variant-numeric: tabular-nums; }
+.bottomnav { justify-content: space-between; border-top: 1px solid var(--rule); padding-top: 16px; }
+
+.strip { display: grid; gap: 6px; }
+.bar { display: flex; height: 32px; border-radius: 6px; overflow: hidden; border: 1px solid var(--rule); }
+.seg { display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; border-right: 1px solid var(--paper); padding-inline: 4px; }
+.seg:last-child { border-right: 0; }
+.ticks { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+h3.sec, .md h3 { font-family: var(--font-display); font-size: 19px; font-weight: 800; margin: 0; }
+.script { background: var(--paper); border: 1px solid var(--rule); border-radius: 8px; }
+.av-head, .scene { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }
+.av-head { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 600; border-bottom: 1px solid var(--rule); }
+.av-head div { padding: 10px 20px; }
+.scene + .scene { border-top: 1px solid var(--rule); }
+.pic, .snd { padding: 16px 20px; min-width: 0; display: grid; gap: 8px; align-content: start; }
+.pic { border-right: 1px solid var(--rule); }
+.slug { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.slug .n { font-variant-numeric: tabular-nums; color: var(--muted); font-weight: 600; }
+.slug h4 { margin: 0; font-size: 15px; font-weight: 800; letter-spacing: .02em; text-transform: uppercase; }
+.pic p { margin: 0; color: var(--muted); font-size: 14px; }
+.dim { color: var(--muted); font-size: 14px; margin: 0; }
+.speaker { font-family: var(--font-line); font-weight: 700; font-size: 13px; letter-spacing: .06em; }
+.speaker small { font-weight: 400; color: var(--muted); letter-spacing: 0; }
+.line { font-family: var(--font-line); font-size: 17px; line-height: 1.5; margin: 0; }
+.line del { color: var(--muted); }
+.dur { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+.md { display: grid; gap: 12px; max-width: 80ch; }
+.md p, .md ul, .md ol { margin: 0; }
+.md ul, .md ol { padding-left: 20px; display: grid; gap: 5px; }
+.md blockquote { margin: 0; padding-left: 12px; border-left: 2px solid var(--rule); font-family: var(--font-line); }
+.md code { font-size: .92em; background: var(--scr-soft); color: var(--scr); padding: 1px 5px; border-radius: 3px; }
+.md table { border-collapse: collapse; font-size: 14px; }
+.md th, .md td { border-bottom: 1px solid var(--rule); padding: 6px 10px; text-align: left; vertical-align: top; }
+.rest, .extra, .pre { display: grid; gap: 18px; }
+.rest h3 { padding-top: 6px; }
+details { background: var(--paper); border: 1px solid var(--rule); border-radius: 8px; }
+summary { cursor: pointer; padding: 12px 16px; font-weight: 600; }
+details > .md { padding: 0 16px 16px; }
+
+@media (max-width: 640px) {
+  .scene, .av-head { grid-template-columns: minmax(0, 1fr); }
+  .av-head { display: none; }
+  .pic { border-right: 0; padding-bottom: 4px; }
+  .snd { padding-top: 4px; }
+  .seg { font-size: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .card { transition: none; } .card:hover { transform: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+<section class="view" id="view-all">
+  <header class="home-head">
+    <div class="eyebrow">Forex Factory · Short-form instructional videos</div>
+    <h1>Video scripts</h1>
+    <div class="meta"><span>Videos <b>10</b></span><span>Ready to shoot <b>1</b></span><span>Presenter <b>Emiliann</b></span><span>Format <b>9:16</b></span></div>
+    <div class="legend"><span><span class="tag t-cam">Camera</span> Emiliann on screen</span><span><span class="tag t-scr">Screen</span> phone screen, her voice over it</span><span><span class="tag t-anim">Animation</span></span></div>
+  </header>
+  <div class="grid"><a class="card s-post" href="#v001">
+  <div class="card-top"><span class="code">2026-001</span><span class="chip c-post">In post</span></div>
+  <h3>Volatility Now</h3>
+  <p class="hook">“Wondering what just rocked the market?”</p>
+  <div class="mini"><i class="k-cam" style="flex:2.1"></i><i class="k-anim" style="flex:2.0"></i><i class="k-scr" style="flex:8.6"></i><i class="k-scr" style="flex:1.1"></i><i class="k-scr" style="flex:1.1"></i><i class="k-scr" style="flex:8.2"></i><i class="k-cam" style="flex:5.0"></i></div>
+  <div class="card-meta"><span>~28 s</span><span>2 camera</span><span>4 screen</span><span>1 animation</span></div>
+</a><a class="card s-ready" href="#v002">
+  <div class="card-top"><span class="code">2026-002</span><span class="chip c-ready">Ready to shoot</span></div>
+  <h3>How to get FF alerts on iPhone</h3>
+  <p class="hook">“Want to know the second the markets move? Then turn on Forex Factory alerts. Here's how on iPhone.”</p>
+  <div class="mini"><i class="k-cam" style="flex:6.4"></i><i class="k-scr" style="flex:13.9"></i><i class="k-scr" style="flex:10.0"></i><i class="k-scr" style="flex:3.2"></i><i class="k-scr" style="flex:7.1"></i><i class="k-cam" style="flex:6.8"></i></div>
+  <div class="card-meta"><span>~48 s</span><span>2 camera</span><span>4 screen</span></div>
+</a><a class="card s-spec" href="#v003">
+  <div class="card-top"><span class="code">2026-003</span><span class="chip c-spec">Spec</span></div>
+  <h3>RT feature inventory</h3>
+  <p class="hook">“Using Forex Factory without an account? Here are four reasons to change that.”</p>
+  <div class="mini"><i class="k-cam" style="flex:4.6"></i><i class="k-scr" style="flex:10.4"></i><i class="k-scr" style="flex:7.9"></i><i class="k-scr" style="flex:6.4"></i><i class="k-scr" style="flex:13.9"></i><i class="k-cam" style="flex:4.3"></i></div>
+  <div class="card-meta"><span>~48 s</span><span>2 camera</span><span>4 screen</span></div>
+</a><a class="card s-skip" href="#v004">
+  <div class="card-top"><span class="code">2026-004</span><span class="chip c-skip">Skip for now</span></div>
+  <h3>Gold with No Drama</h3>
+  <p class="hook">“Are you a gold trader looking for some action?”</p>
+  <div class="mini"><i class="k-cam" style="flex:3.2"></i><i class="k-scr" style="flex:26.4"></i><i class="k-cam" style="flex:4.3"></i></div>
+  <div class="card-meta"><span>~34 s</span><span>2 camera</span><span>1 screen</span></div>
+</a><a class="card s-spec" href="#v005">
+  <div class="card-top"><span class="code">2026-005</span><span class="chip c-spec">Spec</span></div>
+  <h3>Showstory charts</h3>
+  <p class="hook">“Want to see the market-impact of breaking news stories right on Forex Factory?”</p>
+  <div class="mini"><i class="k-cam" style="flex:5.0"></i><i class="k-scr" style="flex:18.6"></i><i class="k-cam" style="flex:4.3"></i></div>
+  <div class="card-meta"><span>~28 s</span><span>2 camera</span><span>1 screen</span></div>
+</a><a class="card s-spec" href="#v006">
+  <div class="card-top"><span class="code">2026-006</span><span class="chip c-spec">Spec</span></div>
+  <h3>Prop Guide</h3>
+  <p class="hook">“Hey prop traders, are you looking to for a new challenge?”</p>
+  <div class="mini"><i class="k-cam" style="flex:8.9"></i><i class="k-scr" style="flex:3.6"></i><i class="k-scr" style="flex:27.9"></i><i class="k-cam" style="flex:7.1"></i></div>
+  <div class="card-meta"><span>~48 s</span><span>2 camera</span><span>2 screen</span></div>
+</a><a class="card s-spec" href="#v007">
+  <div class="card-top"><span class="code">2026-007</span><span class="chip c-spec">Spec</span></div>
+  <h3>Three ways to track the price of gold on Forex Factory</h3>
+  <p class="hook">“Hey gold traders, are you looking to keep track of the price of gold throughout the day?”</p>
+  <div class="mini"><i class="k-cam" style="flex:11.1"></i><i class="k-scr" style="flex:40.0"></i><i class="k-cam" style="flex:7.5"></i></div>
+  <div class="card-meta"><span>~59 s</span><span>2 camera</span><span>1 screen</span></div>
+</a><a class="card s-spec" href="#v008">
+  <div class="card-top"><span class="code">2026-008</span><span class="chip c-spec">Spec</span></div>
+  <h3>Find your next broker on Forex Factory</h3>
+  <p class="hook">“Hey traders, if you're in the market for a new broker, you should check out the Forex Factory Broker Guide—where you can compare industry-leading forex brokers, and find the perfect broker for you.”</p>
+  <div class="mini"><i class="k-cam" style="flex:12.5"></i><i class="k-scr" style="flex:53.9"></i><i class="k-cam" style="flex:4.3"></i></div>
+  <div class="card-meta"><span>~71 s</span><span>2 camera</span><span>1 screen</span></div>
+</a><a class="card s-spec" href="#v009">
+  <div class="card-top"><span class="code">2026-009</span><span class="chip c-spec">Spec</span></div>
+  <h3>How popular is Forex Factory, really?</h3>
+  <p class="hook">“How popular is Forex Factory, really?”</p>
+  <div class="mini"><i class="k-cam" style="flex:11.1"></i><i class="k-scr" style="flex:32.9"></i><i class="k-cam" style="flex:8.9"></i></div>
+  <div class="card-meta"><span>~53 s</span><span>2 camera</span><span>1 screen</span></div>
+</a><a class="card s-spec" href="#v010">
+  <div class="card-top"><span class="code">2026-010</span><span class="chip c-spec">Spec</span></div>
+  <h3>How to Read the Forex Factory Calendar</h3>
+  <p class="hook">“Wondering how to use the Forex Factory Calendar?”</p>
+  <div class="mini"><i class="k-cam" style="flex:10.4"></i><i class="k-scr" style="flex:62.1"></i><i class="k-cam" style="flex:5.0"></i></div>
+  <div class="card-meta"><span>~78 s</span><span>2 camera</span><span>1 screen</span></div>
+</a></div>
+  <details><summary>Global spec (applies to every video)</summary><div class="md"><p><strong>Technical</strong>
+- H.264, MP4
+- 1080 x 1920 (9:16)
+- 60 fps</p>
+<p><strong>Screen recordings</strong> (used for all on-device actions)
+- iPhone with iOS 27
+- For each logged recording, log in as <strong>Tweezy</strong>, with fresh settings (no subscriptions, no Alerts, all pages set to default)
+- When the entire iPhone screen is visible, place the recording in a frame of a real iPhone device on a dark background
+- Screen taps shown with an indicator added in post (same finger as in house banners), with a $green highlight on tap</p>
+<p><strong>Subtitles</strong> (all spoken text)
+- $white text on $blue2 background (or another color from the palette)
+- Verdana
+- ~24 characters per line, including spaces</p>
+<p><strong>Other rules</strong>
+- "iOS 27" label on the first few frames of every video (iOS changes; what we demo may not match other versions)
+- Videos no longer than ~90 seconds
+- Audio is recorded before screen recording (same as animated films)
+- Reduce production quality to optimize speed
+- Use a video editor aimed at average users, not professionals (e.g. CapCut or Canva)
+- Limit advanced, time-consuming effects and edits</p>
+<p><strong>Glossary</strong>
+- <strong>VN</strong>: Volatility Now (block at the top of the homepage)
+- <strong>PWA web app</strong>: Forex Factory added to the iPhone home screen
+- <strong>MV homepage</strong>: mobile-view homepage
+- <strong>LS</strong>: Layout Selector
+- <strong>TE</strong>: Trade Explorer
+- <strong>Showstory</strong>: the news story page</p></div></details>
+</section>
+<article class="view" id="view-v001" hidden>
+  <div class="topbar"><a class="back" href="#all">← All videos</a><div class="pn"><span></span><a href="#v002">2026-002 →</a></div></div>
+  <header class="vhead">
+    <div class="eyebrow">Video 2026-001</div>
+    <h2>Volatility Now</h2>
+    <div class="meta"><span class="chip c-post">In post</span><span>Running time <b>~28 s</b></span><span>Voice <b>73 words</b></span><span>Scenes <b>7</b></span><span>Location <b>WC room, next to Pac Stations</b></span></div>
+    <p class="note">Intro, chart-spike animation and VN highlight are done.</p>
+  </header>
+  <div class="strip"><div class="bar"><div class="seg k-cam" style="flex:2.1" title="Intro">Intro</div><div class="seg k-anim" style="flex:2.0" title="Chart Spike">Chart Spike</div><div class="seg k-scr" style="flex:8.6" title="Vn Scheduled Event">Vn Scheduled Event</div><div class="seg k-scr" style="flex:1.1" title="Vn Escalation">Vn Escalation</div><div class="seg k-scr" style="flex:1.1" title="Vn Intervention">Vn Intervention</div><div class="seg k-scr" style="flex:8.2" title="Vn Trump">Vn Trump</div><div class="seg k-cam" style="flex:5.0" title="Outro">Outro</div></div><div class="ticks"><span>0 s</span><span>~28 s</span></div></div>
+  <h3 class="sec">Screenplay</h3>
+  
+  <section class="script"><div class="av-head"><div>Picture</div><div>Sound</div></div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">1</span><h4>Intro</h4><span class="tag t-cam">Camera</span></div><p><em>Emiliann in WC room next to Pac Stations, with hardcore Pac Station shit going on.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">Wondering what just rocked the market?</p><div class="dur">~2 s · 6 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">2</span><h4>Chart Spike</h4><span class="tag t-anim">Animation</span></div><p><em>FF-style chart spiking across the entire screen.</em></p></div>
+  <div class="snd"><p class="dim">No dialogue</p><div class="dur">~2 s</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">3</span><h4>Vn Scheduled Event</h4><span class="tag t-scr">Screen</span></div><p><em>iPhone screen recording of a Calendar VN on the homepage. Three 'Recent Comments' popping in one after another.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">When volatility spikes, the news behind the move is right at the top of the Forex Factory homepage.</p><p class="line">From scheduled events on the Calendar…</p><div class="dur">~9 s · 24 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">4</span><h4>Vn Escalation</h4><span class="tag t-scr">Screen</span></div><p><em>iPhone screen recording of a Hormuz VN on the homepage. Three 'Recent Comments' popping in one after another.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">…to geopolitical escalations…</p><div class="dur">~1 s · 3 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">5</span><h4>Vn Intervention</h4><span class="tag t-scr">Screen</span></div><p><em>iPhone screen recording of a central bank rate intervention VN on the homepage. Three 'Recent Comments' popping in one after another.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">…central bank interventions…</p><div class="dur">~1 s · 3 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">6</span><h4>Vn Trump</h4><span class="tag t-scr">Screen</span></div><p><em>iPhone screen recording of a Trump VN on the homepage. Then cut to a user scrolling through the showstory comments.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">…or whatever else moves the markets you trade.</p><p class="line">As the news breaks, a global network of traders is already talking through the move.</p><div class="dur">~8 s · 23 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">7</span><h4>Outro</h4><span class="tag t-cam">Camera</span></div><p class="dim">Same setup as 1</p><p><em>Emiliann in WC room next to Pac Stations, with hardcore Pac Station shit going on.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">With economists watching the markets 24/7, stay on the pulse with Forex Factory.</p><div class="dur">~5 s · 14 words</div></div>
+</div></section>
+  
+  <div class="rest"><div class="md"><h3>Shot list</h3>
+<p><strong>1. Intro / outro</strong>
+- Video format
+- Emiliann in WC room next to Pac Stations, with hardcore Pac Station shit going on
+- Multiple cameras: wide angle on Emiliann, medium angle on Emiliann's face, medium angle on Pac Station, medium angle on Pac Station pacer</p>
+<p><strong>2. Chart spike</strong>
+- Animation format
+- White background, standard FF candlestick style, no gridlines (just candles on a white background)
+- 2 s of normal price action, then a sudden price spike, followed by volatile price action (mimic Gold/USD price action during a real VN)</p>
+<p><strong>3. VN scheduled event</strong>
+- iPhone screen recording format · PWA web app · logged in · MV homepage
+- Faked on stage, with tinted FF logo temporarily removed
+- VN up for <em>US Consumer Price Index - August 2026</em>, ensure it's less than '30 minutes ago'
+- Actions:
+  - Scroll up ten Recent Comments (so there are ten more comments below the bottom-most visible comment in Recent Comments)
+  - Slowly scroll down one comment at a time, pausing for a second between comments</p>
+<p><strong>4. VN escalation</strong>
+- iPhone screen recording format · PWA web app · logged in · MV homepage
+- Faked on stage, with tinted FF logo temporarily removed
+- VN up for <em>Two Oil Supertankers Hit By Projectiles In Hormuz, Marisks Says</em>, ensure it's less than '30 minutes ago'
+- Actions: same as shot 3 (scroll up ten Recent Comments, then slowly scroll down one at a time)</p>
+<p><strong>5. VN intervention</strong>
+- iPhone screen recording format · PWA web app · logged in · MV homepage
+- Faked on stage, with tinted FF logo temporarily removed
+- VN up for <em>We've got ourselves another yentervention</em>, ensure it's less than '30 minutes ago'
+- Actions: same as shot 3</p>
+<p><strong>6. VN Trump</strong>
+- iPhone screen recording format · PWA web app · logged in · MV homepage
+- Faked on stage, with tinted FF logo temporarily removed
+- VN up for <em>Trump: Canada has been ripping off the USA for years; On Jan 1, 2027, Tariffs on Cars, Trucks, Auto Parts, and Steel, will be increased to 50%</em>, ensure it's less than '30 minutes ago'
+- Actions:
+  - Scroll up ten Recent Comments, then slowly scroll down one comment at a time
+  - Tap into showstory
+  - Slowly scroll down the page, through all comments</p>
+<h3>Notes / to fix</h3>
+<ul>
+<li>(none)</li>
+</ul></div></div>
+  <div class="bottomnav pn"><span></span><a href="#v002">2026-002 →</a></div>
+</article><article class="view" id="view-v002" hidden>
+  <div class="topbar"><a class="back" href="#all">← All videos</a><div class="pn"><a href="#v001">← 2026-001</a><a href="#v003">2026-003 →</a></div></div>
+  <header class="vhead">
+    <div class="eyebrow">Video 2026-002</div>
+    <h2>How to get FF alerts on iPhone</h2>
+    <div class="meta"><span class="chip c-ready">Ready to shoot</span><span>Running time <b>~48 s</b></span><span>Voice <b>133 words</b></span><span>Scenes <b>6</b></span><span>Location <b>News room</b></span></div>
+    <p class="note">Camera shots: intro is a 360 fisheye phone POV, hand-wipe cut to camera (below); outro is storyboard v2 option D "over the shoulder" or E "kick back".</p>
+  </header>
+  <div class="strip"><div class="bar"><div class="seg k-cam" style="flex:6.4" title="Intro">Intro</div><div class="seg k-scr" style="flex:13.9" title="Web App Setup">Web App Setup</div><div class="seg k-scr" style="flex:10.0" title="Scanner Alerts">Scanner Alerts</div><div class="seg k-scr" style="flex:3.2" title="Calendar Alerts">Calendar Alerts</div><div class="seg k-scr" style="flex:7.1" title="News Alerts">News Alerts</div><div class="seg k-cam" style="flex:6.8" title="Outro">Outro</div></div><div class="ticks"><span>0 s</span><span>~48 s</span></div></div>
+  <h3 class="sec">Screenplay (revised, working version)</h3>
+  <div class="pre"><div class="md"><p>VO is about 138 words, so the video runs about 45–49 s. <code>[CAMERA]</code> = Emiliann on screen. <code>[SCREEN]</code> = phone screen only, with her voice as voice-over.
+Order follows the homepage, top to bottom: Scanner, then the Calendar right below it, then News. iOS asks for permission ("Allow") on the first bell tap, so the Allow tap is in the Scanner step.</p></div></div>
+  <section class="script"><div class="av-head"><div>Picture</div><div>Sound</div></div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">1</span><h4>Intro</h4><span class="tag t-cam">Camera</span></div><p>360 camera stands in for the phone: it looks up at her, the notification lands at the top, the image shakes, her hands come into frame and pick it up</p><p><em>On-screen title (for sound-off viewers): "Official Forex Factory alerts on iPhone". iOS 27 label on the first frames.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">Want to know the second the markets move? Then turn on Forex Factory alerts. Here's how on iPhone.</p><div class="dur">~6 s · 18 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">2</span><h4>Web App Setup</h4><span class="tag t-scr">Screen</span></div><p>Taps sped up, on-screen "STEP 1" plus an "iOS 27 · Safari" label for the whole step: Safari's menu button replaced the three dots, so the steps depend on the iOS version</p></div>
+  <div class="snd"><div class="speaker">EMILIANN <small>(voice-over)</small></div><p class="line">First, add Forex Factory to your home screen. Log in on forexfactory.com, tap the menu button in Safari's address bar, then Share… View More… and Add to Home Screen. Keep Open as Web App on, and tap Add.</p><div class="dur">~14 s · 39 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">3</span><h4>Scanner Alerts</h4><span class="tag t-scr">Screen</span></div><p>On-screen "STEP 2"; two taps: the Scanner bell turns on "Set Alerts" and shows a bell above each instrument, then tap one; both bells highlighted in post, numbered 1 and 2; the iOS Allow prompt appears here</p></div>
+  <div class="snd"><div class="speaker">EMILIANN <small>(voice-over)</small></div><p class="line">For instruments, tap the bell on the Scanner, then the bell above any instrument. Tap Allow, and you're subscribed. Calendar events are right below, and just as quick.</p><div class="dur">~10 s · 28 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">4</span><h4>Calendar Alerts</h4><span class="tag t-scr">Screen</span></div><p>Scroll down to the homepage Calendar, bell highlighted in post</p></div>
+  <div class="snd"><div class="speaker">EMILIANN <small>(voice-over)</small></div><p class="line">For calendar events, tap any event, then the bell.</p><div class="dur">~3 s · 9 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">5</span><h4>News Alerts</h4><span class="tag t-scr">Screen</span></div><p>Bell highlighted in post</p></div>
+  <div class="snd"><div class="speaker">EMILIANN <small>(voice-over)</small></div><p class="line">And for news, tap the bell on any category you like. We recommend Latest Stories to stay up to date.</p><div class="dur">~7 s · 20 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">6</span><h4>Outro</h4><span class="tag t-cam">Camera</span></div><p>Clock 1:59 → 2:00, 'Federal Funds Rate' 'Data released' alert arrives</p><p><em>Ends on the alert, which loops back into the alert at the start.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">Now you're all set with official Forex Factory alerts, right on your iPhone. Follow for more Forex Factory tips.</p><div class="dur">~7 s · 19 words</div></div>
+</div></section>
+  <div class="extra"><div class="md"><p><strong>Screen-only parts (2–5)</strong>
+- Show the recording inside a phone frame (as in Volatility Now), slightly smaller than full screen, so the step label sits above it and captions sit below it without covering the buttons being tapped
+- Keep the bottom ~20% of the frame clear (TikTok/Shorts buttons and caption)
+- Every VO line also appears as a caption, so the video works on mute
+- Record the VO lines in the same room and mic as the camera lines (or wild lines right after the on-camera takes) so the voice matches
+- Cut each recording to the VO: speed up the dead time between taps, never the tap itself. The setup is the longest part, so make it the fastest</p></div></div>
+  <div class="rest"><div class="md"><h3>Shot list (revised)</h3>
+<p><strong>1A. Intro phone POV, 360 fisheye</strong> (video format, Emiliann's desk in News room)
+- 360 camera (e.g. Insta360 X series) stands in for the phone: propped on the desk where the phone sits, at about her chest height, one lens facing her; she works at the desk until the buzz
+- Use the 60 fps 360 mode (spec is 60 fps). Reframe in the Insta360 app/Studio to 9:16 with the fisheye view, widening the field of view until the black ring shows around the image
+- Keep her face near the centre of the circle: the fisheye stretches the edges. Her hand reaching in will look huge, which is the point
+- The fisheye sees almost the whole room: hide the crew, lights and anything that shouldn't be in shot
+- Shake: stabilization (FlowState) removes real shakes, so add the shake in post (2–3 short pulses, like an iPhone vibration) synced to a buzz SFX
+- Alert: composite a Forex Factory lock-screen banner at the top of the frame in post, landing on the first pulse, so viewers see the alert from frame 1
+- Turn off the "Shot on Insta360" watermark before export</p>
+<p><strong>1B. Intro on camera</strong> (video format, same desk)
+- Cam A handheld medium on Emiliann: she starts with her hand and the iPhone covering the lens, pulls it away to chest/collarbone height, glances at the alert, looks to the lens, delivers the line
+- She holds the real iPhone (the subject of the video), not the 360 camera; the hand-over-lens cut hides the swap
+- Optional Cam B tight on the phone</p>
+<p><strong>Cut (1A → 1B)</strong>
+- 1A ends when her hand covers the lens (frame goes dark); 1B starts with her hand and the iPhone covering Cam A's lens and pulling away (hand wipe). Same hand and speed in both
+- Continuity: same sleeve (green blazer), rings and nails in both shots
+- Loop: the outro ends on an alert, which loops into the shaking fisheye shot at the start of 1A</p>
+<p><strong>2. PWA setup</strong> (iPhone screen recording)
+- Before shooting: remove all other FF web apps and delete all Safari history (Settings &gt; Apps &gt; Safari &gt; Clear History and Website Data)
+- Logged in
+- Actions: start with Safari open to the Forex Factory Homepage → tap the menu button (three lines) at the left of the address bar → tap 'Share' → tap 'View More' → scroll down a bit → tap 'Add to Home Screen' → 'Open as Web App' toggle stays on (highlight it in post: it's what makes alerts work) → tap 'Add' (naturally transitions to the iPhone home screen) → tap 'FF' app (no VO needed, the screen shows it)</p>
+<p><strong>3. Scanner alerts</strong> (iPhone screen recording, PWA web app, logged in) — <strong>record first on the fresh phone</strong>, so the iOS permission prompt appears in it
+- Actions: start on Forex Factory Homepage → tap the bell in the Scanner's top-left corner ("Set Alerts" appears and a bell shows above each instrument) → tap the bell above EUR/USD → iOS notification prompt appears → tap 'Allow'</p>
+<p><strong>4. Calendar alerts</strong> (iPhone screen recording, PWA web app, logged in; can be the same take as 3)
+- Actions: scroll down from the Scanner to the homepage Calendar → tap an event row → tap the bell icon</p>
+<p><strong>5. News alerts</strong> (iPhone screen recording, PWA web app, logged in)
+- Actions: start on Forex Factory &gt; /news → scroll to 'News / Latest Stories' at top of screen, so the first inline ad doesn't show → tap bell</p>
+<p><strong>6. Outro</strong> (video format, Emiliann in News room)
+- Prop iPhone unlocked on home screen, FF web app on home screen, screen facing camera
+- Manually set iPhone time to 1:59 pm; alert arrives at 2:00 pm. Phone clock does not trigger the push: get a test push from the FF dev team, or composite the banner in post
+- Same framing as the intro so the video loops
+- Two cameras: Cam A handheld medium, Cam B close-up on the alert</p>
+<h3>Post copy</h3>
+<ul>
+<li><strong>YouTube title:</strong> How to Get Forex Factory Alerts on iPhone (Calendar, News &amp; Scanner) #Shorts</li>
+<li><strong>Caption:</strong> Get Forex Factory alerts on your iPhone: economic calendar, breaking news and Scanner, straight to your lock screen. Follow for more Forex Factory tips.</li>
+<li><strong>Hashtags:</strong> #forexfactory #forex #trading #economiccalendar #iphonetips</li>
+</ul>
+<h3>Notes / to fix</h3>
+<ul>
+<li>Confirm whether a (free) Forex Factory account is required; if so, say "free" in shot 2</li>
+<li>Use a separate prop iPhone for camera shots (the recording phone must stay "fresh")</li>
+</ul></div>
+<details class="orig"><summary>Spec original (v0.1)</summary><div class="md"><p><strong>1. INTRO</strong> — <em>Emiliann in News room, holding an iPhone by her side with FF alerts on lock screen, iPhone screen facing camera.</em></p>
+<blockquote>
+<p>EMILIANN: Here's how to get official Forex Factory alerts on an iPhone.</p>
+</blockquote>
+<p><strong>2. PWA SETUP</strong> — <em>iPhone screen recording of a user setting up the FF web app on an iPhone.</em></p>
+<blockquote>
+<p>EMILIANN: Start at Forex Factory dot com. Once you're logged in, tap the three dot icon at the bottom of your Safari… then 'Share'… 'View More'… and add it to your home screen. Open your new Forex Factory web app.</p>
+</blockquote>
+<p><strong>3. SCANNER ALERTS</strong> — <em>iPhone screen recording of a user opening Scanner alerts and scrolling to the end. Bell icon is highlighted in post.</em></p>
+<blockquote>
+<p>EMILIANN: Tap any bell icon to subscribe to alerts</p>
+</blockquote>
+<p><strong>4. NEWS ALERTS</strong> — <em>iPhone screen recording of a user scrolling News index to 'News / Latest Stories'. Bell icon is highlighted in post.</em></p>
+<p><strong>5. CALENDAR ALERTS</strong> — <em>iPhone screen recording of a user on /calendar, subscribing to 'Federal Funds Rate', and accepting iOS notification permissions.</em></p>
+<blockquote>
+<p>EMILIANN: Then tap 'Allow'</p>
+</blockquote>
+<p><strong>6. OUTRO</strong> — <em>Emiliann in News room, holding an iPhone to the camera, unlocked on home screen, screen facing the camera, 'Federal Funds Rate' 'Data released' alert popping up on screen.</em></p>
+<blockquote>
+<p>EMILIANN: Now you're all set with official Forex Factory alerts, right on your iPhone</p>
+</blockquote>
+<p>Shot list (spec): intro and outro "holding an iPhone by her side"; multiple cameras: one wide angle and one closeup of the iPhone lock screen / of the alert popping up.</p></div></details></div>
+  <div class="bottomnav pn"><a href="#v001">← 2026-001</a><a href="#v003">2026-003 →</a></div>
+</article><article class="view" id="view-v003" hidden>
+  <div class="topbar"><a class="back" href="#all">← All videos</a><div class="pn"><a href="#v002">← 2026-002</a><a href="#v004">2026-004 →</a></div></div>
+  <header class="vhead">
+    <div class="eyebrow">Video 2026-003</div>
+    <h2>RT feature inventory</h2>
+    <div class="meta"><span class="chip c-spec">Spec</span><span>Running time <b>~48 s</b></span><span>Voice <b>133 words</b></span><span>Scenes <b>6</b></span><span>Location <b>News room, pac station</b></span></div>
+    
+  </header>
+  <div class="strip"><div class="bar"><div class="seg k-cam" style="flex:4.6" title="Intro">Intro</div><div class="seg k-scr" style="flex:10.4" title="Alerts">Alerts</div><div class="seg k-scr" style="flex:7.9" title="Ls">Ls</div><div class="seg k-scr" style="flex:6.4" title="Posting">Posting</div><div class="seg k-scr" style="flex:13.9" title="Trade Explorer">Trade Explorer</div><div class="seg k-cam" style="flex:4.3" title="Outro">Outro</div></div><div class="ticks"><span>0 s</span><span>~48 s</span></div></div>
+  <h3 class="sec">Screenplay</h3>
+  
+  <section class="script"><div class="av-head"><div>Picture</div><div>Sound</div></div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">1</span><h4>Intro</h4><span class="tag t-cam">Camera</span></div><p><em>Emiliann in News room at pac station.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">Using Forex Factory without an account? Here are four reasons to change that.</p><div class="dur">~5 s · 13 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">2</span><h4>Alerts</h4><span class="tag t-scr">Screen</span></div><p><em>iPhone screen recording of Alerts montage: user subscribing to Non-Farm Employment Change, user subscribing to High-Impact Breaking News, user subscribing to Gold/USD and setting price alerts, user tapping Gold/USD price alerts in alerts list.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">Number one: Alerts. You can create alerts for Calendar events, breaking news, price changes and more. Subscribe to what matters to your trades, and let Forex Factory keep watch.</p><div class="dur">~10 s · 29 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">3</span><h4>Ls</h4><span class="tag t-scr">Screen</span></div><p><em>iPhone screen recording of Layout Selector montage: user converting Forex Trader to Custom and changing Calendar to This Week, user opening up LS from sidebar, user adding beta Scanner to Homepage, user tabbing through each of the new Scanner tabs.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">Number two: custom page layouts. You can customize your Homepage with a different block order, custom settings, and even preview upcoming functionality.</p><div class="dur">~8 s · 22 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">4</span><h4>Posting</h4><span class="tag t-scr">Screen</span></div><p><em>iPhone screen recording of News comments montage: user on showstory scrolling to post by EventsTrader, tapping into his profile, subscribing, user viewing EventsTrader's subscribers, user viewing EventsTrader's Activity.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">Number three: join the conversation. You can follow traders you value and build a following of your own.</p><div class="dur">~6 s · 18 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">5</span><h4>Trade Explorer</h4><span class="tag t-scr">Screen</span></div><p><em>iPhone screen recording of Trade Explorer montage: user creating a Trade Explorer, user interacting with Overview tab, user interacting with Trade Graph tab, user interacting with Settings, user scrolling through Leaderboard / Live Accounts.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">Number four: Trade Explorer. You can use Trade Explorer to analyze your performance, and choose exactly how you want to share it. Keep it private, share it with selected members, or make it public and compete on the leaderboards.</p><div class="dur">~14 s · 39 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">6</span><h4>Outro</h4><span class="tag t-cam">Camera</span></div><p class="dim">Same setup as 1</p><p><em>Emiliann in News room at pac station.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">More control. More signal. Still free. Create your Forex Factory account today.</p><div class="dur">~4 s · 12 words</div></div>
+</div></section>
+  
+  <div class="rest"><div class="md"><h3>Shot list</h3>
+<p><strong>1. Intro / outro</strong>
+- Video format · Emiliann in News room</p>
+<p><strong>2. Alerts</strong> (iPhone screen recording, PWA web app, logged in)
+- Start on Homepage and Calendar set to Oct 2, 2026
+- Tap alert bell in Scanner
+- Scroll to Gold/USD
+- Tap alert bell for Gold/USD
+- Tap 'Add new price alert' &gt; Choose One &gt; Price Hits &gt; Price: current Gold/USD + $1 &gt; Add
+- Tap 'Add new price alert' &gt; Choose One &gt; Price Hits &gt; Price: current Gold/USD − $1 &gt; Add
+- Tap 'Exit'
+- Scroll down so 'Non-Farm Employment Change' is in the middle of the screen
+- Tap Non-Farm Employment Change row
+- Tap alert bell (it shouldn't open overlay)
+- Go to /news
+- Scroll down until 'News / Latest Stories' is in the middle of the screen
+- Tap alert bell
+- Tap 'Breaking News / High Impact'
+- Tap 'Exit'
+- Wait for Gold/USD alert
+- Tap header alert bell
+- Tap Gold/USD alert</p>
+<p><strong>3. LS</strong> (iPhone screen recording, PWA web app, logged in)
+- Start on Homepage
+- Tap Calendar &gt; … &gt; wrench icon &gt; Convert &gt; Default View: This Week
+- Move Calendar to the top
+- Apply Custom Layout
+- Wait for toast to disappear
+- Tap hamburger menu
+- Tap Page Layout &gt; Custom
+- Scroll down to Custom
+- Tap Edit
+- Tap 'Scanner (beta)'
+- Move to top of page
+- Tap Apply Custom Layout
+- Wait for toast to disappear
+- Tap through each tab, pausing to wait for each tab to load</p>
+<p><strong>4. Posting</strong> (iPhone screen recording, PWA web app, logged in)
+- Start on <em>US Consumer Price Index - August 2026</em> showstory
+- Scroll to EventsTrader's post, place in middle of screen
+- Tap EventsTrader
+- Tap Subscribe
+- Reload page
+- Scroll down to Network &gt; Subscribers so that Tweezy is in the middle of screen</p>
+<p><strong>5. TE</strong> (iPhone screen recording, PWA web app, logged in)
+- Go to /tweezy
+- Scroll to bottom of page
+- Tap 'Create Trade Explorer'
+- Fill out (INSERT CREDS)
+- Tap 'Create Trade Explorer'
+- Wait for sync…
+- Reload page when it's done syncing
+- Tap setting icon
+- Change 'Visibility' to 'Buddies Only'
+- Change 'Trading Style' to 'Fundamental'
+- Tap Apply Settings
+- Scroll down page until 'TRADE EXPLORER NAME' is centered on the screen
+- Slowly scroll through all 'Performance' pills
+- Tap 'Trade Graph' tab
+- Scroll down page until 'TRADE EXPLORER NAME' is centered on the screen (may not be necessary, as it should auto-snap)
+- Tap 'Non-Cume Return' radio
+- Go to /trades
+- Tap 'Leaderboard / Live Accounts' &gt; More
+- Scroll down and tap 'More' again
+- Scroll back to top of page
+- Slowly scroll down page until end of 'Leaderboard / Live Accounts'</p>
+<h3>Notes / to fix</h3>
+<ul>
+<li>Shot 5: "(INSERT CREDS)" still to fill in</li>
+<li>Intro location: screenplay says "News room at pac station", shot list says "News room"</li>
+</ul></div></div>
+  <div class="bottomnav pn"><a href="#v002">← 2026-002</a><a href="#v004">2026-004 →</a></div>
+</article><article class="view" id="view-v004" hidden>
+  <div class="topbar"><a class="back" href="#all">← All videos</a><div class="pn"><a href="#v003">← 2026-003</a><a href="#v005">2026-005 →</a></div></div>
+  <header class="vhead">
+    <div class="eyebrow">Video 2026-004</div>
+    <h2>Gold with No Drama</h2>
+    <div class="meta"><span class="chip c-skip">Skip for now</span><span>Running time <b>~34 s</b></span><span>Voice <b>95 words</b></span><span>Scenes <b>3</b></span><span>Location <b>Her desk, with gold</b></span></div>
+    
+  </header>
+  <div class="strip"><div class="bar"><div class="seg k-cam" style="flex:3.2" title="Intro">Intro</div><div class="seg k-scr" style="flex:26.4" title="Gold With No Drama">Gold With No Drama</div><div class="seg k-cam" style="flex:4.3" title="Outro">Outro</div></div><div class="ticks"><span>0 s</span><span>~34 s</span></div></div>
+  <h3 class="sec">Screenplay</h3>
+  
+  <section class="script"><div class="av-head"><div>Picture</div><div>Sound</div></div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">1</span><h4>Intro</h4><span class="tag t-cam">Camera</span></div><p><em>Emiliann at her desk surrounded by 100 ozt of gold, wearing as much gold jewelry as possible.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">Are you a gold trader looking for some action?</p><div class="dur">~3 s · 9 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">2</span><h4>Gold With No Drama</h4><span class="tag t-scr">Screen</span></div><p><em>iPhone screen recording of 'Gold with No Drama' montage: first post of thread, GoldGod's profile, traders viewing now in thread footer, gold trade idea post, a post about an upcoming event that's gold related, a post about gold technical analysis, post about gold fundamental analysis, a post with some drama.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">You should check out the 'Gold with No Drama' thread on Forex Factory.</p><p class="line">It's one of the most popular threads on the forums.</p><p class="line">Created by GoldGod at the end of 2025, this thread has been receiving an average of more than 300 posts per day.</p><p class="line">It has everything gold traders love:</p><p class="line">Trade ideas.</p><p class="line">Discussing how upcoming Calendar events may affect gold.</p><p class="line">Technical analysis.</p><p class="line">Fundamental analysis.</p><p class="line">And yes, even a little bit of drama too.</p><div class="dur">~26 s · 74 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">3</span><h4>Outro</h4><span class="tag t-cam">Camera</span></div><p class="dim">Same setup as 1</p><p><em>Emiliann at her desk surrounded by 100 ozt of gold, wearing as much gold jewelry as possible.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">Check out the 'Gold with No Drama' thread on Forex Factory today.</p><div class="dur">~4 s · 12 words</div></div>
+</div></section>
+  
+  <div class="rest"><div class="md"><h3>Shot list</h3>
+<p><strong>1. Intro / outro</strong>
+- Video format · Emiliann at her desk surrounded by 100 ozt of gold, wearing as much gold jewelry as possible</p>
+<p><strong>2. Gold with No Drama</strong> (iPhone screen recording, PWA web app, logged in)
+- Start at Homepage
+- Scroll down to 'Forums / Latest Replies'
+- Tap 'Gold with No Drama'
+- Scroll down so 'traders viewing now' is centered in page
+- Scroll to top of page
+- Tap '1' to go to first page
+- Tap GoldGold to view his profile
+- Go back to thread
+- Go to post 88,668, center in page (thread/…4#post15943674)
+- Go to post 88,578, center in page (thread/…4#post15943384)
+- Go to post 88,549, center in page (thread/…1#post15943221)
+- Go to post 88,541, center in page (thread/…rama?page=4428)
+- Go to post 88,666, center in page (thread/…0#post15943660)
+- Go to post 88,668, center in page (thread/…4#post15943674)</p>
+<h3>Notes / to fix</h3>
+<ul>
+<li>Shot list says "GoldGold"; screenplay says "GoldGod" (check the username)</li>
+<li>Post 88,668 is listed twice (first and last); intentional?</li>
+</ul></div></div>
+  <div class="bottomnav pn"><a href="#v003">← 2026-003</a><a href="#v005">2026-005 →</a></div>
+</article><article class="view" id="view-v005" hidden>
+  <div class="topbar"><a class="back" href="#all">← All videos</a><div class="pn"><a href="#v004">← 2026-004</a><a href="#v006">2026-006 →</a></div></div>
+  <header class="vhead">
+    <div class="eyebrow">Video 2026-005</div>
+    <h2>Showstory charts</h2>
+    <div class="meta"><span class="chip c-spec">Spec</span><span>Running time <b>~28 s</b></span><span>Voice <b>78 words</b></span><span>Scenes <b>3</b></span><span>Location <b>Pac station / her desk (mismatch)</b></span></div>
+    
+  </header>
+  <div class="strip"><div class="bar"><div class="seg k-cam" style="flex:5.0" title="Intro">Intro</div><div class="seg k-scr" style="flex:18.6" title="Showstory Chart">Showstory Chart</div><div class="seg k-cam" style="flex:4.3" title="Outro">Outro</div></div><div class="ticks"><span>0 s</span><span>~28 s</span></div></div>
+  <h3 class="sec">Screenplay</h3>
+  
+  <section class="script"><div class="av-head"><div>Picture</div><div>Sound</div></div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">1</span><h4>Intro</h4><span class="tag t-cam">Camera</span></div><p><em>Emiliann at pac station.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">Want to see the market-impact of breaking news stories right on Forex Factory?</p><div class="dur">~5 s · 14 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">2</span><h4>Showstory Chart</h4><span class="tag t-scr">Screen</span></div><p><em>iPhone screen recording of user on homepage with a VN up, then tapping to the story, interacting with the showstory chart, and then finally viewing the Market page.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">When a breaking news story drops, view the story to see a chart of that story's market impact.</p><p class="line">From here, you can change the instrument.</p><p class="line">Add a net change line, and move it around.</p><p class="line">Change the interval from 1 minute to 5 minute.</p><p class="line">And view the market page for a deep dive.</p><div class="dur">~19 s · 52 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">3</span><h4>Outro</h4><span class="tag t-cam">Camera</span></div><p class="dim">Same setup as 1</p><p><em>Emiliann at pac station.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">We hope you enjoy this feature of Forex Factory News, trade well!</p><div class="dur">~4 s · 12 words</div></div>
+</div></section>
+  
+  <div class="rest"><div class="md"><h3>Shot list</h3>
+<p><strong>1. Intro / outro</strong>
+- Video format · Emiliann at her desk</p>
+<p><strong>2. Showstory chart</strong> (iPhone screen recording, PWA web app, logged in)
+- Recorded within 10 minutes of a VN dropping
+- Start at Homepage
+- Tap into VN
+- Scroll down so that showstory chart is in middle of screen
+- Change instrument to either Gold/USD or EUR/USD
+- Tap settings icon
+- Check 'Net Chg Line'
+- Tap 'Apply Settings'
+- Move start and end points of net change line around a bit
+- Change interval to 5M
+- Tap 'XXX/XXX on Market' button</p>
+<h3>Notes / to fix</h3>
+<ul>
+<li>Location mismatch: screenplay "pac station", shot list "at her desk"</li>
+</ul></div></div>
+  <div class="bottomnav pn"><a href="#v004">← 2026-004</a><a href="#v006">2026-006 →</a></div>
+</article><article class="view" id="view-v006" hidden>
+  <div class="topbar"><a class="back" href="#all">← All videos</a><div class="pn"><a href="#v005">← 2026-005</a><a href="#v007">2026-007 →</a></div></div>
+  <header class="vhead">
+    <div class="eyebrow">Video 2026-006</div>
+    <h2>Prop Guide</h2>
+    <div class="meta"><span class="chip c-spec">Spec</span><span>Running time <b>~48 s</b></span><span>Voice <b>133 words</b></span><span>Scenes <b>4</b></span><span>Location <b>Pac station / her desk (mismatch)</b></span></div>
+    
+  </header>
+  <div class="strip"><div class="bar"><div class="seg k-cam" style="flex:8.9" title="Intro">Intro</div><div class="seg k-scr" style="flex:3.6" title="Prop Guide Direct">Prop Guide Direct</div><div class="seg k-scr" style="flex:27.9" title="Prop Guide Web App">Prop Guide Web App</div><div class="seg k-cam" style="flex:7.1" title="Outro">Outro</div></div><div class="ticks"><span>0 s</span><span>~48 s</span></div></div>
+  <h3 class="sec">Screenplay</h3>
+  
+  <section class="script"><div class="av-head"><div>Picture</div><div>Sound</div></div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">1</span><h4>Intro</h4><span class="tag t-cam">Camera</span></div><p><em>Emiliann at pac station.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">Hey prop traders, are you looking to for a new challenge?</p><p class="line">Check out the Forex Factory Prop Guide to compare the industry's top prop firms.</p><div class="dur">~9 s · 25 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">2</span><h4>Prop Guide Direct</h4><span class="tag t-scr">Screen</span></div><p><em>iPhone screen recording of user in Safari going to www.forexfactory.com/prop-guide.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">You can either go to www.forexfactory.com/prop-guide…</p><div class="dur">~4 s · 10 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">3</span><h4>Prop Guide Web App</h4><span class="tag t-scr">Screen</span></div><p><em>iPhone screen recording of user in FF web app going from Homepage, to forums, to Prop Guide and then scrolling through Featured table.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">…or from the Forex Factory homepage, go to Forums, then tap Prop Guide.</p><p class="line">The Prop Guide is separated into two tables.</p><p class="line">At the top are the featured prop firms that also advertise on Forex Factory.</p><p class="line">At the bottom are other prop firms that aren't currently advertising on Forex Factory. <em>(&lt;&lt; remove this line?)</em></p><p class="line">With the prop guide you can easily snatch promo codes or compare firms.</p><p class="line">You can compare founding dates, account sizes, challenge fees, profit splits, payment details, and much more.</p><div class="dur">~28 s · 78 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">4</span><h4>Outro</h4><span class="tag t-cam">Camera</span></div><p class="dim">Same setup as 1</p><p><em>Emiliann at pac station.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">If you're a prop trader, we hope you find this tool useful in finding your next prop firm. Trade well!</p><div class="dur">~7 s · 20 words</div></div>
+</div></section>
+  
+  <div class="rest"><div class="md"><h3>Shot list</h3>
+<p><strong>1. Intro / outro</strong>
+- Video format · Emiliann at her desk</p>
+<p><strong>2. Prop Guide Direct</strong> (iPhone screen recording, Safari, logged in)
+- Start at blank Safari with no tabs open
+- Open new tab
+- Type in www.forexfactory.com/prop-guide (card to fix URLs: PRO-137)
+- Tap '-&gt;' to go to the page</p>
+<p><strong>3. Prop Guide Web App</strong> (iPhone screen recording, PWA web app, logged in)
+- Start at Homepage
+- Tap Forums
+- Tap Prop Guide
+- Wait a second
+- Slowly scroll Featured table to the end</p>
+<h3>Notes / to fix</h3>
+<ul>
+<li>Typo: "are you looking to for a new challenge?" → "looking for"</li>
+<li>Open question in spec: remove "At the bottom are other prop firms…" line?</li>
+<li>URL fix pending: card PRO-137</li>
+<li>Location mismatch: screenplay "pac station", shot list "at her desk"</li>
+</ul></div></div>
+  <div class="bottomnav pn"><a href="#v005">← 2026-005</a><a href="#v007">2026-007 →</a></div>
+</article><article class="view" id="view-v007" hidden>
+  <div class="topbar"><a class="back" href="#all">← All videos</a><div class="pn"><a href="#v006">← 2026-006</a><a href="#v008">2026-008 →</a></div></div>
+  <header class="vhead">
+    <div class="eyebrow">Video 2026-007</div>
+    <h2>Three ways to track the price of gold on Forex Factory</h2>
+    <div class="meta"><span class="chip c-spec">Spec</span><span>Running time <b>~59 s</b></span><span>Voice <b>164 words</b></span><span>Scenes <b>3</b></span><span>Location <b>Her desk, with gold</b></span></div>
+    
+  </header>
+  <div class="strip"><div class="bar"><div class="seg k-cam" style="flex:11.1" title="Intro">Intro</div><div class="seg k-scr" style="flex:40.0" title="Gold">Gold</div><div class="seg k-cam" style="flex:7.5" title="Outro">Outro</div></div><div class="ticks"><span>0 s</span><span>~59 s</span></div></div>
+  <h3 class="sec">Screenplay</h3>
+  
+  <section class="script"><div class="av-head"><div>Picture</div><div>Sound</div></div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">1</span><h4>Intro</h4><span class="tag t-cam">Camera</span></div><p><em>Emiliann at her desk surrounded by 100 ozt of gold, wearing as much gold jewelry as possible.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">Hey gold traders, are you looking to keep track of the price of gold throughout the day?</p><p class="line">Here are three ways to use Forex Factory to keep track of gold prices</p><div class="dur">~11 s · 31 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">2</span><h4>Gold</h4><span class="tag t-scr">Screen</span></div><p><em>iPhone screen recording of user viewing Gold/USD in Homepage Scanner, changing an instrument to Gold/USD, scrolling through Gold/USD Market page, and finally subscribing to Gold/USD and configuring Alerts.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">Your first option is is the Homepage Scanner.</p><p class="line">By default, gold is at the very end.</p><p class="line">However, you can also change any of the other instruments to display gold if you want.</p><p class="line">Your second option, is the gold market page.</p><p class="line">On this page you get the price, performance statistics across various periods, a chart, gold-related stories, upcoming events that affect gold, trader positions for gold, Forex Factory posts about gold, and gold spreads across leading forex brokers.</p><p class="line">Finally, your third option is to subscribe to gold.</p><p class="line">By subscribing to gold you can receive alerts anytime gold hits a specific price, or moves by a specific percentage within a given time frame.</p><div class="dur">~40 s · 112 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">3</span><h4>Outro</h4><span class="tag t-cam">Camera</span></div><p class="dim">Same setup as 1</p><p><em>Emiliann at her desk surrounded by 100 ozt of gold, wearing as much gold jewelry as possible.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">With these tools at your disposal, you'll be able to quote the price of gold quicker than your broker.</p><p class="line">Trade well!</p><div class="dur">~8 s · 21 words</div></div>
+</div></section>
+  
+  <div class="rest"><div class="md"><h3>Shot list</h3>
+<p><strong>1. Intro / outro</strong>
+- Video format · Emiliann at her desk</p>
+<p><strong>2. Gold</strong> (iPhone screen recording, PWA web app, logged in)
+- Start at Homepage
+- Scroll to end of Scanner
+- Scroll back to beginning of Scanner
+- Change GBP/USD to Gold/USD
+- Tap Gold/USD Scanner chart
+- Slowly scroll to bottom of page
+- Scroll to top of page
+- Subscribe to Gold/USD
+- Edit 'Price hits' &gt; Price: 4250
+- Edit 'Price hits' &gt; Frequency: Once Per Hour
+- Tap 'Update'
+- Check 'Price moves'
+- Check 'Email'
+- Tap 'Exit'</p>
+<h3>Notes / to fix</h3>
+<ul>
+<li>Typo: "Your first option is is the Homepage Scanner" (double "is")</li>
+<li>"Your second option, is the gold market page" (remove comma)</li>
+<li>Shares the gold set-up (100 ozt, jewelry) with 004: shoot both together if 004 comes back</li>
+</ul></div></div>
+  <div class="bottomnav pn"><a href="#v006">← 2026-006</a><a href="#v008">2026-008 →</a></div>
+</article><article class="view" id="view-v008" hidden>
+  <div class="topbar"><a class="back" href="#all">← All videos</a><div class="pn"><a href="#v007">← 2026-007</a><a href="#v009">2026-009 →</a></div></div>
+  <header class="vhead">
+    <div class="eyebrow">Video 2026-008</div>
+    <h2>Find your next broker on Forex Factory</h2>
+    <div class="meta"><span class="chip c-spec">Spec</span><span>Running time <b>~71 s</b></span><span>Voice <b>198 words</b></span><span>Scenes <b>3</b></span><span>Location <b>Pac station / her desk (mismatch)</b></span></div>
+    
+  </header>
+  <div class="strip"><div class="bar"><div class="seg k-cam" style="flex:12.5" title="Intro">Intro</div><div class="seg k-scr" style="flex:53.9" title="Broker Guide">Broker Guide</div><div class="seg k-cam" style="flex:4.3" title="Outro">Outro</div></div><div class="ticks"><span>0 s</span><span>~71 s</span></div></div>
+  <h3 class="sec">Screenplay</h3>
+  
+  <section class="script"><div class="av-head"><div>Picture</div><div>Sound</div></div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">1</span><h4>Intro</h4><span class="tag t-cam">Camera</span></div><p><em>Emiliann at pac station, Broker Guide up on screen in background.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">Hey traders, if you're in the market for a new broker, you should check out the Forex Factory Broker Guide—where you can compare industry-leading forex brokers, and find the perfect broker for you.</p><div class="dur">~12 s · 35 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">2</span><h4>Broker Guide</h4><span class="tag t-scr">Screen</span></div><p><em>iPhone screen recording of the three Broker Guide tables, user scrolling through Featured Broker Guide for United Arab Emirates, opening details for a cell, closing the overlay and going back to Broker Guide.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">The Forex Factory Broker Guide is separated into up to three tables depending on your country: Domestically Licensed, Domestically Available, and Featured.</p><p class="line">The Domestically Licensed table includes brokers that have a license from a regulatory authority that regulates brokers in the current country.</p><p class="line">Such as DFSA or CMA in the United Arab Emirates.</p><p class="line">The Domestically Available table includes brokers that operate in the current country, but don't have any domestic license.</p><p class="line">And the Featured table can include brokers that are both domestically licensed or simply domestically-available.</p><p class="line">On the Broker Guide you can compare brokers across a wide variety of criteria:</p><p class="line">Founded date, domestic license, regulators, max leverage, live spreads, and many more.</p><p class="line">Any box with a white triangle in the bottom right can be tapped to open up more details.</p><p class="line">Once you find a broker you like, you can open an account by taping either the "Live" or "Demo" link.</p><div class="dur">~54 s · 151 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">3</span><h4>Outro</h4><span class="tag t-cam">Camera</span></div><p class="dim">Same setup as 1</p><p><em>Emiliann at pac station, Broker Guide up on screen in background.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">We hope this tool helps you find the perfect broker. Trade well!</p><div class="dur">~4 s · 12 words</div></div>
+</div></section>
+  
+  <div class="rest"><div class="md"><h3>Shot list</h3>
+<p><strong>1. Intro / outro</strong>
+- Video format · Emiliann at her desk</p>
+<p><strong>2. Broker Guide</strong> (iPhone screen recording, PWA web app, logged in)
+- Start at Homepage
+- Tap Brokers
+- Change country to United Arab Emirates
+- Tap 'Domestically Licensed'
+- Wait a second
+- Scroll to top
+- Tap 'Domestically Available'
+- Wait a second
+- Scroll to top
+- Tap 'Featured'
+- Slowly scroll Featured table to the end
+- Tap any cell that has more details to open the overlay
+- Tap 'Exit Detail View'
+- Scroll to top
+- Scroll Featured table to the beginning
+- Slowly scroll Featured table to the end
+- Tap any cell that has more details to open the overlay
+- Tap 'Exit Detail View'</p>
+<h3>Notes / to fix</h3>
+<ul>
+<li>Typo: "taping" → "tapping"</li>
+<li>"both domestically licensed or simply domestically-available" → "either domestically licensed or simply domestically available"</li>
+<li>Location mismatch: screenplay "pac station, Broker Guide on screen in background", shot list "at her desk"</li>
+<li>Longest voiceover of the set: check it stays under ~90 s</li>
+</ul></div></div>
+  <div class="bottomnav pn"><a href="#v007">← 2026-007</a><a href="#v009">2026-009 →</a></div>
+</article><article class="view" id="view-v009" hidden>
+  <div class="topbar"><a class="back" href="#all">← All videos</a><div class="pn"><a href="#v008">← 2026-008</a><a href="#v010">2026-010 →</a></div></div>
+  <header class="vhead">
+    <div class="eyebrow">Video 2026-009</div>
+    <h2>How popular is Forex Factory, really?</h2>
+    <div class="meta"><span class="chip c-spec">Spec</span><span>Running time <b>~53 s</b></span><span>Voice <b>148 words</b></span><span>Scenes <b>3</b></span><span>Location <b>Pac station / News room (mismatch)</b></span></div>
+    
+  </header>
+  <div class="strip"><div class="bar"><div class="seg k-cam" style="flex:11.1" title="Intro">Intro</div><div class="seg k-scr" style="flex:32.9" title="Traders Online">Traders Online</div><div class="seg k-cam" style="flex:8.9" title="Outro">Outro</div></div><div class="ticks"><span>0 s</span><span>~53 s</span></div></div>
+  <h3 class="sec">Screenplay</h3>
+  
+  <section class="script"><div class="av-head"><div>Picture</div><div>Sound</div></div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">1</span><h4>Intro</h4><span class="tag t-cam">Camera</span></div><p><em>Emiliann at pac station.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">How popular is Forex Factory, really?</p><p class="line">You can check out the Traders Online number on the Forex Factory home page to see how many fellow traders are currently on the site.</p><div class="dur">~11 s · 31 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">2</span><h4>Traders Online</h4><span class="tag t-scr">Screen</span></div><p><em>iPhone screen recording of home page with VN up, opening hamburger menu, going to /traders, /traders when grey, /traders when yellow, /traders when orange, /traders when red, /traders when red-hot.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line"><del>This traders online number is a great proxy for current and/or upcoming market volatility and liquidity.</del> <em>(alt, in spec:)</em> you <em>know</em> shit is goin down when this number is RED HOT</p><p class="line">During scheduled calendar events, and right after breaking news, traders flock to Forex Factory like geese to the south in the winder.</p><p class="line">During peak Calendar events, this number can reach past 300 thousand traders online.</p><p class="line">As the number goes up, you'll notice the trader icon change.</p><p class="line">It goes from gray to yellow, to orange, and then to red.</p><p class="line">And when things are really popping, both of the traders in the icon will extend their hand, ready to make a bid.</p><div class="dur">~33 s · 92 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">3</span><h4>Outro</h4><span class="tag t-cam">Camera</span></div><p class="dim">Same setup as 1</p><p><em>Emiliann at pac station.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">We hope that this indicator helps you get an idea of how many fellow traders are with you in the online trading pit.</p><p class="line">Trade well!</p><div class="dur">~9 s · 25 words</div></div>
+</div></section>
+  
+  <div class="rest"><div class="md"><h3>Shot list</h3>
+<p><strong>1. Intro / outro</strong>
+- Video format · Emiliann in News room</p>
+<p><strong>2. Grey</strong> (iPhone screen recording, PWA web app, logged in, grey Traders Online)
+- Start on Homepage → open hamburger menu → close hamburger menu → scroll to bottom of page so that Trades Online is in middle of page → tap Traders online number</p>
+<p><strong>3. Yellow</strong> (same, yellow Traders Online)
+- Same actions as shot 2</p>
+<p><strong>4. Red</strong> (same, red Traders Online)
+- Same actions as shot 2</p>
+<p><strong>5. Red hot</strong> (same, red-hot Traders Online, VN up)
+- Same actions as shot 2</p>
+<h3>Notes / to fix</h3>
+<ul>
+<li>Outro is numbered "1" in the spec (should be 3)</li>
+<li>Typo: "winder" → "winter"</li>
+<li>Shot list says "Trades Online" → "Traders Online"</li>
+<li>Screenplay mentions orange, but there's no orange recording in the shot list</li>
+<li>Opening VO line still undecided (struck-through line vs. "RED HOT" alt)</li>
+<li>Location mismatch: screenplay "pac station", shot list "News room"</li>
+</ul></div></div>
+  <div class="bottomnav pn"><a href="#v008">← 2026-008</a><a href="#v010">2026-010 →</a></div>
+</article><article class="view" id="view-v010" hidden>
+  <div class="topbar"><a class="back" href="#all">← All videos</a><div class="pn"><a href="#v009">← 2026-009</a><span></span></div></div>
+  <header class="vhead">
+    <div class="eyebrow">Video 2026-010</div>
+    <h2>How to Read the Forex Factory Calendar</h2>
+    <div class="meta"><span class="chip c-spec">Spec</span><span>Running time <b>~78 s</b></span><span>Voice <b>217 words</b></span><span>Scenes <b>3</b></span><span>Location <b>Pac station</b></span></div>
+    <p class="note">Jordan's proposed screenplay is used below; Victor's original is underneath.</p>
+  </header>
+  <div class="strip"><div class="bar"><div class="seg k-cam" style="flex:10.4" title="Intro">Intro</div><div class="seg k-scr" style="flex:62.1" title="Calendar">Calendar</div><div class="seg k-cam" style="flex:5.0" title="Outro">Outro</div></div><div class="ticks"><span>0 s</span><span>~78 s</span></div></div>
+  <h3 class="sec">Screenplay (Jordan&#x27;s proposed version)</h3>
+  
+  <section class="script"><div class="av-head"><div>Picture</div><div>Sound</div></div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">1</span><h4>Intro</h4><span class="tag t-cam">Camera</span></div><p><em>Emiliann at pac station.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">Wondering how to use the Forex Factory Calendar?</p><p class="line">For over 20 years, it has tracked more than 250,000 economic releases.</p><p class="line">Here's how to read it like a pro.</p><div class="dur">~10 s · 29 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">2</span><h4>Calendar</h4><span class="tag t-scr">Screen</span></div><p><em>iPhone screen recording of …</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">You'll find the Calendar on the Forex Factory homepage, or in the dedicated Calendar tab.</p><p class="line">It lists the day's scheduled economic events.</p><p class="line">To find the next one, look for the green "Up Next" arrow.</p><p class="line">Each row tells you when an event is happening, the currency it relates to, the expected impact, and the result once it is released.</p><p class="line">Forex Factory's color rating shows the expected market impact: yellow is low, orange is medium, and red is high. That rating can change from one release to the next.</p><p class="line">Tap an event to see the market's Forecast and the previous result.</p><p class="line">For more context, open the folder for an explainer, event history, and any available previews or analysis.</p><p class="line">And the graph makes it easy to see how the data has moved over time.</p><p class="line">Want to stay on top of this event? Tap the bell for alerts now and on future releases.</p><p class="line">As release time approaches, the countdown begins.</p><p class="line">When the data is released, the Actual value appears. Its color shows how it compares with the Forecast.</p><div class="dur">~62 s · 174 words</div></div>
+</div><div class="scene">
+  <div class="pic"><div class="slug"><span class="n">3</span><h4>Outro</h4><span class="tag t-cam">Camera</span></div><p class="dim">Same setup as 1</p><p><em>Emiliann at pac station.</em></p></div>
+  <div class="snd"><div class="speaker">EMILIANN</div><p class="line">And that's how you read the Forex Factory Calendar like a pro!</p><p class="line">Trade well!</p><div class="dur">~5 s · 14 words</div></div>
+</div></section>
+  <div class="extra"><div class="md"><p><strong>Looping option</strong> (Jordan: "a good one to loop if we can"):</p>
+<blockquote>
+<p>(end of video) And that's… [VIDEO STARTS OVER] …how to read the Forex Factory Calendar like a pro.</p>
+<p>For over 20 years, it has tracked more than 250,000 economic releases.</p>
+<p>Wondering how to use it?</p>
+</blockquote></div></div>
+  <div class="rest"><div class="md"><h3>Shot list</h3>
+<p><strong>1. Intro / outro</strong>
+- Video format · Emiliann at pac station</p>
+<p><strong>2. Calendar</strong> (iPhone screen recording, PWA web app, logged in)
+- Start recording 10 minutes before a scheduled high-impact, non-speech Calendar event
+- Start on Homepage
+- Tap Calendar &gt; …
+- Tap 'Up Next'
+- Center page on next upcoming event
+- Tap row
+- Tap folder icon
+- Tap Exit Detail View
+- Tap graph icon
+- Tap Exit Graph
+- Tap bell icon (ensure the default alert sub includes browser, and browser alerts are working on the device)
+- Wait for countdown
+- Wait for countdown to end
+- Wait for iOS notification to disappear</p>
+<p><strong>3. Alternate looping intro / outro</strong> (from Victor's version)
+- Video format · Emiliann at pac station</p>
+<h3>Notes / to fix</h3>
+<ul>
+<li>Shot 2 visual description is still "iPhone screen recording of …"</li>
+<li>Jordan moved "Up Next" right after "It lists the day's scheduled economic events" and removed the two scroll actions from shot 2 (shot order changed accordingly)</li>
+<li>Decide: standard outro or the looping version</li>
+</ul></div>
+<details class="orig"><summary>Victor's original (Oct 6) and Jordan's line edits</summary><div class="md"><p><strong>Victor's screenplay differences:</strong>
+- Intro: "Wondering how to use the Forex Factory Calendar? For over 20 years, it has tracked more than 250,000 economic releases. Here's how to read it like a pro." (same)
+- Outro: "And that's how to read the Forex Factory Calendar like a pro! Trade well!"
+- 4. ALTERNATE LOOPING INTRO/OUTRO (3): "And that's (VIDEO STARTS OVER) how to read the Forex Factory Calendar like a pro! For over 20 years, it has tracked more than 250,000 economic releases. Wondering how to use it?"
+- Victor's shot 2 actions also included, after "start on Homepage": tap first Calendar row for non-speech economic data → scroll down so upcoming event is in middle of screen → scroll to top of page (Jordan removed these)</p>
+<p><strong>Jordan's line edits (Victor → Jordan):</strong>
+- "The yellow, orange, or red impact indicates how much market volatility Forex Factory's economists anticipate around this particular release." → "Forex Factory's color rating shows the expected market impact: yellow is low, orange is medium, and red is high."
+- "Forecast represents market expectations, while Previous is the result from the prior release." → "Forecast represents market expectations, while Previous shows the result from the most recent release."
+- "To see the next upcoming event either scroll down the calendar until you see the green 'Up Next' arrow, or tap the three dots in the Calendar header and then 'Up Next'." → "To find the next upcoming event, look for the green "Up Next" arrow, or tap the three dots in the Calendar header and select "Up Next"." (and move it to follow "the day's scheduled economic events")
+- "For the bigger picture, the folder opens an explainer, event history, and any available previews or analysis" → "For the bigger picture, open the folder to see an explainer, event history, and any available previews or analysis."
+- "And the graph gives you the history at a glance, without all the reading." → "And the graph shows you the history, without the reading."
+- "Want to keep following it? Tap the bell for alerts on this event and future occurrences" → "Want to keep following this event? Tap the bell to get alerts for this release and future ones."</p></div></details></div>
+  <div class="bottomnav pn"><a href="#v009">← 2026-009</a><span></span></div>
+</article>
+</div>
+<script>
+(function () {
+  function show() {
+    var id = (location.hash || '').slice(1);
+    var target = document.getElementById('view-' + id);
+    if (!target) target = document.getElementById('view-all');
+    document.querySelectorAll('.view').forEach(function (v) { v.hidden = v !== target; });
+    window.scrollTo(0, 0);
+  }
+  window.addEventListener('hashchange', show);
+  show();
+})();
+</script>
+</body>
+</html>

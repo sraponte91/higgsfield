@@ -374,6 +374,18 @@ page = f'''<title>FF Short-Form Scripts</title>
 <script>{JS}</script>
 '''
 OUT.write_text(page)
+
+# Standalone copy for static hosting (e.g. Netlify Drop): a full HTML document, not indexed by search engines.
+DEPLOY = ROOT / 'deploy' / 'ff-scripts'
+DEPLOY.mkdir(parents=True, exist_ok=True)
+head, body = page.split('<div class="wrap">', 1)
+(DEPLOY / 'index.html').write_text(
+    '<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
+    '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
+    '<meta name="robots" content="noindex, nofollow">\n'
+    '<style>body{margin:0} img{max-width:100%} [hidden]{display:none!important}</style>\n'
+    + head + '</head>\n<body>\n<div class="wrap">' + body + '</body>\n</html>\n')
+print(f'{DEPLOY / "index.html"}')
 print(f'{OUT}: {total} videos, {len(page) // 1024} KB')
 for v in videos:
     print(v['code'], len(v['scenes']), 'scenes', round(v['secs']), 's', [s['kind'] for s in v['scenes']])
