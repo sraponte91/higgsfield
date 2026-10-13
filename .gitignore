@@ -9,3 +9,4 @@ lighting-looks/
 *.mov
 highlight/out/
 storyboards/**/*.png
+deploy/*.zip
