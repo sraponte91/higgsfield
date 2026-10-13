@@ -145,39 +145,72 @@ Video 2026-002 shows the **revised working version** (reviewed with the viral-vi
 ## Video 2026-002: How to get FF alerts on iPhone
 
 **Status:** Revised, ready to shoot. Camera shots: intro is a 360 fisheye phone POV, hand-wipe cut to camera (below); outro is storyboard v2 option D "over the shoulder" or E "kick back".
-**Target length:** ~35–40 s.
+**Target length:** ~40 s.
 
 ### Screenplay (revised, working version)
 
-**1A. INTRO: PHONE POV, 360 FISHEYE** (~1–1.5 s, no dialogue)
-*Shot on a 360 camera standing in for the phone, propped on the desk and watching Emiliann at work, with a round fisheye "peephole" look and a black ring around the image (as in the Insta360 reference). A Forex Factory alert banner drops in and the image shakes with the buzz. She looks down at it, reaches in, and her hand fills the lens. CUT on the hand covering the lens.*
+Structure: **Hook → Lead → Body 1 → Open loop → Body 2 → Open loop → Body 3 → CTA**. ~120 words of VO, about 40–45 s.
+`[CAMERA]` = Emiliann on screen. `[SCREEN]` = phone screen only: her voice is voice-over, and the on-screen text has to carry the video for sound-off viewers.
 
-**1B. INTRO: ON CAMERA** (~4 s)
-*Hand-wipe: her hand, holding the iPhone, pulls away from the lens to reveal Emiliann. She glances at the alert, then looks up to the lens.*
-> EMILIANN: Want your phone to alert you when the markets move? Here's how to get official Forex Factory alerts on your iPhone.
+| # | Beat | Visual | Time |
+|---|---|---|---|
+| 1 | Hook | `[CAMERA]` 360 fisheye phone POV, alert lands, hand covers the lens → hand-wipe to Emiliann | 0–3 s |
+| 2 | Lead | `[CAMERA]` Emiliann holding the iPhone, talking to camera | 3–6 s |
+| 3 | Body 1: setup | `[SCREEN]` Add to Home Screen, taps sped up | 6–14 s |
+| 4 | Open loop 1 | `[SCREEN]` new web app icon on the home screen, tap to open | 14–17 s |
+| 5 | Body 2: events | `[SCREEN]` Calendar → event → bell → Allow | 17–24 s |
+| 6 | Open loop 2 | `[SCREEN]` quick push to the next page | 24–26 s |
+| 7 | Body 3: instruments + news | `[SCREEN]` Scanner bell, Latest Stories bell | 26–33 s |
+| 8 | CTA | `[CAMERA]` outro, alert arrives, loops to the start | 33–40 s |
 
-*On-screen title (for sound-off viewers): "Official Forex Factory alerts on iPhone", from the first frame of 1A. iOS 27 label on the first frames.*
+**1. HOOK** `[CAMERA]` (1A fisheye POV → 1B on camera)
+> EMILIANN: Want your phone to alert you when the markets move?
 
-**2. WEB APP SETUP** (screen recording, taps sped up, on-screen "STEP 1")
-> EMILIANN: First, add Forex Factory to your home screen: that's what turns on alerts on iPhone. Go to forexfactory.com and log in. Tap the three dots, then Share… View More… and Add to Home Screen. Now open it from your home screen.
+*On screen from frame 1: "Forex Factory alerts on iPhone". Alert banner lands with the shake.*
 
-**3. CALENDAR ALERTS** (screen recording, "STEP 2"; moved first because the iOS Allow prompt appears on the first bell tap)
-> EMILIANN: For calendar events, open the Calendar, tap any event, then the bell. Tap Allow, and you're subscribed.
+**2. LEAD** `[CAMERA]`
+> EMILIANN: Here's how to get official Forex Factory alerts on your iPhone.
 
-**4. SCANNER ALERTS** (screen recording, bell highlighted in post)
-> EMILIANN: For instruments, tap the bell on the Scanner.
+*On screen: "Events · Instruments · News" (the three things we're about to turn on).*
 
-**5. NEWS ALERTS** (screen recording, bell highlighted in post)
-> EMILIANN: And for news, tap the bell on Latest Stories.
+**3. BODY 1: SETUP** `[SCREEN]`
+> EMILIANN (VO): First, go to forexfactory.com and log in. Tap the three dots, then Share, View More, and Add to Home Screen.
 
-**6. OUTRO** (camera: clock 1:59 → 2:00, 'Federal Funds Rate' 'Data released' alert arrives)
+*On screen: "STEP 1 · Add to Home Screen". Tap circles on each tap.*
+
+**4. OPEN LOOP 1** `[SCREEN]`
+> EMILIANN (VO): That's what unlocks alerts on iPhone. Now it's just three bells.
+
+*On screen: "3 bells 🔔🔔🔔". She opens the new Forex Factory icon from the home screen.*
+
+**5. BODY 2: EVENTS** `[SCREEN]`
+> EMILIANN (VO): For events, open the Calendar, tap any event, then the bell. Tap Allow, and you're subscribed.
+
+*On screen: "🔔 1 · Events". Bell highlighted. The iOS "Allow" prompt is on screen here.*
+
+**6. OPEN LOOP 2** `[SCREEN]`
+> EMILIANN (VO): Instruments and news are even quicker.
+
+**7. BODY 3: INSTRUMENTS + NEWS** `[SCREEN]`
+> EMILIANN (VO): For instruments, tap the bell on the Scanner. For news, tap the bell on Latest Stories.
+
+*On screen: "🔔 2 · Instruments", then "🔔 3 · News". Bell highlighted each time.*
+
+**8. CTA** `[CAMERA]` (outro: clock 1:59 → 2:00, an alert arrives)
 > EMILIANN: Now you're all set with official Forex Factory alerts, right on your iPhone. Save this so you don't miss the next one.
 
-*Ends on the alert, which loops back into the opening alert.*
+*On screen: "Save for later". Ends on the alert, which loops back into the alert at the start.*
+
+**Screen-only parts (beats 3–7)**
+- Show the recording inside a phone frame (as in Volatility Now), slightly smaller than full screen, so the step label sits above it and captions sit below it without covering the buttons being tapped
+- Keep the bottom ~20% of the frame clear (TikTok/Shorts buttons and caption)
+- Every VO line also appears as a caption; the step labels ("STEP 1", "🔔 1/2/3") let sound-off viewers follow
+- Record the VO lines for beats 3–7 in the same room and mic as the camera lines (or wild lines right after the on-camera takes) so the voice matches
+- Cut each recording to the VO: speed up the dead time between taps, never the tap itself
 
 **Hook alternatives considered** (same structure):
-- "Want the markets to come to you? Here's how to turn on official Forex Factory alerts on your iPhone."
-- "Want to know the moment the markets move? Here's how to get official Forex Factory alerts on your iPhone, in under a minute."
+- "Want the markets to come to you?"
+- "Want to know the moment the markets move?"
 
 ### Shot list (revised)
 
