@@ -3,19 +3,21 @@
 Revised against the spec (v0.1), in the Hook / Lead / Body / Open loop / CTA structure. 9:16.
 Intro is a 360 fisheye phone POV with a hand-wipe cut to camera; outro uses the natural/handheld storyboard v2 (option D or E).
 
-Structure: **Hook → Lead → Body 1 → Open loop → Body 2 → Open loop → Body 3 → CTA**. ~120 words of VO, about 40–45 s.
+Structure: **Hook → Lead → Setup → Body 1 → Open loop → Body 2 → Open loop → Body 3 → CTA**. ~115 words of VO, about 40 s.
+The setup (adding Forex Factory to the home screen) is not a body: it's the one-time step that makes alerts possible, so it stays short and fast. The three bodies are the three kinds of alerts.
 `[CAMERA]` = Emiliann on screen. `[SCREEN]` = phone screen only: her voice is voice-over, and the on-screen text has to carry the video for sound-off viewers.
 
 | # | Beat | Visual | Time |
 |---|---|---|---|
 | 1 | Hook | `[CAMERA]` 360 fisheye phone POV, alert lands, hand covers the lens → hand-wipe to Emiliann | 0–3 s |
 | 2 | Lead | `[CAMERA]` Emiliann holding the iPhone, talking to camera | 3–6 s |
-| 3 | Body 1: setup | `[SCREEN]` Add to Home Screen, taps sped up | 6–14 s |
-| 4 | Open loop 1 | `[SCREEN]` new web app icon on the home screen, tap to open | 14–17 s |
-| 5 | Body 2: events | `[SCREEN]` Calendar → event → bell → Allow | 17–24 s |
-| 6 | Open loop 2 | `[SCREEN]` quick push to the next page | 24–26 s |
-| 7 | Body 3: instruments + news | `[SCREEN]` Scanner bell, Latest Stories bell | 26–33 s |
-| 8 | CTA | `[CAMERA]` outro, alert arrives, loops to the start | 33–40 s |
+| 3 | Setup | `[SCREEN]` Add to Home Screen, heavily sped up, ends opening the new icon | 6–13 s |
+| 4 | Body 1: events | `[SCREEN]` Calendar → event → bell → Allow | 13–20 s |
+| 5 | Open loop 1 | `[SCREEN]` quick push to the Scanner | 20–22 s |
+| 6 | Body 2: instruments | `[SCREEN]` Scanner bell | 22–25 s |
+| 7 | Open loop 2 | `[SCREEN]` quick push to News | 25–27 s |
+| 8 | Body 3: news | `[SCREEN]` Latest Stories bell | 27–31 s |
+| 9 | CTA | `[CAMERA]` outro, alert arrives, loops to the start | 31–38 s |
 
 **1. HOOK** `[CAMERA]` (1A fisheye POV → 1B on camera)
 > EMILIANN: Want your phone to alert you when the markets move?
@@ -23,44 +25,47 @@ Structure: **Hook → Lead → Body 1 → Open loop → Body 2 → Open loop →
 *On screen from frame 1: "Forex Factory alerts on iPhone". Alert banner lands with the shake.*
 
 **2. LEAD** `[CAMERA]`
-> EMILIANN: Here's how to get official Forex Factory alerts on your iPhone.
+> EMILIANN: Here's how to get official Forex Factory alerts on your iPhone. It's three bells.
 
-*On screen: "Events · Instruments · News" (the three things we're about to turn on).*
+*On screen: "🔔 Events · 🔔 Instruments · 🔔 News".*
 
-**3. BODY 1: SETUP** `[SCREEN]`
-> EMILIANN (VO): First, go to forexfactory.com and log in. Tap the three dots, then Share, View More, and Add to Home Screen.
+**3. SETUP** `[SCREEN]`
+> EMILIANN (VO): First, add Forex Factory to your home screen: log in on forexfactory.com, tap the three dots, then Share, View More, and Add to Home Screen.
 
-*On screen: "STEP 1 · Add to Home Screen". Tap circles on each tap.*
+*On screen: "First: Add to Home Screen". Tap circles on each tap. Ends opening the new Forex Factory icon.*
 
-**4. OPEN LOOP 1** `[SCREEN]`
-> EMILIANN (VO): That's what unlocks alerts on iPhone. Now it's just three bells.
-
-*On screen: "3 bells 🔔🔔🔔". She opens the new Forex Factory icon from the home screen.*
-
-**5. BODY 2: EVENTS** `[SCREEN]`
-> EMILIANN (VO): For events, open the Calendar, tap any event, then the bell. Tap Allow, and you're subscribed.
+**4. BODY 1: EVENTS** `[SCREEN]`
+> EMILIANN (VO): Bell one, events. Open the Calendar, tap any event, then the bell. Tap Allow, and you're subscribed.
 
 *On screen: "🔔 1 · Events". Bell highlighted. The iOS "Allow" prompt is on screen here.*
 
-**6. OPEN LOOP 2** `[SCREEN]`
-> EMILIANN (VO): Instruments and news are even quicker.
+**5. OPEN LOOP 1** `[SCREEN]`
+> EMILIANN (VO): The next one's even quicker.
 
-**7. BODY 3: INSTRUMENTS + NEWS** `[SCREEN]`
-> EMILIANN (VO): For instruments, tap the bell on the Scanner. For news, tap the bell on Latest Stories.
+**6. BODY 2: INSTRUMENTS** `[SCREEN]`
+> EMILIANN (VO): Bell two, instruments. Tap the bell on the Scanner.
 
-*On screen: "🔔 2 · Instruments", then "🔔 3 · News". Bell highlighted each time.*
+*On screen: "🔔 2 · Instruments". Bell highlighted.*
 
-**8. CTA** `[CAMERA]` (outro: clock 1:59 → 2:00, an alert arrives)
+**7. OPEN LOOP 2** `[SCREEN]`
+> EMILIANN (VO): And the last one catches the news as it breaks.
+
+**8. BODY 3: NEWS** `[SCREEN]`
+> EMILIANN (VO): Bell three, news. Tap the bell on Latest Stories.
+
+*On screen: "🔔 3 · News". Bell highlighted.*
+
+**9. CTA** `[CAMERA]` (outro: clock 1:59 → 2:00, an alert arrives)
 > EMILIANN: Now you're all set with official Forex Factory alerts, right on your iPhone. Save this so you don't miss the next one.
 
 *On screen: "Save for later". Ends on the alert, which loops back into the alert at the start.*
 
-**Screen-only parts (beats 3–7)**
-- Show the recording inside a phone frame (as in Volatility Now), slightly smaller than full screen, so the step label sits above it and captions sit below it without covering the buttons being tapped
+**Screen-only parts (beats 3–8)**
+- Show the recording inside a phone frame (as in Volatility Now), slightly smaller than full screen, so the label sits above it and captions sit below it without covering the buttons being tapped
 - Keep the bottom ~20% of the frame clear (TikTok/Shorts buttons and caption)
-- Every VO line also appears as a caption; the step labels ("STEP 1", "🔔 1/2/3") let sound-off viewers follow
-- Record the VO lines for beats 3–7 in the same room and mic as the camera lines (or wild lines right after the on-camera takes) so the voice matches
-- Cut each recording to the VO: speed up the dead time between taps, never the tap itself
+- Every VO line also appears as a caption; the labels ("First", "🔔 1/2/3") let sound-off viewers follow
+- Record the VO lines in the same room and mic as the camera lines (or wild lines right after the on-camera takes) so the voice matches
+- Cut each recording to the VO: speed up the dead time between taps, never the tap itself. The setup should be the fastest part: the first bell needs to land by about 13 s
 
 ## Recording notes
 - Intro 1A: 360 camera (e.g. Insta360 X series) propped on the desk at about chest height, 60 fps mode, reframed to 9:16 with the
