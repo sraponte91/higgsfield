@@ -12,7 +12,7 @@ Video 2026-002 shows the **revised working version** (reviewed with the viral-vi
 |---|---|---|---|---|---|
 | [001](#video-2026-001-volatility-now) | Volatility Now | In post (intro, chart spike, VN highlight done) | Intro/outro | 4 + animation | WC room, next to Pac Stations |
 | [002](#video-2026-002-how-to-get-ff-alerts-on-iphone) | How to get FF alerts on iPhone | **Revised, ready to shoot** | Intro, outro | 4 | News room |
-| [003](#video-2026-003-rt-feature-inventory) | RT feature inventory | Spec | Intro/outro | 4 | News room, pac station |
+| [003](#video-2026-003-rt-feature-inventory) | RT feature inventory | **Revised, ready to shoot** | Intro/outro | 4 | News room, pac station |
 | [004](#video-2026-004-gold-with-no-drama-skip-for-now) | Gold with No Drama | **Skip for now** | Intro/outro | 1 | Her desk, with gold |
 | [005](#video-2026-005-showstory-charts) | Showstory charts | Spec | Intro/outro | 1 | Pac station / her desk (mismatch) |
 | [006](#video-2026-006-prop-guide) | Prop Guide | Spec | Intro/outro | 2 | Pac station / her desk (mismatch) |
@@ -252,111 +252,118 @@ Shot list (spec): intro and outro "holding an iPhone by her side"; multiple came
 
 ## Video 2026-003: RT feature inventory
 
-**Status:** Spec.
+**Status:** Revised, ready to shoot. Hook → Lead ("four reasons") → four bodies, with one open loop before number four → CTA.
+**Target length:** ~40 s.
 
-### Screenplay
+### Screenplay (revised, working version)
 
 **1. INTRO** (camera)
-*Emiliann in News room at pac station.*
-> EMILIANN: Using Forex Factory without an account? Here are four reasons to change that.
+*Emiliann in News room at pac station, holding her iPhone with Forex Factory open, talking to camera. On screen: "4 reasons to create a free Forex Factory account". iOS 27 label on the first frames.*
+> EMILIANN: Still using Forex Factory without an account? Here are four reasons to change that.
 
 **2. ALERTS** (screen recording)
-*iPhone screen recording of Alerts montage: user subscribing to Non-Farm Employment Change, user subscribing to High-Impact Breaking News, user subscribing to Gold/USD and setting price alerts, user tapping Gold/USD price alerts in alerts list.*
-> EMILIANN: Number one: Alerts. You can create alerts for Calendar events, breaking news, price changes and more. Subscribe to what matters to your trades, and let Forex Factory keep watch.
+*iPhone screen recording of Alerts montage: user subscribing to a Calendar event, to High-Impact Breaking News, and setting a Gold/USD price alert, then the Gold/USD alert arriving. On screen: "1 · Alerts".*
+> EMILIANN: Number one: alerts. Get alerts for calendar events, breaking news and price moves, and let Forex Factory keep watch for you.
 
-**3. LS** (screen recording)
-*iPhone screen recording of Layout Selector montage: user converting Forex Trader to Custom and changing Calendar to This Week, user opening up LS from sidebar, user adding beta Scanner to Homepage, user tabbing through each of the new Scanner tabs.*
-> EMILIANN: Number two: custom page layouts. You can customize your Homepage with a different block order, custom settings, and even preview upcoming functionality.
+**3. CUSTOM LAYOUT** (screen recording)
+*iPhone screen recording of Layout Selector montage: user moving the Calendar to the top, setting it to This Week, adding the beta Scanner to the Homepage and tabbing through its tabs. On screen: "2 · Your homepage".*
+> EMILIANN: Number two: make the homepage yours. Change the order, pick your settings, and try new features before everyone else.
 
-**4. POSTING** (screen recording)
-*iPhone screen recording of News comments montage: user on showstory scrolling to post by EventsTrader, tapping into his profile, subscribing, user viewing EventsTrader's subscribers, user viewing EventsTrader's Activity.*
-> EMILIANN: Number three: join the conversation. You can follow traders you value and build a following of your own.
+**4. JOIN THE CONVERSATION** (screen recording)
+*iPhone screen recording of News comments montage: user on a story scrolling to a post by EventsTrader, opening his profile and subscribing, then viewing his subscribers and activity. On screen: "3 · Follow traders".*
+> EMILIANN: Number three: join the conversation. Follow traders you value, and build a following of your own.
+>
+> Number four is for the competitive ones.
 
 **5. TRADE EXPLORER** (screen recording)
-*iPhone screen recording of Trade Explorer montage: user creating a Trade Explorer, user interacting with Overview tab, user interacting with Trade Graph tab, user interacting with Settings, user scrolling through Leaderboard / Live Accounts.*
-> EMILIANN: Number four: Trade Explorer. You can use Trade Explorer to analyze your performance, and choose exactly how you want to share it. Keep it private, share it with selected members, or make it public and compete on the leaderboards.
+*iPhone screen recording of Trade Explorer montage: user creating a Trade Explorer, scrolling through performance, the trade graph and visibility settings, then the Leaderboard / Live Accounts. On screen: "4 · Trade Explorer".*
+> EMILIANN: Trade Explorer. Track your performance and choose who sees it: keep it private, share it with people you choose, or go public and compete on the leaderboards.
 
 **6. OUTRO** (camera, same setup as 1)
-*Emiliann in News room at pac station.*
+*Emiliann in News room at pac station. On screen: "Create your free account".*
 > EMILIANN: More control. More signal. Still free. Create your Forex Factory account today.
 
 ### Shot list
 
 **1. Intro / outro**
-- Video format · Emiliann in News room
+- Video format
+- Emiliann in News room at pac station
+- holding her iPhone with Forex Factory open
+- same framing for intro and outro
 
 **2. Alerts** (iPhone screen recording, PWA web app, logged in)
-- Start on Homepage and Calendar set to Oct 2, 2026
-- Tap alert bell in Scanner
-- Scroll to Gold/USD
-- Tap alert bell for Gold/USD
-- Tap 'Add new price alert' > Choose One > Price Hits > Price: current Gold/USD + $1 > Add
-- Tap 'Add new price alert' > Choose One > Price Hits > Price: current Gold/USD − $1 > Add
-- Tap 'Exit'
-- Scroll down so 'Non-Farm Employment Change' is in the middle of the screen
-- Tap Non-Farm Employment Change row
-- Tap alert bell (it shouldn't open overlay)
-- Go to /news
-- Scroll down until 'News / Latest Stories' is in the middle of the screen
-- Tap alert bell
-- Tap 'Breaking News / High Impact'
-- Tap 'Exit'
-- Wait for Gold/USD alert
-- Tap header alert bell
-- Tap Gold/USD alert
-
-**3. LS** (iPhone screen recording, PWA web app, logged in)
 - Start on Homepage
-- Tap Calendar > … > wrench icon > Convert > Default View: This Week
-- Move Calendar to the top
-- Apply Custom Layout
-- Wait for toast to disappear
-- Tap hamburger menu
-- Tap Page Layout > Custom
-- Scroll down to Custom
-- Tap Edit
-- Tap 'Scanner (beta)'
-- Move to top of page
-- Tap Apply Custom Layout
-- Wait for toast to disappear
-- Tap through each tab, pausing to wait for each tab to load
+- Tap the Scanner bell, then the bell above Gold/USD
+- Add a price alert just above the current Gold/USD price, and one just below
+- Tap 'Exit'
+- Scroll down the Calendar and tap any upcoming event
+- Tap its bell
+- Go to /news, scroll to 'News / Latest Stories'
+- Tap the bell, then 'Breaking News / High Impact'
+- Tap 'Exit'
+- Wait for the Gold/USD alert
+- Tap the header bell
+- Tap the Gold/USD alert
 
-**4. Posting** (iPhone screen recording, PWA web app, logged in)
-- Start on *US Consumer Price Index - August 2026* showstory
-- Scroll to EventsTrader's post, place in middle of screen
+**3. Custom layout** (iPhone screen recording, PWA web app, logged in)
+- Start on Homepage
+- Calendar settings: Default View 'This Week'
+- Move the Calendar to the top
+- Apply Custom Layout
+- Open the menu > Page Layout > Custom > Edit
+- Add 'Scanner (beta)' and move it to the top
+- Apply Custom Layout
+- Tap through each Scanner tab, letting each one load
+
+**4. Join the conversation** (iPhone screen recording, PWA web app, logged in)
+- Start on a recent news story with comments
+- Scroll to EventsTrader's post
 - Tap EventsTrader
 - Tap Subscribe
-- Reload page
-- Scroll down to Network > Subscribers so that Tweezy is in the middle of screen
+- Reload the page
+- Scroll down to Network > Subscribers, so Tweezy is in the middle of the screen
 
-**5. TE** (iPhone screen recording, PWA web app, logged in)
+**5. Trade Explorer** (iPhone screen recording, PWA web app, logged in)
 - Go to /tweezy
-- Scroll to bottom of page
-- Tap 'Create Trade Explorer'
-- Fill out (INSERT CREDS)
-- Tap 'Create Trade Explorer'
-- Wait for sync…
-- Reload page when it's done syncing
-- Tap setting icon
-- Change 'Visibility' to 'Buddies Only'
-- Change 'Trading Style' to 'Fundamental'
-- Tap Apply Settings
-- Scroll down page until 'TRADE EXPLORER NAME' is centered on the screen
-- Slowly scroll through all 'Performance' pills
-- Tap 'Trade Graph' tab
-- Scroll down page until 'TRADE EXPLORER NAME' is centered on the screen (may not be necessary, as it should auto-snap)
-- Tap 'Non-Cume Return' radio
-- Go to /trades
-- Tap 'Leaderboard / Live Accounts' > More
-- Scroll down and tap 'More' again
-- Scroll back to top of page
-- Slowly scroll down page until end of 'Leaderboard / Live Accounts'
+- Scroll to the bottom and tap 'Create Trade Explorer'
+- Fill it out (account details still to confirm)
+- Tap 'Create Trade Explorer' and wait for it to sync
+- Reload the page
+- Settings: Visibility 'Buddies Only', Trading Style 'Fundamental', Apply
+- Slowly scroll through the Performance pills
+- Tap 'Trade Graph'
+- Go to /trades > Leaderboard / Live Accounts
+- Slowly scroll to the end of the leaderboard
 
 ### Notes / to fix
-- Shot 5: "(INSERT CREDS)" still to fill in
-- Intro location: screenplay says "News room at pac station", shot list says "News room"
+- Shot 5: Trade Explorer account details still to fill in (spec says "(INSERT CREDS)")
+- Alerts: no specific event named in the voice-over; any upcoming Calendar event works on screen
+- Recordings are long: speed them up to fit the voice-over, never the taps themselves
+
+<details>
+<summary>Spec original (v0.1)</summary>
+
+**1. INTRO** — *Emiliann in News room at pac station.*
+> EMILIANN: Using Forex Factory without an account? Here are four reasons to change that.
+
+**2. ALERTS** — *Alerts montage: subscribing to Non-Farm Employment Change, High-Impact Breaking News, Gold/USD price alerts, tapping the Gold/USD alert.*
+> EMILIANN: Number one: Alerts. You can create alerts for Calendar events, breaking news, price changes and more. Subscribe to what matters to your trades, and let Forex Factory keep watch.
+
+**3. LS** — *Layout Selector montage.*
+> EMILIANN: Number two: custom page layouts. You can customize your Homepage with a different block order, custom settings, and even preview upcoming functionality.
+
+**4. POSTING** — *News comments montage.*
+> EMILIANN: Number three: join the conversation. You can follow traders you value and build a following of your own.
+
+**5. TRADE EXPLORER** — *Trade Explorer montage.*
+> EMILIANN: Number four: Trade Explorer. You can use Trade Explorer to analyze your performance, and choose exactly how you want to share it. Keep it private, share it with selected members, or make it public and compete on the leaderboards.
+
+**6. OUTRO** — *Emiliann in News room at pac station.*
+> EMILIANN: More control. More signal. Still free. Create your Forex Factory account today.
+</details>
 
 ---
+
 
 ## Video 2026-004: Gold with No Drama (skip for now)
 
