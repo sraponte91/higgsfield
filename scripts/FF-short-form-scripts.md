@@ -258,7 +258,7 @@ Shot list (spec): intro and outro "holding an iPhone by her side"; multiple came
 ### Screenplay (revised, working version)
 
 **1. INTRO** (camera)
-*Emiliann in News room at pac station, holding her iPhone with Forex Factory open, talking to camera. On screen: "4 reasons to create a free Forex Factory account". iOS 27 label on the first frames.*
+*Visual hook, split screen: two iPhones side by side, labelled "No account" and "With account". Left: the plain logged-out Homepage. Right: the custom Homepage with alerts popping in. Her voice starts over the split; cut to Emiliann in News room at pac station, holding her iPhone, talking to camera. On screen: "4 reasons to create a free Forex Factory account". iOS 27 label on the first frames.*
 > EMILIANN: Still using Forex Factory without an account? Here are four reasons to change that.
 
 **2. ALERTS** (screen recording)
@@ -267,7 +267,7 @@ Shot list (spec): intro and outro "holding an iPhone by her side"; multiple came
 
 **3. CUSTOM LAYOUT** (screen recording)
 *iPhone screen recording of Layout Selector montage: user moving the Calendar to the top, setting it to This Week, adding the beta Scanner to the Homepage and tabbing through its tabs. On screen: "2 · Your homepage".*
-> EMILIANN: Number two: make the homepage yours. Change the order, pick your settings, and try new features before everyone else.
+> EMILIANN: Number two: make the homepage yours. Change the order of the blocks, pick your settings, and try new features before everyone else.
 
 **4. JOIN THE CONVERSATION** (screen recording)
 *iPhone screen recording of News comments montage: user on a story scrolling to a post by EventsTrader, opening his profile and subscribing, then viewing his subscribers and activity. On screen: "3 · Follow traders".*
@@ -290,6 +290,11 @@ Shot list (spec): intro and outro "holding an iPhone by her side"; multiple came
 - Emiliann in News room at pac station
 - holding her iPhone with Forex Factory open
 - same framing for intro and outro
+
+**1B. Intro split screen** (two iPhone screen recordings, shown side by side)
+- Left, "No account": logged out, start on Homepage, slow scroll
+- Right, "With account": logged in, custom Homepage (Scanner at the top), slow scroll while alerts pop in
+- Same scroll speed on both, so they move together
 
 **2. Alerts** (iPhone screen recording, PWA web app, logged in)
 - Start on Homepage
