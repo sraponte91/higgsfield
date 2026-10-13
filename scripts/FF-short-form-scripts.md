@@ -157,8 +157,8 @@ Order follows the homepage, top to bottom: Scanner, then the Calendar right belo
 
 *On-screen title (for sound-off viewers): "Official Forex Factory alerts on iPhone". iOS 27 label on the first frames.*
 
-**2. WEB APP SETUP** `[SCREEN]` (taps sped up, on-screen "STEP 1")
-> EMILIANN (VO): First, add Forex Factory to your home screen. Log in on forexfactory.com, tap the three dots in Safari, then Share… View More… and Add to Home Screen. Now open the Forex Factory web app from your home screen.
+**2. WEB APP SETUP** `[SCREEN]` (taps sped up, on-screen "STEP 1" plus an "iOS 27 · Safari" label for the whole step: Safari's menu button replaced the three dots, so the steps depend on the iOS version)
+> EMILIANN (VO): First, add Forex Factory to your home screen. Log in on forexfactory.com, tap the menu button in Safari's address bar, then Share… View More… and Add to Home Screen. Now open the Forex Factory web app from your home screen.
 
 **3. SCANNER ALERTS** `[SCREEN]` (on-screen "STEP 2"; two taps: the Scanner bell turns on "Set Alerts" and shows a bell above each instrument, then tap one; both bells highlighted in post, numbered 1 and 2; the iOS Allow prompt appears here)
 > EMILIANN (VO): For instruments, tap the bell on the Scanner, then the bell above any instrument. Tap Allow, and you're subscribed. Calendar events are right below, and just as quick.
@@ -205,7 +205,7 @@ Order follows the homepage, top to bottom: Scanner, then the Calendar right belo
 **2. PWA setup** (iPhone screen recording)
 - Before shooting: remove all other FF web apps and delete all Safari history (Settings > Apps > Safari > Clear History and Website Data)
 - Logged in
-- Actions: start with Safari open to the Forex Factory Homepage → tap three-line icon in URL bar → tap 'Share' → tap 'View More' → scroll down a bit → tap 'Add to Home Screen' → tap 'Add' (naturally transitions to the iPhone home screen) → tap 'FF' app
+- Actions: start with Safari open to the Forex Factory Homepage → tap the menu button (three lines) at the left of the address bar → tap 'Share' → tap 'View More' → scroll down a bit → tap 'Add to Home Screen' → tap 'Add' (naturally transitions to the iPhone home screen) → tap 'FF' app
 
 **3. Scanner alerts** (iPhone screen recording, PWA web app, logged in) — **record first on the fresh phone**, so the iOS permission prompt appears in it
 - Actions: start on Forex Factory Homepage → tap the bell in the Scanner's top-left corner ("Set Alerts" appears and a bell shows above each instrument) → tap the bell above EUR/USD → iOS notification prompt appears → tap 'Allow'
