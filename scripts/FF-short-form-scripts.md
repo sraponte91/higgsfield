@@ -14,7 +14,7 @@ Video 2026-002 shows the **revised working version** (reviewed with the viral-vi
 | [002](#video-2026-002-how-to-get-ff-alerts-on-iphone) | How to get FF alerts on iPhone | **Revised, ready to shoot** | Intro, outro | 4 | News room |
 | [003](#video-2026-003-rt-feature-inventory) | RT feature inventory | **Revised, ready to shoot** | Intro/outro | 4 | News room, pac station |
 | [004](#video-2026-004-gold-with-no-drama-skip-for-now) | Gold with No Drama | **Skip for now** | Intro/outro | 1 | Her desk, with gold |
-| [005](#video-2026-005-showstory-charts) | Showstory charts | **Revised, ready to shoot** | Intro/outro | 1 | Pac station / her desk (mismatch) |
+| [005](#video-2026-005-showstory-charts) | Showstory charts | **Revised, ready to shoot** | Intro/outro | 1 | Pac station |
 | [006](#video-2026-006-prop-guide) | Prop Guide | Spec | Intro/outro | 2 | Pac station / her desk (mismatch) |
 | [007](#video-2026-007-three-ways-to-track-the-price-of-gold-on-forex-factory) | Three ways to track the price of gold | Spec | Intro/outro | 1 | Her desk, with gold |
 | [008](#video-2026-008-find-your-next-broker-on-forex-factory) | Find your next broker | Spec | Intro/outro | 1 | Pac station / her desk (mismatch) |
