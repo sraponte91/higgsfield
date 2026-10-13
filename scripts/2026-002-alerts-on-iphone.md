@@ -3,8 +3,8 @@
 Revised against the spec (v0.1). 9:16.
 Intro is a 360 fisheye phone POV with a hand-wipe cut to camera; outro uses the natural/handheld storyboard v2 (option D or E).
 
-VO is about 135 words, so the video runs about 45–48 s. `[CAMERA]` = Emiliann on screen. `[SCREEN]` = phone screen only, with her voice as voice-over.
-Order matters: the Calendar goes first after the setup, because iOS asks for permission ("Allow") on the first bell tap.
+VO is about 138 words, so the video runs about 45–49 s. `[CAMERA]` = Emiliann on screen. `[SCREEN]` = phone screen only, with her voice as voice-over.
+Order follows the homepage, top to bottom: Scanner, then the Calendar right below it, then News. iOS asks for permission ("Allow") on the first bell tap, so the Allow tap is in the Scanner step.
 
 **1. INTRO** `[CAMERA]` (360 camera stands in for the phone: it looks up at her, the notification lands at the top, the image shakes, her hands come into frame and pick it up)
 > EMILIANN: Want to know the second the markets move? Then turn on Forex Factory alerts. Here's how on iPhone.
@@ -14,11 +14,11 @@ Order matters: the Calendar goes first after the setup, because iOS asks for per
 **2. WEB APP SETUP** `[SCREEN]` (taps sped up, on-screen "STEP 1")
 > EMILIANN (VO): First, add Forex Factory to your home screen. Log in on forexfactory.com, tap the three dots in Safari, then Share… View More… and Add to Home Screen. Now open the Forex Factory web app from your home screen.
 
-**3. CALENDAR ALERTS** `[SCREEN]` (on-screen "STEP 2", bell highlighted in post; the iOS Allow prompt appears here)
-> EMILIANN (VO): For calendar events, tap any event, then the bell. Tap Allow, and you're subscribed. The next one is even quicker.
+**3. SCANNER ALERTS** `[SCREEN]` (on-screen "STEP 2"; two taps: the Scanner bell turns on "Set Alerts" and shows a bell above each instrument, then tap one; both bells highlighted in post, numbered 1 and 2; the iOS Allow prompt appears here)
+> EMILIANN (VO): For instruments, tap the bell on the Scanner, then the bell above any instrument. Tap Allow, and you're subscribed. Calendar events are right below, and just as quick.
 
-**4. SCANNER ALERTS** `[SCREEN]` (two taps: the Scanner bell turns on "Set Alerts" and shows a bell above each instrument, then tap one; both bells highlighted in post, numbered 1 and 2)
-> EMILIANN (VO): For instruments, tap the bell on the Scanner, then the bell above any instrument.
+**4. CALENDAR ALERTS** `[SCREEN]` (scroll down to the homepage Calendar, bell highlighted in post)
+> EMILIANN (VO): For calendar events, tap any event, then the bell.
 
 **5. NEWS ALERTS** `[SCREEN]` (bell highlighted in post)
 > EMILIANN (VO): And for news, tap the bell on any category you like. We recommend Latest Stories to stay up to date.
@@ -41,7 +41,7 @@ Order matters: the Calendar goes first after the setup, because iOS asks for per
 - Intro shake and alert: stabilization removes real shakes, so add the shake in post (2-3 pulses) synced to a buzz SFX, and
   composite the FF alert banner at the top of the frame on the first pulse. Turn off the Insta360 watermark.
 - Intro cut: 1A ends when her hand covers the lens; 1B starts with her hand and the real iPhone covering Cam A's lens and pulling away.
-- Record the Calendar step first on the fresh phone so the iOS notification prompt appears in that recording.
+- Record the Scanner step first on the fresh phone so the iOS notification prompt appears in that recording. The Calendar can follow in the same take: scroll down to it.
 - Account: confirm whether a (free) Forex Factory account is required and say "free" if so.
 
 ## Post copy

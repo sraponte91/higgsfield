@@ -149,8 +149,8 @@ Video 2026-002 shows the **revised working version** (reviewed with the viral-vi
 
 ### Screenplay (revised, working version)
 
-VO is about 135 words, so the video runs about 45–48 s. `[CAMERA]` = Emiliann on screen. `[SCREEN]` = phone screen only, with her voice as voice-over.
-Order matters: the Calendar goes first after the setup, because iOS asks for permission ("Allow") on the first bell tap.
+VO is about 138 words, so the video runs about 45–49 s. `[CAMERA]` = Emiliann on screen. `[SCREEN]` = phone screen only, with her voice as voice-over.
+Order follows the homepage, top to bottom: Scanner, then the Calendar right below it, then News. iOS asks for permission ("Allow") on the first bell tap, so the Allow tap is in the Scanner step.
 
 **1. INTRO** `[CAMERA]` (360 camera stands in for the phone: it looks up at her, the notification lands at the top, the image shakes, her hands come into frame and pick it up)
 > EMILIANN: Want to know the second the markets move? Then turn on Forex Factory alerts. Here's how on iPhone.
@@ -160,11 +160,11 @@ Order matters: the Calendar goes first after the setup, because iOS asks for per
 **2. WEB APP SETUP** `[SCREEN]` (taps sped up, on-screen "STEP 1")
 > EMILIANN (VO): First, add Forex Factory to your home screen. Log in on forexfactory.com, tap the three dots in Safari, then Share… View More… and Add to Home Screen. Now open the Forex Factory web app from your home screen.
 
-**3. CALENDAR ALERTS** `[SCREEN]` (on-screen "STEP 2", bell highlighted in post; the iOS Allow prompt appears here)
-> EMILIANN (VO): For calendar events, tap any event, then the bell. Tap Allow, and you're subscribed. The next one is even quicker.
+**3. SCANNER ALERTS** `[SCREEN]` (on-screen "STEP 2"; two taps: the Scanner bell turns on "Set Alerts" and shows a bell above each instrument, then tap one; both bells highlighted in post, numbered 1 and 2; the iOS Allow prompt appears here)
+> EMILIANN (VO): For instruments, tap the bell on the Scanner, then the bell above any instrument. Tap Allow, and you're subscribed. Calendar events are right below, and just as quick.
 
-**4. SCANNER ALERTS** `[SCREEN]` (two taps: the Scanner bell turns on "Set Alerts" and shows a bell above each instrument, then tap one; both bells highlighted in post, numbered 1 and 2)
-> EMILIANN (VO): For instruments, tap the bell on the Scanner, then the bell above any instrument.
+**4. CALENDAR ALERTS** `[SCREEN]` (scroll down to the homepage Calendar, bell highlighted in post)
+> EMILIANN (VO): For calendar events, tap any event, then the bell.
 
 **5. NEWS ALERTS** `[SCREEN]` (bell highlighted in post)
 > EMILIANN (VO): And for news, tap the bell on any category you like. We recommend Latest Stories to stay up to date.
@@ -207,11 +207,11 @@ Order matters: the Calendar goes first after the setup, because iOS asks for per
 - Logged in
 - Actions: start with Safari open to the Forex Factory Homepage → tap three-line icon in URL bar → tap 'Share' → tap 'View More' → scroll down a bit → tap 'Add to Home Screen' → tap 'Add' (naturally transitions to the iPhone home screen) → tap 'FF' app
 
-**3. Calendar alerts** (iPhone screen recording, PWA web app, logged in) — **record first on the fresh phone**
-- Actions: start on Forex Factory Calendar for Sep 16, 2026 → scroll to USD Federal Funds Rate → tap row → tap bell icon → iOS notification prompt appears → tap 'Allow' → tap 'Exit'
+**3. Scanner alerts** (iPhone screen recording, PWA web app, logged in) — **record first on the fresh phone**, so the iOS permission prompt appears in it
+- Actions: start on Forex Factory Homepage → tap the bell in the Scanner's top-left corner ("Set Alerts" appears and a bell shows above each instrument) → tap the bell above EUR/USD → iOS notification prompt appears → tap 'Allow'
 
-**4. Scanner alerts** (iPhone screen recording, PWA web app, logged in)
-- Actions: start on Forex Factory Homepage → tap the bell in the Scanner's top-left corner ("Set Alerts" appears and a bell shows above each instrument) → tap the bell above EUR/USD → optionally drag to the end of the Scanner
+**4. Calendar alerts** (iPhone screen recording, PWA web app, logged in; can be the same take as 3)
+- Actions: scroll down from the Scanner to the homepage Calendar → tap an event row → tap the bell icon
 
 **5. News alerts** (iPhone screen recording, PWA web app, logged in)
 - Actions: start on Forex Factory > /news → scroll to 'News / Latest Stories' at top of screen, so the first inline ad doesn't show → tap bell
