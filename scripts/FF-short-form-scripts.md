@@ -183,44 +183,38 @@ Order follows the homepage, top to bottom: Scanner, then the Calendar right belo
 
 ### Shot list (revised)
 
-**1A. Intro phone POV, 360 fisheye** (video format, Emiliann's desk in News room)
-- 360 camera (e.g. Insta360 X series) stands in for the phone: propped on the desk where the phone sits, at about her chest height, one lens facing her; she works at the desk until the buzz
-- Use the 60 fps 360 mode (spec is 60 fps). Reframe in the Insta360 app/Studio to 9:16 with the fisheye view, widening the field of view until the black ring shows around the image
-- Keep her face near the centre of the circle: the fisheye stretches the edges. Her hand reaching in will look huge, which is the point
-- The fisheye sees almost the whole room: hide the crew, lights and anything that shouldn't be in shot
-- Shake: stabilization (FlowState) removes real shakes, so add the shake in post (2–3 short pulses, like an iPhone vibration) synced to a buzz SFX
-- Alert: composite a Forex Factory lock-screen banner at the top of the frame in post, landing on the first pulse, so viewers see the alert from frame 1
-- Turn off the "Shot on Insta360" watermark before export
-
-**1B. Intro on camera** (video format, same desk)
-- Cam A handheld medium on Emiliann: she starts with her hand and the iPhone covering the lens, pulls it away to chest/collarbone height, glances at the alert, looks to the lens, delivers the line
-- She holds the real iPhone (the subject of the video), not the 360 camera; the hand-over-lens cut hides the swap
-- Optional Cam B tight on the phone
-
-**Cut (1A → 1B)**
-- 1A ends when her hand covers the lens (frame goes dark); 1B starts with her hand and the iPhone covering Cam A's lens and pulling away (hand wipe). Same hand and speed in both
-- Continuity: same sleeve (green blazer), rings and nails in both shots
-- Loop: the outro ends on an alert, which loops into the shaking fisheye shot at the start of 1A
+**1. Intro** (video format, Emiliann at her desk in News room)
+- **1A, 360 phone POV:** a 360 camera (e.g. Insta360 X series) stands in for her iPhone, propped on the desk at about chest height, one lens facing her
+  - 60 fps mode; export 9:16 with the fisheye view, widened until the black ring shows
+  - she works at the desk; on cue she looks down, reaches in and picks it up, her hand covering the lens
+  - keep her face near the centre of the circle; keep crew and gear out of view (it sees almost the whole room)
+  - turn off the "Shot on Insta360" watermark
+  - in post: 2–3 shake pulses synced to a buzz SFX, and the FF alert banner at the top, bent to the fisheye curve
+- **1B, on camera:** Cam A handheld medium
+  - she starts with her hand and the real iPhone covering the lens, pulls it away (hand wipe), glances at the alert, looks to camera and delivers the line
+  - same hand, speed, sleeve and rings as 1A
+  - optional Cam B: close-up of the iPhone lock screen with the FF alert
 
 **2. PWA setup** (iPhone screen recording)
+- iOS 27; "iOS 27 · Safari" label on screen for the whole step
 - Before shooting: remove all other FF web apps and delete all Safari history (Settings > Apps > Safari > Clear History and Website Data)
 - Logged in
-- Actions: start with Safari open to the Forex Factory Homepage → tap the menu button (three lines) at the left of the address bar → tap 'Share' → tap 'View More' → scroll down a bit → tap 'Add to Home Screen' → 'Open as Web App' toggle stays on (highlight it in post: it's what makes alerts work) → tap 'Add' (naturally transitions to the iPhone home screen) → tap 'FF' app (no VO needed, the screen shows it)
+- Actions: start with Safari open to the Forex Factory Homepage → tap the menu button (three lines) at the left of the address bar → tap 'Share' → tap 'View More' → scroll down a bit → tap 'Add to Home Screen' → leave 'Open as Web App' on (highlight it in post) → tap 'Add' (naturally transitions to the iPhone home screen) → tap 'FF' app
 
-**3. Scanner alerts** (iPhone screen recording, PWA web app, logged in) — **record first on the fresh phone**, so the iOS permission prompt appears in it
-- Actions: start on Forex Factory Homepage → tap the bell in the Scanner's top-left corner ("Set Alerts" appears and a bell shows above each instrument) → tap the bell above EUR/USD → iOS notification prompt appears → tap 'Allow'
+**3. Scanner + Calendar alerts** (one iPhone screen recording, PWA web app, logged in; covers screenplay scenes 3 and 4) — **record first on the fresh phone**, so the iOS notification prompt appears in it
+- Actions: start on the Forex Factory Homepage → tap the bell in the Scanner's top-left corner ('Set Alerts' appears, with a bell above each instrument) → tap the bell above EUR/USD → iOS notification prompt appears → tap 'Allow' → scroll down to the Calendar → tap an event row → tap the bell icon
+- In post: Scanner bells highlighted and numbered 1 and 2, Calendar bell highlighted; split the take at the scroll
 
-**4. Calendar alerts** (iPhone screen recording, PWA web app, logged in; can be the same take as 3)
-- Actions: scroll down from the Scanner to the homepage Calendar → tap an event row → tap the bell icon
+**4. News alerts** (iPhone screen recording, PWA web app, logged in)
+- Actions: start on Forex Factory > /news → scroll so 'News / Latest Stories' sits at the top of the screen (keeps the first inline ad out) → tap the bell
+- In post: bell highlighted
 
-**5. News alerts** (iPhone screen recording, PWA web app, logged in)
-- Actions: start on Forex Factory > /news → scroll to 'News / Latest Stories' at top of screen, so the first inline ad doesn't show → tap bell
-
-**6. Outro** (video format, Emiliann in News room)
-- Prop iPhone unlocked on home screen, FF web app on home screen, screen facing camera
-- Manually set iPhone time to 1:59 pm; alert arrives at 2:00 pm. Phone clock does not trigger the push: get a test push from the FF dev team, or composite the banner in post
-- Same framing as the intro so the video loops
-- Two cameras: Cam A handheld medium, Cam B close-up on the alert
+**5. Outro** (video format, Emiliann in News room)
+- Same framing as the intro, so the video loops
+- Holding an iPhone by her side, unlocked on the home screen, FF web app on the home screen, screen facing camera, 'Federal Funds Rate' 'Data released' alert popping up on screen
+- Manually set the iPhone time to 1:59 pm; the alert arrives at 2:00 pm. The phone clock won't trigger the push: get a test push from the FF dev team, or composite the banner in post
+- Multiple cameras: one wide angle (or Cam A handheld medium) and one close-up of the alert popping up on the screen
+- Use a separate prop iPhone for camera shots (the recording phone must stay fresh)
 
 ### Post copy
 - **YouTube title:** How to Get Forex Factory Alerts on iPhone (Calendar, News & Scanner) #Shorts

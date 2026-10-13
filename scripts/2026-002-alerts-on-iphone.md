@@ -41,7 +41,7 @@ Order follows the homepage, top to bottom: Scanner, then the Calendar right belo
 - Intro shake and alert: stabilization removes real shakes, so add the shake in post (2-3 pulses) synced to a buzz SFX, and
   composite the FF alert banner at the top of the frame on the first pulse. Turn off the Insta360 watermark.
 - Intro cut: 1A ends when her hand covers the lens; 1B starts with her hand and the real iPhone covering Cam A's lens and pulling away.
-- Record the Scanner step first on the fresh phone so the iOS notification prompt appears in that recording. The Calendar can follow in the same take: scroll down to it.
+- Scanner and Calendar are one recording: record it first on the fresh phone so the iOS notification prompt appears, then scroll down to the Calendar in the same take.
 - Account: confirm whether a (free) Forex Factory account is required and say "free" if so.
 
 ## Post copy
