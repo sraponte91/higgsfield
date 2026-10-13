@@ -14,7 +14,7 @@ Video 2026-002 shows the **revised working version** (reviewed with the viral-vi
 | [002](#video-2026-002-how-to-get-ff-alerts-on-iphone) | How to get FF alerts on iPhone | **Revised, ready to shoot** | Intro, outro | 4 | News room |
 | [003](#video-2026-003-rt-feature-inventory) | RT feature inventory | **Revised, ready to shoot** | Intro/outro | 4 | News room, pac station |
 | [004](#video-2026-004-gold-with-no-drama-skip-for-now) | Gold with No Drama | **Skip for now** | Intro/outro | 1 | Her desk, with gold |
-| [005](#video-2026-005-showstory-charts) | Showstory charts | Spec | Intro/outro | 1 | Pac station / her desk (mismatch) |
+| [005](#video-2026-005-showstory-charts) | Showstory charts | **Revised, ready to shoot** | Intro/outro | 1 | Pac station / her desk (mismatch) |
 | [006](#video-2026-006-prop-guide) | Prop Guide | Spec | Intro/outro | 2 | Pac station / her desk (mismatch) |
 | [007](#video-2026-007-three-ways-to-track-the-price-of-gold-on-forex-factory) | Three ways to track the price of gold | Spec | Intro/outro | 1 | Her desk, with gold |
 | [008](#video-2026-008-find-your-next-broker-on-forex-factory) | Find your next broker | Spec | Intro/outro | 1 | Pac station / her desk (mismatch) |
@@ -42,6 +42,7 @@ Video 2026-002 shows the **revised working version** (reviewed with the viral-vi
 - ~24 characters per line, including spaces
 
 **Other rules**
+- Every video opens on Emiliann on camera, never on a screen recording (house rule from the script reviews)
 - "iOS 27" label on the first few frames of every video (iOS changes; what we demo may not match other versions)
 - Videos no longer than ~90 seconds
 - Audio is recorded before screen recording (same as animated films)
@@ -430,52 +431,80 @@ Shot list (spec): intro and outro "holding an iPhone by her side"; multiple came
 
 ## Video 2026-005: Showstory charts
 
-**Status:** Spec.
+**Status:** Revised, ready to shoot. Hook (on camera, chart spiking on the monitor beside her) → Lead → chart, instrument, open loop, net change line → CTA.
+**Target length:** ~35 s.
 
-### Screenplay
+### Screenplay (revised, working version)
 
-**1. INTRO** (camera)
-*Emiliann at pac station.*
-> EMILIANN: Want to see the market-impact of breaking news stories right on Forex Factory?
+**1. HOOK** (camera)
+*Emiliann at pac station, half-turned to the monitor beside her, where a breaking story's chart is spiking. She reacts, leans back, and turns to camera. iOS 27 label on the first frames.*
+> EMILIANN: A headline just hit. How much did it actually move the market?
 
-**2. SHOWSTORY CHART** (screen recording)
-*iPhone screen recording of user on homepage with a VN up, then tapping to the story, interacting with the showstory chart, and then finally viewing the Market page.*
-> EMILIANN: When a breaking news story drops, view the story to see a chart of that story's market impact.
->
-> From here, you can change the instrument.
->
-> Add a net change line, and move it around.
->
-> Change the interval from 1 minute to 5 minute.
->
-> And view the market page for a deep dive.
+**2. LEAD** (camera)
+*Same shot, Emiliann talking to camera, holding her iPhone.*
+> EMILIANN: Forex Factory shows you, right on the story.
 
-**3. OUTRO** (camera, same setup as 1)
-*Emiliann at pac station.*
-> EMILIANN: We hope you enjoy this feature of Forex Factory News, trade well!
+**3. THE CHART** (screen recording)
+*iPhone screen recording: homepage with a breaking story up, tap into it, scroll to the chart. On screen: "The market's reaction".*
+> EMILIANN: Tap the breaking story and scroll to the chart. That's how the market reacted to the news.
+
+**4. INSTRUMENT AND INTERVAL** (screen recording)
+*Same recording: change the instrument to Gold/USD or EUR/USD, then the interval to 5M.*
+> EMILIANN: Switch the instrument to see how other markets reacted, and change the interval for a wider view.
+>
+> Want the exact move?
+
+**5. NET CHANGE LINE** (screen recording)
+*Same recording: turn on the net change line and drag its ends across the move, then tap through to the market page. On screen: "Net change line".*
+> EMILIANN: Turn on the net change line and drag it across the move.
+>
+> And for a deep dive, open the market page.
+
+**6. OUTRO** (camera, same setup as 1)
+*Emiliann at pac station, next to the same monitor.*
+> EMILIANN: Next time a headline hits, you'll know exactly what it did. Follow for more Forex Factory tips.
 
 ### Shot list
 
 **1. Intro / outro**
-- Video format · Emiliann at her desk
+- Video format
+- Emiliann at pac station
+- monitor beside her playing the chart spike (the screen recording from shot 2)
+- intro: she's looking at the monitor, reacts, turns to camera and says the line
+- outro: same setup
 
 **2. Showstory chart** (iPhone screen recording, PWA web app, logged in)
-- Recorded within 10 minutes of a VN dropping
+- Pick a breaking story whose chart shows a clear, visible move
 - Start at Homepage
-- Tap into VN
-- Scroll down so that showstory chart is in middle of screen
-- Change instrument to either Gold/USD or EUR/USD
+- Tap into the story
+- Scroll down so the chart is in the middle of the screen
+- Change instrument to Gold/USD or EUR/USD
+- Change interval to 5M
 - Tap settings icon
 - Check 'Net Chg Line'
 - Tap 'Apply Settings'
-- Move start and end points of net change line around a bit
-- Change interval to 5M
+- Drag the start and end points of the net change line across the move
 - Tap 'XXX/XXX on Market' button
 
 ### Notes / to fix
-- Location mismatch: screenplay "pac station", shot list "at her desk"
+- Location: pac station in both screenplay and shot list (spec had "at her desk" in the shot list)
+- No specific story named in the voice-over
+
+<details>
+<summary>Spec original (v0.1)</summary>
+
+**1. INTRO** — *Emiliann at pac station.*
+> EMILIANN: Want to see the market-impact of breaking news stories right on Forex Factory?
+
+**2. SHOWSTORY CHART** — *Homepage with a VN up, tap to the story, interact with the showstory chart, then view the Market page.*
+> EMILIANN: When a breaking news story drops, view the story to see a chart of that story's market impact. From here, you can change the instrument. Add a net change line, and move it around. Change the interval from 1 minute to 5 minute. And view the market page for a deep dive.
+
+**3. OUTRO** — *Emiliann at pac station.*
+> EMILIANN: We hope you enjoy this feature of Forex Factory News, trade well!
+</details>
 
 ---
+
 
 ## Video 2026-006: Prop Guide
 
