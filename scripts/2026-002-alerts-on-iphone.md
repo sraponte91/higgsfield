@@ -3,7 +3,7 @@
 Revised against the spec (v0.1). 9:16.
 Intro is a 360 fisheye phone POV with a hand-wipe cut to camera; outro uses the natural/handheld storyboard v2 (option D or E).
 
-VO is about 130 words, so the video runs about 45 s. `[CAMERA]` = Emiliann on screen. `[SCREEN]` = phone screen only, with her voice as voice-over.
+VO is about 135 words, so the video runs about 45–48 s. `[CAMERA]` = Emiliann on screen. `[SCREEN]` = phone screen only, with her voice as voice-over.
 Order matters: the Calendar goes first after the setup, because iOS asks for permission ("Allow") on the first bell tap.
 
 **1. INTRO** `[CAMERA]` (360 camera stands in for the phone: it looks up at her, the notification lands at the top, the image shakes, her hands come into frame and pick it up)
@@ -17,8 +17,8 @@ Order matters: the Calendar goes first after the setup, because iOS asks for per
 **3. CALENDAR ALERTS** `[SCREEN]` (on-screen "STEP 2", bell highlighted in post; the iOS Allow prompt appears here)
 > EMILIANN (VO): For calendar events, tap any event, then the bell. Tap Allow, and you're subscribed. The next one is even quicker.
 
-**4. SCANNER ALERTS** `[SCREEN]` (bell highlighted in post)
-> EMILIANN (VO): For instruments, just tap the bell on the Scanner.
+**4. SCANNER ALERTS** `[SCREEN]` (two taps: the Scanner bell turns on "Set Alerts" and shows a bell above each instrument, then tap one; both bells highlighted in post, numbered 1 and 2)
+> EMILIANN (VO): For instruments, tap the bell on the Scanner, then the bell above any instrument.
 
 **5. NEWS ALERTS** `[SCREEN]` (bell highlighted in post)
 > EMILIANN (VO): And for news, tap the bell on any category you like. We recommend Latest Stories to stay up to date.
