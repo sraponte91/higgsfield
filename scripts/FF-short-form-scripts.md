@@ -266,8 +266,8 @@ Shot list (spec): intro and outro "holding an iPhone by her side"; multiple came
 > EMILIANN: Number one: alerts. Get alerts for calendar events, breaking news and price moves, and let Forex Factory keep watch for you.
 
 **3. CUSTOM LAYOUT** (screen recording)
-*iPhone screen recording of Layout Selector montage: user moving the Calendar to the top, setting it to This Week, adding the beta Scanner to the Homepage and tabbing through its tabs. On screen: "2 · Your homepage".*
-> EMILIANN: Number two: make the homepage yours. Change the order of the blocks, pick your settings, and try new features before everyone else.
+*iPhone screen recording of Layout Selector montage: user moving the Calendar to the top, setting it to This Week, adding the beta Scanner to the Homepage and tabbing through its tabs. On screen: "2 · Your layout".*
+> EMILIANN: Number two: make Forex Factory yours. Change the order of the blocks on your pages, pick your settings, and try new features before everyone else.
 
 **4. JOIN THE CONVERSATION** (screen recording)
 *iPhone screen recording of News comments montage: user on a story scrolling to a post by EventsTrader, opening his profile and subscribing, then viewing his subscribers and activity. On screen: "3 · Follow traders".*
