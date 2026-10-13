@@ -258,7 +258,7 @@ Shot list (spec): intro and outro "holding an iPhone by her side"; multiple came
 ### Screenplay (revised, working version)
 
 **1. INTRO** (camera)
-*Visual hook, split screen: two iPhones side by side, labelled "No account" and "With account". Left: the plain logged-out Homepage. Right: the custom Homepage with alerts popping in. Her voice starts over the split; cut to Emiliann in News room at pac station, holding her iPhone, talking to camera. On screen: "4 reasons to create a free Forex Factory account". iOS 27 label on the first frames.*
+*Visual hook: empty shot of the pac station in the News room. Emiliann slides in from the side of the frame and drops into the chair; on the landing, a punchy transition (quick zoom-in, shake and flash with a whoosh/boom sound) and she's straight into the line, holding her iPhone. On screen from frame 1: "4 reasons to create a free Forex Factory account". iOS 27 label on the first frames.*
 > EMILIANN: Still using Forex Factory without an account? Here are four reasons to change that.
 
 **2. ALERTS** (screen recording)
@@ -288,13 +288,10 @@ Shot list (spec): intro and outro "holding an iPhone by her side"; multiple came
 **1. Intro / outro**
 - Video format
 - Emiliann in News room at pac station
-- holding her iPhone with Forex Factory open
+- intro: camera fixed on the empty chair; she comes in from the side of the frame (rolling in on the chair or walking in and dropping into it), lands facing camera with her iPhone and goes straight into the line
+- a few takes of the entrance; keep it fast, under a second
+- transition on the landing added in edit (zoom-in, shake, flash, whoosh/boom sound)
 - same framing for intro and outro
-
-**1B. Intro split screen** (two iPhone screen recordings, shown side by side)
-- Left, "No account": logged out, start on Homepage, slow scroll
-- Right, "With account": logged in, custom Homepage (Scanner at the top), slow scroll while alerts pop in
-- Same scroll speed on both, so they move together
 
 **2. Alerts** (iPhone screen recording, PWA web app, logged in)
 - Start on Homepage
